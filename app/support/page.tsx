@@ -1,213 +1,247 @@
-'use client';
-
-import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import React from 'react';
+import type { Metadata } from 'next';
 import Link from 'next/link';
-import { createClientSideClient } from '@/lib/supabase-client';
+import { 
+  Headphones, 
+  MessageSquare, 
+  Mail, 
+  ShieldCheck, 
+  ArrowRight, 
+  ChevronRight, 
+  HelpCircle, 
+  Clock, 
+  Zap,
+  CheckCircle2,
+  AlertTriangle
+} from 'lucide-react';
+import { SITE_CONFIG } from '@/lib/seo';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 
+const PAGE_CANONICAL = 'https://smarterspro12.net/support';
+
+export function generateMetadata(): Metadata {
+  const title = "Centre d'Aide & Support Technique IPTV Smarters Pro 7j/7 France";
+  const description = "Besoin d'aide avec votre abonnement IPTV Smarters Pro ? Notre équipe de support francophone vous assiste 7j/7 par WhatsApp, Live Chat et e-mail.";
+
+  return {
+    title,
+    description,
+    keywords: [
+      'support iptv smarters pro',
+      'assistance iptv france',
+      'contact iptv',
+      'aide iptv 7j7',
+      'depannage iptv smarters pro',
+      'whatsapp support iptv'
+    ],
+    alternates: {
+      canonical: PAGE_CANONICAL,
+      languages: {
+        'fr-FR': `${PAGE_CANONICAL}?lang=fr-fr`,
+        'fr-BE': `${PAGE_CANONICAL}?lang=fr-be`,
+        'fr-CH': `${PAGE_CANONICAL}?lang=fr-ch`,
+        'fr-CA': `${PAGE_CANONICAL}?lang=fr-ca`,
+        'x-default': PAGE_CANONICAL,
+      },
+    },
+    openGraph: {
+      title,
+      description,
+      url: PAGE_CANONICAL,
+      siteName: SITE_CONFIG.name,
+      locale: 'fr_FR',
+      type: 'website',
+    },
+  };
+}
+
 export default function SupportPage() {
-  const router = useRouter();
-  const supabase = createClientSideClient();
-
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
-  const [userId, setUserId] = useState<string | null>(null);
-  
-  const [subject, setSubject] = useState('');
-  const [message, setMessage] = useState('');
-  const [priority, setPriority] = useState('medium');
-  
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false);
-
-  // Validate session on load
-  useEffect(() => {
-    async function checkSession() {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session?.user) {
-        setIsLoggedIn(false);
-        router.push('/login?redirect=support');
-      } else {
-        setIsLoggedIn(true);
-        setUserId(session.user.id);
-      }
-    }
-    checkSession();
-  }, [router, supabase]);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!subject.trim() || !message.trim()) {
-      setError("Le sujet et le message ne peuvent pas être vides.");
-      return;
-    }
-
-    setLoading(true);
-    setError(null);
-
-    try {
-      const { error: insertError } = await supabase
-        .from('support_tickets')
-        .insert({
-          user_id: userId!,
-          subject: subject.trim(),
-          message: message.trim(),
-          priority,
-          status: 'open',
-        });
-
-      if (insertError) {
-        throw new Error(insertError.message);
-      }
-
-      setSuccess(true);
-      setSubject('');
-      setMessage('');
-    } catch (err: any) {
-      setError(err.message || "Une erreur est survenue lors de l'envoi du ticket.");
-    } finally {
-      setLoading(false);
-    }
+  const schemaGraph = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'ContactPage',
+        '@id': `${PAGE_CANONICAL}/#contact`,
+        name: 'Centre d\'Aide & Assistance Technique IPTV Smarters Pro',
+        description: 'Support technique francophone disponible 7 jours sur 7 pour toute question sur la configuration et les abonnements.',
+      },
+      {
+        '@type': 'BreadcrumbList',
+        '@id': `${PAGE_CANONICAL}/#breadcrumb`,
+        itemListElement: [
+          {
+            '@type': 'ListItem',
+            position: 1,
+            name: 'Accueil',
+            item: SITE_CONFIG.domain,
+          },
+          {
+            '@type': 'ListItem',
+            position: 2,
+            name: 'Support & Assistance',
+            item: PAGE_CANONICAL,
+          },
+        ],
+      },
+    ],
   };
 
-  if (isLoggedIn === null) {
-    return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
-        <svg className="animate-spin h-8 w-8 text-blue-600" fill="none" viewBox="0 0 24 24">
-          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-        </svg>
-      </div>
-    );
-  }
-
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50">
-      {/* Dynamic Header */}
+    <div className="min-h-screen bg-slate-950 text-slate-100 antialiased flex flex-col">
+      {/* Header */}
       <Header />
 
-      <main className="max-w-3xl mx-auto px-4 sm:px-6 py-12 flex-grow w-full">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">
-            Créer un Ticket d'Assistance
+      {/* Schema Injection */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaGraph) }}
+      />
+
+      {/* Breadcrumb Navigation */}
+      <nav aria-label="Fil d'Ariane" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+        <ol className="flex items-center space-x-2 text-xs text-slate-400">
+          <li>
+            <Link href="/" className="hover:text-blue-400 transition-colors">Accueil</Link>
+          </li>
+          <ChevronRight className="w-3.5 h-3.5 text-slate-600" />
+          <li>
+            <span className="text-slate-200 font-medium" aria-current="page">Support & Assistance</span>
+          </li>
+        </ol>
+      </nav>
+
+      {/* Hero Header */}
+      <header className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14 text-center">
+        <div className="max-w-3xl mx-auto space-y-4">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold">
+            <Headphones className="w-3.5 h-3.5" />
+            <span>Support Francophone Réactif 7j/7 &middot; 09h00 à 23h00</span>
+          </div>
+
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-tight">
+            Centre d'Aide & Support Technique IPTV Smarters Pro 7j/7
           </h1>
-          <p className="text-sm text-slate-500 mt-2">
-            Notre équipe technique et commerciale vous répond sous 1 à 2 heures.
+
+          <p className="text-base sm:text-lg text-slate-300 leading-relaxed">
+            Une question avant de commander ? Besoin d'aide pour configurer votre application ou renouveler votre formule ? Notre équipe technique vous répond en direct.
           </p>
         </div>
+      </header>
 
-        <div className="bg-white border border-slate-200 rounded-lg p-6 md:p-8 shadow-sm">
-          {success ? (
-            <div className="text-center py-6">
-              <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-50 border border-green-200 mb-4">
-                <svg className="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
-                </svg>
+      {/* Contact Channels Grid */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 space-y-16">
+        
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          
+          {/* WhatsApp Support */}
+          <div className="p-8 rounded-2xl bg-slate-900 border-2 border-emerald-500/40 flex flex-col justify-between space-y-6">
+            <div className="space-y-3">
+              <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+                <MessageSquare className="w-6 h-6" />
               </div>
-              <h2 className="text-lg font-bold text-slate-900">Ticket envoyé avec succès !</h2>
-              <p className="text-sm text-slate-500 mt-2 max-w-sm mx-auto">
-                Un conseiller a été notifié de votre demande et l'étudie en priorité. Vous recevrez une réponse sous peu.
+              <h2 className="text-xl font-bold text-white">Assistance WhatsApp Directe</h2>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Le moyen le plus rapide d'obtenir une réponse ou de vous faire guider pas à pas lors de l'installation de vos codes.
               </p>
-              <div className="mt-6 flex justify-center gap-4">
-                <button
-                  onClick={() => setSuccess(false)}
-                  className="px-4 py-2 border border-slate-300 rounded text-sm font-semibold text-slate-700 bg-white hover:bg-slate-50 transition-colors"
-                >
-                  Envoyer un autre ticket
-                </button>
-                <Link
-                  href="/dashboard"
-                  className="px-4 py-2 rounded bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm transition-colors"
-                >
-                  Retour au tableau de bord
-                </Link>
+              <div className="pt-2 text-xs text-emerald-400 font-semibold flex items-center gap-2">
+                <Clock className="w-4 h-4" />
+                <span>Temps de réponse moyen : &lt; 5 minutes</span>
               </div>
             </div>
-          ) : (
-            <form onSubmit={handleSubmit} className="space-y-5">
-              {error && (
-                <div className="p-3 bg-red-50 border border-red-200 text-red-700 text-sm rounded font-medium">
-                  {error}
-                </div>
-              )}
 
-              <div>
-                <label htmlFor="subject" className="block text-xs font-semibold text-slate-700 mb-1">
-                  Sujet / Objet de votre demande
-                </label>
-                <input
-                  id="subject"
-                  type="text"
-                  required
-                  value={subject}
-                  onChange={(e) => setSubject(e.target.value)}
-                  placeholder="Ex: Confirmation de virement Starter Plan"
-                  className="w-full border border-slate-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 bg-slate-50 font-medium"
-                />
-              </div>
+            <a
+              href="https://wa.me/33600000000?text=Bonjour,%20j'ai%20besoin%20d'aide%20avec%20mon%20abonnement%20IPTV%20Smarters%20Pro"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-emerald-600/30 transition-all hover:scale-[1.02]"
+            >
+              <span>Discuter sur WhatsApp</span>
+              <ArrowRight className="w-4 h-4" />
+            </a>
+          </div>
 
-              <div>
-                <label htmlFor="priority" className="block text-xs font-semibold text-slate-700 mb-1">
-                  Niveau d'Urgence
-                </label>
-                <select
-                  id="priority"
-                  value={priority}
-                  onChange={(e) => setPriority(e.target.value)}
-                  className="w-full border border-slate-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 bg-slate-50 font-medium"
-                >
-                  <option value="low">Faible - Question générale</option>
-                  <option value="medium">Moyenne - Problème technique</option>
-                  <option value="high">Élevée - Urgence activation/virement</option>
-                </select>
+          {/* Email Support */}
+          <div className="p-8 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col justify-between space-y-6">
+            <div className="space-y-3">
+              <div className="w-12 h-12 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400">
+                <Mail className="w-6 h-6" />
               </div>
+              <h2 className="text-xl font-bold text-white">Support par E-mail</h2>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Pour toute demande administrative, facturation, réclamation DMCA ou question technique non urgente.
+              </p>
+              <div className="pt-2 text-xs text-slate-300 font-semibold">
+                <span>{SITE_CONFIG.supportEmail}</span>
+              </div>
+            </div>
 
-              <div>
-                <label htmlFor="message" className="block text-xs font-semibold text-slate-700 mb-1">
-                  Détail de votre message
-                </label>
-                <textarea
-                  id="message"
-                  required
-                  rows={6}
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  placeholder="Expliquez en détail votre demande (et ajoutez la référence de commande si nécessaire)..."
-                  className="w-full border border-slate-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 bg-slate-50 font-medium"
-                />
-              </div>
+            <a
+              href={`mailto:${SITE_CONFIG.supportEmail}`}
+              className="w-full flex items-center justify-center py-3.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs uppercase tracking-wider transition-all"
+            >
+              Envoyer un E-mail
+            </a>
+          </div>
 
-              <div className="bg-blue-50 border border-blue-100 text-blue-800 p-3.5 rounded text-xs leading-relaxed">
-                <strong>Conseil d'activation rapide:</strong> Si vous venez de procéder à un virement manuel bancaire, veuillez inscrire l'intitulé de votre compte, la référence de commande, et l'heure du virement dans ce message pour faciliter notre vérification.
+          {/* Espace Client Sécurisé */}
+          <div className="p-8 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col justify-between space-y-6">
+            <div className="space-y-3">
+              <div className="w-12 h-12 rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400">
+                <ShieldCheck className="w-6 h-6" />
               </div>
+              <h2 className="text-xl font-bold text-white">Espace Client Abonné</h2>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Retrouvez l'historique de vos abonnements actifs, vos identifiants Xtream Codes et téléchargez vos factures.
+              </p>
+              <div className="pt-2 text-xs text-purple-300 font-semibold">
+                <span>Accès instantané 24h/24 et 7j/7</span>
+              </div>
+            </div>
 
-              <div className="flex items-center justify-end gap-3 pt-2">
-                <Link
-                  href="/dashboard"
-                  className="px-4 py-2.5 border border-slate-300 rounded text-sm font-semibold text-slate-700 bg-white hover:bg-slate-50 transition-colors"
-                >
-                  Annuler
-                </Link>
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="px-5 py-2.5 rounded bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm transition-colors flex items-center justify-center"
-                >
-                  {loading ? (
-                    <svg className="animate-spin h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                    </svg>
-                  ) : (
-                    "Envoyer ma demande"
-                  )}
-                </button>
-              </div>
-            </form>
-          )}
+            <Link
+              href="/dashboard"
+              className="w-full flex items-center justify-center py-3.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs uppercase tracking-wider transition-all"
+            >
+              Accéder à mon Espace Client
+            </Link>
+          </div>
+
         </div>
+
+        {/* Quick Diagnostic Guide */}
+        <section className="rounded-2xl bg-slate-900/60 border border-slate-800 p-8 space-y-6">
+          <div className="max-w-3xl space-y-3">
+            <h2 className="text-2xl font-bold text-white">Diagnostic Express en 3 Étapes</h2>
+            <p className="text-sm text-slate-300 leading-relaxed">
+              Avant de contacter le support, vérifiez ces 3 points qui résolvent 95% des demandes :
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
+            <div className="p-5 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
+              <span className="font-bold text-sm text-white block">1. Erreur "Invalid Details"</span>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Attention aux majuscules et aux espaces insérés par le clavier de votre téléviseur. Vérifiez scrupuleusement votre nom d'utilisateur et mot de passe.
+              </p>
+            </div>
+
+            <div className="p-5 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
+              <span className="font-bold text-sm text-white block">2. Liste de lecture vide</span>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Dans les paramètres de l'application, cliquez sur <strong>Actualiser les données (Refresh Channels/Movies)</strong> pour forcer la synchronisation avec nos serveurs.
+              </p>
+            </div>
+
+            <div className="p-5 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
+              <span className="font-bold text-sm text-white block">3. Coupures ou buffering</span>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Redémarrez votre box internet et votre appareil. Si le problème persiste le soir, activez un VPN pour vérifier si votre FAI ne bride pas les flux.
+              </p>
+            </div>
+          </div>
+        </section>
+
       </main>
 
       {/* Footer */}

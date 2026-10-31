@@ -12,6 +12,7 @@ export default function AdminSubscriptionsPage() {
   
   // Validation actions
   const [confirmingPay, setConfirmingPay] = useState<any | null>(null);
+  const [rejectingPay, setRejectingPay] = useState<any | null>(null);
   const [notes, setNotes] = useState('');
   const [actionLoading, setActionLoading] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
@@ -138,6 +139,73 @@ export default function AdminSubscriptionsPage() {
         </div>
       )}
 
+      {/* Rejection Modal */}
+      {rejectingPay && (
+        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-none z-50 flex items-center justify-center p-4">
+          <div className="bg-white border border-slate-200 rounded-lg max-w-md w-full p-6 shadow-xl animate-in fade-in duration-100">
+            <h3 className="font-extrabold text-slate-900 text-lg border-b border-slate-100 pb-3 mb-4">
+              Rejeter le virement bancaire
+            </h3>
+            <p className="text-sm text-slate-600 mb-4 leading-relaxed">
+              Vous êtes sur le point de rejeter le paiement de <strong>{(rejectingPay.amount / 100).toFixed(2)} €</strong> pour la formule <strong>{rejectingPay.subscription?.plan_type}</strong> de <strong>{rejectingPay.user?.full_name}</strong>.
+            </p>
+            <form onSubmit={async (e) => {
+              e.preventDefault();
+              setActionLoading(true);
+              setMessage(null);
+              try {
+                const res = await fetch('/api/admin/reject-payment', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ paymentId: rejectingPay.id, notes: notes.trim() })
+                });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error || 'Erreur lors du rejet.');
+                setMessage({ type: 'success', text: 'Paiement rejeté avec succès.' });
+                setRejectingPay(null);
+                setNotes('');
+                fetchPayments();
+              } catch (err: any) {
+                setMessage({ type: 'error', text: err.message || 'Erreur' });
+              } finally {
+                setActionLoading(false);
+              }
+            }} className="space-y-4">
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">
+                  Raison du rejet (Sera envoyé au client)
+                </label>
+                <textarea
+                  value={notes}
+                  onChange={(e) => setNotes(e.target.value)}
+                  placeholder="Ex: Montant incorrect, IBAN non trouvé..."
+                  rows={3}
+                  required
+                  className="w-full border border-slate-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-red-500 focus:border-red-500 bg-slate-50 font-medium"
+                />
+              </div>
+
+              <div className="flex justify-end gap-3 pt-2">
+                <button
+                  type="button"
+                  onClick={() => { setRejectingPay(null); setNotes(''); }}
+                  className="px-4 py-2 border border-slate-300 rounded text-xs font-bold text-slate-700 bg-white hover:bg-slate-50 transition-colors"
+                >
+                  Annuler
+                </button>
+                <button
+                  type="submit"
+                  disabled={actionLoading}
+                  className="px-4 py-2 rounded bg-red-600 hover:bg-red-700 text-white font-bold text-xs transition-colors flex items-center justify-center"
+                >
+                  {actionLoading ? 'Rejet...' : 'Rejeter et Annuler'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
       {/* Confirmation Modal */}
       {confirmingPay && (
         <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-none z-50 flex items-center justify-center p-4">
@@ -219,14 +287,48 @@ export default function AdminSubscriptionsPage() {
                     <td className="px-6 py-4 whitespace-nowrap">{getStatusBadge(pay.status)}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-xs">
                       {pay.status === 'pending_confirmation' ? (
-                        <button
-                          onClick={() => setConfirmingPay(pay)}
-                          className="bg-green-600 hover:bg-green-700 text-white font-bold px-3 py-1.5 rounded transition-colors"
-                        >
-                          Confirmer Réception
-                        </button>
+                        <div className="flex items-center justify-end gap-2">
+                          <button
+                            onClick={() => setConfirmingPay(pay)}
+                            className="bg-green-600 hover:bg-green-700 text-white font-bold px-3 py-1.5 rounded transition-colors"
+                          >
+                            Confirmer
+                          </button>
+                          <button
+                            onClick={() => setRejectingPay(pay)}
+                            className="bg-red-600 hover:bg-red-700 text-white font-bold px-3 py-1.5 rounded transition-colors"
+                          >
+                            Rejeter
+                          </button>
+                        </div>
                       ) : pay.status === 'confirmed' ? (
                         <span className="text-slate-400 font-bold">Activé</span>
+                      ) : pay.status === 'pending_instruction' ? (
+                        <button
+                          onClick={async () => {
+                            setActionLoading(true);
+                            setMessage(null);
+                            try {
+                              const res = await fetch('/api/admin/resend-instructions', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ paymentId: pay.id })
+                              });
+                              const data = await res.json();
+                              if (!res.ok) throw new Error(data.error);
+                              setMessage({ type: 'success', text: 'Instructions renvoyées.' });
+                              fetchPayments();
+                            } catch (e: any) {
+                              setMessage({ type: 'error', text: e.message || "Erreur lors de l'envoi." });
+                            } finally {
+                              setActionLoading(false);
+                            }
+                          }}
+                          disabled={actionLoading}
+                          className="bg-blue-600 hover:bg-blue-700 text-white font-bold px-3 py-1.5 rounded transition-colors disabled:opacity-50"
+                        >
+                          Renvoyer Email
+                        </button>
                       ) : (
                         <span className="text-slate-400 font-semibold">-</span>
                       )}

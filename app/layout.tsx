@@ -1,6 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { constructMetadata, generateStructuredDataGraph } from "@/lib/seo";
+import { ChatWidget } from "@/components/chat/ChatWidget";
+import { createServerSideClient } from "@/lib/supabase";
 
 const inter = Inter({ 
   subsets: ["latin"],
@@ -8,28 +11,35 @@ const inter = Inter({
   variable: '--font-sans',
 });
 
-export const metadata: Metadata = {
-  title: "IPTV Smarters Pro - Official Subscription Portal",
-  description: "Access the premium IPTV Smarters Pro app subscription. Manage your account, view payment instructions, and activate your plan with our manual transfer system.",
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://iptvsmartersprofficiel.com'),
-};
+export const metadata: Metadata = constructMetadata();
 
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
-  themeColor: '#2563eb',
+  themeColor: '#020617',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const supabase = createServerSideClient();
+  const { data: { session } } = await supabase.auth.getSession();
+  const jsonLd = generateStructuredDataGraph();
+
   return (
     <html lang="fr" className={`${inter.variable}`}>
-      <body className="font-sans antialiased text-slate-900 bg-slate-50 min-h-screen flex flex-col">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
+      <body className="font-sans antialiased text-slate-100 bg-slate-950 min-h-screen flex flex-col selection:bg-blue-600 selection:text-white">
         {children}
+        <ChatWidget user={session?.user || null} />
       </body>
     </html>
   );

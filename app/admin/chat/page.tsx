@@ -6,8 +6,8 @@ import { createClientSideClient } from '@/lib/supabase-client';
 export default function AdminChatPage() {
   const supabase = createClientSideClient();
 
-  const [tickets, setTickets] = useState<any[]>([]);
-  const [selectedTicket, setSelectedTicket] = useState<any | null>(null);
+  const [rooms, setRooms] = useState<any[]>([]);
+  const [selectedRoomId, setSelectedRoomId] = useState<string | null>(null);
   const [messages, setMessages] = useState<any[]>([]);
   
   const [newMessage, setNewMessage] = useState('');
@@ -17,48 +17,68 @@ export default function AdminChatPage() {
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  async function fetchTickets() {
+  useEffect(() => {
+    async function initAdmin() {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.user) setAdminId(session.user.id);
+    }
+    initAdmin();
+  }, [supabase]);
+
+  // Fetch active rooms
+  async function fetchRooms() {
     try {
+      // Fetch latest messages to infer active rooms
       const { data, error } = await supabase
-        .from('support_tickets')
+        .from('chat_messages')
         .select(`
-          *,
-          user:profiles(*)
+          room_id,
+          created_at,
+          sender:profiles!chat_messages_sender_id_fkey(id, full_name)
         `)
-        .order('created_at', { ascending: false });
+        .order('created_at', { ascending: false })
+        .limit(200);
 
       if (error) throw error;
-      setTickets(data || []);
+      
+      // Deduplicate to get rooms
+      const uniqueRooms = new Map();
+      (data || []).forEach(msg => {
+        if (!uniqueRooms.has(msg.room_id)) {
+          // If the sender is an admin, we still need the user's name.
+          // Since room_id is user_UUID_admin, we can try to extract UUID if needed,
+          // but for now we just use the sender's name if they started it.
+          uniqueRooms.set(msg.room_id, {
+            room_id: msg.room_id,
+            last_message_at: msg.created_at,
+            last_sender: msg.sender
+          });
+        }
+      });
+      
+      setRooms(Array.from(uniqueRooms.values()));
     } catch (err) {
-      console.error('Error fetching support tickets:', err);
+      console.error('Error fetching rooms:', err);
     } finally {
       setLoading(false);
     }
   }
 
   useEffect(() => {
-    fetchTickets();
-
-    async function getAdminSession() {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session?.user) {
-        setAdminId(session.user.id);
-      }
-    }
-    getAdminSession();
+    fetchRooms();
   }, []);
 
-  // Fetch chat messages when ticket is selected
-  async function fetchMessages(ticketId: string) {
+  // Fetch chat messages when room is selected
+  async function fetchMessages(roomId: string) {
     setChatLoading(true);
     try {
       const { data, error } = await supabase
         .from('chat_messages')
         .select(`
           *,
-          sender:profiles(*)
+          sender:profiles!chat_messages_sender_id_fkey(full_name)
         `)
-        .eq('ticket_id', ticketId)
+        .eq('room_id', roomId)
         .order('created_at', { ascending: true });
 
       if (error) throw error;
@@ -71,9 +91,38 @@ export default function AdminChatPage() {
     }
   }
 
-  const handleSelectTicket = (ticket: any) => {
-    setSelectedTicket(ticket);
-    fetchMessages(ticket.id);
+  useEffect(() => {
+    if (!selectedRoomId) return;
+
+    fetchMessages(selectedRoomId);
+
+    const channel = supabase
+      .channel(`admin_chat_${selectedRoomId}`)
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'chat_messages',
+          filter: `room_id=eq.${selectedRoomId}`,
+        },
+        (payload) => {
+          setMessages((prev) => {
+             if (prev.find(m => m.id === payload.new.id)) return prev;
+             return [...prev, payload.new];
+          });
+          scrollToBottom();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [selectedRoomId, supabase]);
+
+  const handleSelectRoom = (roomId: string) => {
+    setSelectedRoomId(roomId);
   };
 
   const scrollToBottom = () => {
@@ -84,164 +133,127 @@ export default function AdminChatPage() {
 
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newMessage.trim() || !selectedTicket || !adminId) return;
+    if (!newMessage.trim() || !selectedRoomId || !adminId) return;
 
-    const payload = {
-      ticket_id: selectedTicket.id,
-      sender_id: adminId,
-      message_text: newMessage.trim(),
-    };
-
+    const messageText = newMessage.trim();
     setNewMessage('');
 
+    // Optimistic
+    const tempMsg = {
+      id: crypto.randomUUID(),
+      room_id: selectedRoomId,
+      sender_id: adminId,
+      message: messageText,
+      created_at: new Date().toISOString(),
+      sender: { full_name: 'Support (Moi)' }
+    };
+    setMessages(prev => [...prev, tempMsg]);
+    scrollToBottom();
+
     try {
-      const { error } = await supabase
-        .from('chat_messages')
-        .insert(payload);
+      const res = await fetch('/api/chat/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          roomId: selectedRoomId,
+          message: messageText,
+          isFromAdmin: true,
+        }),
+      });
 
-      if (error) throw error;
-
-      // Update ticket status to in_progress if currently open
-      if (selectedTicket.status === 'open') {
-        await supabase
-          .from('support_tickets')
-          .update({ status: 'in_progress' })
-          .eq('id', selectedTicket.id);
-
-        fetchTickets();
-        setSelectedTicket({ ...selectedTicket, status: 'in_progress' });
+      if (!res.ok) {
+        throw new Error("Échec de l'envoi du message.");
       }
-
-      fetchMessages(selectedTicket.id);
     } catch (err: any) {
-      alert(err.message || 'Échec de l\'envoi du message.');
-    }
-  };
-
-  const handleToggleStatus = async (status: 'open' | 'in_progress' | 'resolved') => {
-    if (!selectedTicket) return;
-
-    try {
-      const { error } = await supabase
-        .from('support_tickets')
-        .update({ status })
-        .eq('id', selectedTicket.id);
-
-      if (error) throw error;
-
-      setSelectedTicket({ ...selectedTicket, status });
-      fetchTickets();
-    } catch (err: any) {
-      alert(err.message || 'Échec de la modification du statut.');
+      alert(err.message || "Échec de l'envoi du message.");
     }
   };
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 h-[calc(100vh-12rem)] min-h-[30rem] items-stretch">
-      {/* Left Pane: Ticket Feed */}
+      {/* Left Pane: Chat Feed */}
       <div className="bg-white border border-slate-200 rounded-lg flex flex-col overflow-hidden shadow-sm">
-        <div className="p-4 border-b border-slate-100 bg-slate-55 flex items-center justify-between">
-          <h3 className="font-extrabold text-slate-900 text-sm">Tickets d'Assistance</h3>
-          <span className="text-[10px] bg-slate-200 text-slate-800 font-extrabold px-2 py-0.5 rounded uppercase">
-            {tickets.filter(t => t.status !== 'resolved').length} Actifs
+        <div className="p-4 border-b border-slate-100 bg-slate-55 flex items-center justify-between flex-shrink-0">
+          <h3 className="font-extrabold text-slate-900 text-sm">Discussions Actives</h3>
+          <span className="text-[10px] bg-blue-100 text-blue-800 font-extrabold px-2 py-0.5 rounded uppercase">
+            {rooms.length} Salles
           </span>
         </div>
 
         {loading ? (
           <div className="flex-grow flex items-center justify-center">
-            <svg className="animate-spin h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24">
-              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-            </svg>
+             <div className="animate-spin h-6 w-6 border-2 border-blue-600 border-t-transparent rounded-full"></div>
           </div>
-        ) : tickets && tickets.length > 0 ? (
+        ) : rooms && rooms.length > 0 ? (
           <div className="flex-grow overflow-y-auto divide-y divide-slate-100 text-sm">
-            {tickets.map((t) => (
+            {rooms.map((r) => (
               <div 
-                key={t.id} 
-                onClick={() => handleSelectTicket(t)}
-                className={`p-4 cursor-pointer hover:bg-slate-50 transition-colors flex flex-col ${selectedTicket?.id === t.id ? 'bg-blue-50/50' : ''}`}
+                key={r.room_id} 
+                onClick={() => handleSelectRoom(r.room_id)}
+                className={`p-4 cursor-pointer hover:bg-slate-50 transition-colors flex flex-col ${selectedRoomId === r.room_id ? 'bg-blue-50 border-l-2 border-blue-600' : 'border-l-2 border-transparent'}`}
               >
                 <div className="flex justify-between items-center text-xs mb-1">
-                  <span className="font-bold text-slate-800">{t.user?.full_name || 'Client'}</span>
-                  <span className={`text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded ${
-                    t.status === 'open' 
-                      ? 'bg-blue-100 text-blue-700' 
-                      : t.status === 'in_progress' 
-                      ? 'bg-amber-100 text-amber-700' 
-                      : 'bg-slate-100 text-slate-600'
-                  }`}>
-                    {t.status === 'in_progress' ? 'En cours' : t.status === 'open' ? 'Ouvert' : 'Résolu'}
+                  <span className="font-bold text-slate-800 truncate flex items-center gap-1.5">
+                    {r.room_id.startsWith('user_') ? (
+                      <>
+                        <span className="w-2 h-2 rounded-full bg-blue-600"></span>
+                        <span>Client #{r.room_id.replace('user_', '').replace('_admin', '').substring(0, 6)}</span>
+                      </>
+                    ) : (
+                      <>
+                        <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+                        <span>Visiteur #{r.room_id.replace('guest_', '').replace('_admin', '').substring(0, 6)}</span>
+                      </>
+                    )}
                   </span>
+                  {r.room_id.startsWith('user_') && (
+                    <span className="text-[9px] bg-blue-50 text-blue-700 border border-blue-200 px-1 rounded font-bold">
+                      Email
+                    </span>
+                  )}
                 </div>
-                <h4 className="font-bold text-slate-900 text-xs truncate">{t.subject}</h4>
-                <span className="text-[10px] text-slate-400 mt-1">{new Date(t.created_at).toLocaleDateString('fr-FR')}</span>
+                <span className="text-[10px] text-slate-400 mt-1">Dernier msg: {new Date(r.last_message_at).toLocaleString('fr-FR')}</span>
               </div>
             ))}
           </div>
         ) : (
           <div className="flex-grow flex items-center justify-center text-slate-400 text-xs">
-            Aucun ticket de support ouvert.
+            Aucune discussion active.
           </div>
         )}
       </div>
 
       {/* Right Pane: Selected conversation feed */}
       <div className="md:col-span-2 bg-white border border-slate-200 rounded-lg flex flex-col overflow-hidden shadow-sm">
-        {selectedTicket ? (
+        {selectedRoomId ? (
           <div className="flex-grow flex flex-col overflow-hidden">
             {/* Chat Room Header */}
-            <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-55 flex-shrink-0">
+            <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50 flex-shrink-0">
               <div>
-                <h4 className="font-extrabold text-slate-900 text-sm">{selectedTicket.subject}</h4>
-                <p className="text-xs text-slate-500 mt-0.5">Auteur: {selectedTicket.user?.full_name || 'Client'}</p>
+                <h4 className="font-extrabold text-slate-900 text-sm flex items-center gap-2">
+                  <span>Salle de discussion</span>
+                  {selectedRoomId.startsWith('user_') ? (
+                    <span className="text-[10px] bg-blue-100 text-blue-800 border border-blue-200 px-2 py-0.5 rounded font-bold">
+                      Client Authentifié &bull; Réponse envoyée aussi par Email
+                    </span>
+                  ) : (
+                    <span className="text-[10px] bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">
+                      Visiteur Invité (En direct)
+                    </span>
+                  )}
+                </h4>
+                <p className="text-[10px] text-slate-500 mt-0.5 font-mono">{selectedRoomId}</p>
               </div>
-
-              {/* Status Switcher Buttons */}
               <div className="flex items-center gap-1.5 text-[10px] font-bold">
-                <button
-                  onClick={() => handleToggleStatus('open')}
-                  className={`px-2 py-1 rounded border transition-colors ${selectedTicket.status === 'open' ? 'bg-blue-500 text-white border-blue-500' : 'bg-slate-100 text-slate-700 hover:bg-slate-200 border-slate-200'}`}
-                >
-                  Ouvert
-                </button>
-                <button
-                  onClick={() => handleToggleStatus('in_progress')}
-                  className={`px-2 py-1 rounded border transition-colors ${selectedTicket.status === 'in_progress' ? 'bg-amber-500 text-white border-amber-500' : 'bg-slate-100 text-slate-700 hover:bg-slate-200 border-slate-200'}`}
-                >
-                  En cours
-                </button>
-                <button
-                  onClick={() => handleToggleStatus('resolved')}
-                  className={`px-2 py-1 rounded border transition-colors ${selectedTicket.status === 'resolved' ? 'bg-green-600 text-white border-green-600' : 'bg-slate-100 text-slate-700 hover:bg-slate-200 border-slate-200'}`}
-                >
-                  Résolu
-                </button>
+                 <button onClick={() => {}} className="px-2 py-1 rounded bg-slate-200 text-slate-700 hover:bg-slate-300 transition-colors">Clôturer</button>
               </div>
             </div>
 
             {/* Messages Scroll Area */}
             <div className="flex-grow p-4 overflow-y-auto bg-slate-50 space-y-4">
-              {/* Original Message Card */}
-              <div className="flex items-start max-w-[85%]">
-                <div className="bg-white border border-slate-200 p-3 rounded-lg shadow-sm">
-                  <div className="flex justify-between items-center text-[9px] text-slate-400 gap-6 font-bold">
-                    <span>{selectedTicket.user?.full_name || 'Client'}</span>
-                    <span>{new Date(selectedTicket.created_at).toLocaleDateString('fr-FR')}</span>
-                  </div>
-                  <p className="text-xs text-slate-700 font-semibold mt-1 leading-relaxed">
-                    {selectedTicket.message}
-                  </p>
-                </div>
-              </div>
-
-              {/* Message History list */}
               {chatLoading ? (
-                <div className="flex justify-center py-6">
-                  <svg className="animate-spin h-5 w-5 text-blue-600" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                  </svg>
+                <div className="flex justify-center items-center h-full">
+                  <div className="animate-spin h-6 w-6 border-2 border-blue-600 border-t-transparent rounded-full"></div>
                 </div>
               ) : messages && messages.length > 0 ? (
                 messages.map((m) => {
@@ -251,46 +263,51 @@ export default function AdminChatPage() {
                       key={m.id} 
                       className={`flex items-start max-w-[85%] ${isMe ? 'ml-auto justify-end' : ''}`}
                     >
-                      <div className={`p-3 rounded-lg shadow-sm border ${
+                      <div className={`p-3 rounded-lg shadow-sm ${
                         isMe 
-                          ? 'bg-slate-900 border-slate-800 text-white' 
-                          : 'bg-white border-slate-200 text-slate-700'
+                          ? 'bg-blue-600 text-white rounded-tr-none' 
+                          : 'bg-white border border-slate-200 text-slate-800 rounded-tl-none'
                       }`}>
-                        <div className={`flex justify-between items-center text-[9px] gap-6 font-bold ${isMe ? 'text-slate-400' : 'text-slate-400'}`}>
-                          <span>{isMe ? 'Support' : (m.sender?.full_name || 'Client')}</span>
-                          <span>{new Date(m.created_at).toLocaleDateString('fr-FR')}</span>
+                        <div className={`flex justify-between items-center text-[9px] gap-6 font-bold mb-1 ${isMe ? 'text-blue-200' : 'text-slate-400'}`}>
+                          <span>{isMe ? 'Moi' : (m.sender?.full_name || 'Client')}</span>
+                          <span>{new Date(m.created_at).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}</span>
                         </div>
-                        <p className="text-xs font-semibold mt-1 leading-relaxed whitespace-pre-wrap">
-                          {m.message_text}
+                        <p className="text-xs font-medium leading-relaxed whitespace-pre-wrap">
+                          {m.message}
                         </p>
                       </div>
                     </div>
                   );
                 })
-              ) : null}
+              ) : (
+                <div className="flex justify-center items-center h-full text-slate-400 text-sm">
+                  Début de la discussion.
+                </div>
+              )}
               <div ref={messagesEndRef} />
             </div>
 
             {/* Input Form Footer */}
-            <form onSubmit={handleSendMessage} className="p-3 border-t border-slate-200 flex gap-2 flex-shrink-0">
+            <form onSubmit={handleSendMessage} className="p-3 bg-white border-t border-slate-200 flex gap-2 flex-shrink-0">
               <input
                 type="text"
                 value={newMessage}
                 onChange={(e) => setNewMessage(e.target.value)}
                 placeholder="Rédigez votre réponse ici..."
-                className="flex-grow border border-slate-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 bg-slate-50 font-medium"
+                className="flex-grow border border-slate-300 rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
               />
               <button
                 type="submit"
-                className="bg-slate-900 hover:bg-slate-950 text-white font-bold px-4 py-2 rounded text-sm transition-colors"
+                disabled={!newMessage.trim()}
+                className="bg-blue-600 hover:bg-blue-700 text-white font-bold px-5 py-2 rounded-full text-sm transition-colors disabled:opacity-50"
               >
                 Envoyer
               </button>
             </form>
           </div>
         ) : (
-          <div className="flex-grow flex items-center justify-center text-slate-400 text-sm">
-            Sélectionnez un ticket dans le menu de gauche pour consulter la discussion.
+          <div className="flex-grow flex items-center justify-center text-slate-400 text-sm bg-slate-50">
+            Sélectionnez une salle dans le menu de gauche pour discuter.
           </div>
         )}
       </div>

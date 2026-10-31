@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
+import { Newspaper, ChevronRight, Clock, ArrowRight } from 'lucide-react';
 
 const POSTS = [
   {
@@ -37,7 +38,7 @@ export const metadata = {
 
 export default function BlogFeedPage() {
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50 font-sans antialiased text-slate-800">
+    <div className="min-h-screen flex flex-col bg-slate-950 font-sans antialiased text-slate-100">
       {/* Universal Navigation */}
       <Header />
 
@@ -45,13 +46,14 @@ export default function BlogFeedPage() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 flex-grow w-full">
         {/* Page Title */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="inline-flex items-center rounded-full bg-blue-50 px-3 py-1.5 text-xs font-bold text-blue-700 ring-1 ring-inset ring-blue-700/10 mb-4 uppercase tracking-wider">
-            Guides & Tutoriels
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-blue-500/10 px-3.5 py-1.5 text-xs font-bold text-blue-400 border border-blue-500/20 mb-4 uppercase tracking-wider">
+            <Newspaper className="w-3.5 h-3.5 text-blue-400" />
+            Actualités & Guides Techniques
           </span>
-          <h1 className="text-4xl sm:text-5xl font-black text-slate-950 tracking-tight leading-none">
+          <h1 className="text-4xl sm:text-5xl font-black text-white tracking-tight leading-tight">
             Notre Blog IPTV
           </h1>
-          <p className="mt-4 text-base sm:text-lg text-slate-500 leading-relaxed">
+          <p className="mt-4 text-sm sm:text-base text-slate-300 leading-relaxed">
             Consultez nos articles et astuces rédigés par nos techniciens pour configurer, optimiser et savourer vos flux de streaming en ultra haute définition.
           </p>
         </div>
@@ -61,35 +63,37 @@ export default function BlogFeedPage() {
           {POSTS.map((post, idx) => (
             <article 
               key={idx} 
-              className="bg-white border border-slate-200 rounded-2xl p-8 flex flex-col shadow-sm hover:shadow-md transition-shadow relative"
+              className="bg-slate-900 border border-slate-800 rounded-2xl p-8 flex flex-col shadow-xl hover:border-slate-700 transition-all relative group"
             >
               <div className="flex items-center space-x-3 text-xs font-bold text-slate-400 mb-4 uppercase tracking-wider">
-                <span className="text-blue-600 bg-blue-50 px-2 py-0.5 rounded">
+                <span className="text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2.5 py-0.5 rounded-md">
                   {post.category}
                 </span>
                 <span>&bull;</span>
                 <span>{post.date}</span>
               </div>
               
-              <h2 className="text-xl font-black text-slate-900 leading-snug mb-3 hover:text-blue-600 transition-colors">
+              <h2 className="text-xl font-bold text-white leading-snug mb-3 group-hover:text-blue-400 transition-colors">
                 <Link href={`/blog/${post.slug}`}>
                   {post.title}
                 </Link>
               </h2>
               
-              <p className="text-xs sm:text-sm text-slate-500 leading-relaxed mb-6 flex-grow font-medium">
+              <p className="text-xs sm:text-sm text-slate-400 leading-relaxed mb-6 flex-grow">
                 {post.desc}
               </p>
 
-              <div className="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between">
-                <span className="text-[11px] font-semibold text-slate-400">
-                  {post.readTime}
+              <div className="mt-auto pt-4 border-t border-slate-800/80 flex items-center justify-between">
+                <span className="text-[11px] font-semibold text-slate-400 flex items-center gap-1">
+                  <Clock className="w-3.5 h-3.5" />
+                  <span>{post.readTime}</span>
                 </span>
                 <Link 
                   href={`/blog/${post.slug}`}
-                  className="text-xs font-bold text-blue-600 hover:text-blue-700 hover:underline inline-flex items-center"
+                  className="text-xs font-bold text-blue-400 hover:text-blue-300 inline-flex items-center gap-1"
                 >
-                  Lire l'article &rarr;
+                  <span>Lire l'article</span>
+                  <ChevronRight className="w-3.5 h-3.5" />
                 </Link>
               </div>
             </article>

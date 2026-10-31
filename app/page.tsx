@@ -2,6 +2,7 @@ import React from 'react';
 import { Header } from '@/components/Header';
 import { Hero } from '@/components/Hero';
 import { Stats } from '@/components/Stats';
+import { VodSwiper } from '@/components/vod/VodSwiper';
 import { Steps } from '@/components/Steps';
 import { Features } from '@/components/Features';
 import { Pricing } from '@/components/Pricing';
@@ -11,30 +12,35 @@ import { Footer } from '@/components/Footer';
 
 export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50 font-sans antialiased text-slate-800">
+    <div className="min-h-screen flex flex-col bg-slate-950 font-sans antialiased text-slate-100">
       {/* Navigation Header */}
       <Header />
 
-      {/* Hero Header */}
-      <Hero />
+      <main className="flex-grow">
+        {/* Hero Header */}
+        <Hero />
 
-      {/* Stats trust indicators */}
-      <Stats />
+        {/* Stats Trust Indicators */}
+        <Stats />
 
-      {/* Step by Step Manual Checkout Flow */}
-      <Steps />
+        {/* Interactive VOD Catalogue Swiper (Visual Attachment & Catchy) */}
+        <VodSwiper />
 
-      {/* Highlights & Features Grid */}
-      <Features />
+        {/* Step by Step Manual Checkout Flow */}
+        <Steps />
 
-      {/* Premium plans cards */}
-      <Pricing />
+        {/* Highlights & Features Grid */}
+        <Features />
 
-      {/* Support compatibilities grid */}
-      <Compatibility />
+        {/* Premium Plans Cards */}
+        <Pricing />
 
-      {/* FAQ accordion module */}
-      <FAQ />
+        {/* Support Compatibilities Grid */}
+        <Compatibility />
+
+        {/* FAQ Accordion Module */}
+        <FAQ />
+      </main>
 
       {/* Brand Footer */}
       <Footer />

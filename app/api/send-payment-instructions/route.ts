@@ -2,63 +2,140 @@ import { NextResponse } from 'next/server';
 import { createServerSideClient, createAdminClient } from '@/lib/supabase';
 import { sendPaymentInstructionsEmail } from '@/lib/resend';
 
-// Plan Price Map (in cents)
+// Plan Price Map (in cents) aligned with Pricing cards
 const PLAN_PRICES: Record<string, number> = {
-  Starter: 999,
-  Confort: 1999,
-  Premium: 2999,
+  Starter: 1999, // 19.99 €
+  Confort: 2999, // 29.99 €
+  Premium: 3999, // 39.99 €
+  Pack2: 5999,   // 59.99 €
 };
+
+interface RequestPayload {
+  planType?: string;
+  fullName?: string;
+  email?: string;
+  phone?: string;
+  paymentMethod?: string;
+}
 
 export async function POST(request: Request) {
   const supabase = createServerSideClient();
+  const adminSupabase = createAdminClient();
 
   try {
-    // 1. Authenticate user session
-    const { data: { session } } = await supabase.auth.getSession();
-    if (!session?.user) {
-      return NextResponse.json({ error: 'Non autorisé. Veuillez vous connecter.' }, { status: 401 });
+    const payload: unknown = await request.json();
+
+    if (!payload || typeof payload !== 'object') {
+      return NextResponse.json({ error: 'Payload de requête invalide.' }, { status: 400 });
     }
 
-    const userId = session.user.id;
-    const userEmail = session.user.email!;
-    
-    // 2. Parse request payload
-    const { planType, phone, paymentMethod } = await request.json();
+    const {
+      planType,
+      fullName,
+      email,
+      phone,
+      paymentMethod = 'paypal',
+    } = payload as RequestPayload;
 
-    if (!planType || !['Starter', 'Confort', 'Premium'].includes(planType)) {
-      return NextResponse.json({ error: 'Plan invalide spécifié.' }, { status: 400 });
+    if (!planType || !PLAN_PRICES[planType]) {
+      return NextResponse.json({ error: 'Formule d\'abonnement invalide sélectionnée.' }, { status: 400 });
     }
 
     const priceCents = PLAN_PRICES[planType];
 
-    // Fetch user profile info
-    const { data: profile, error: profileError } = await supabase
-      .from('profiles')
-      .select('full_name, phone')
-      .eq('id', userId)
-      .single();
+    // Check if user is currently authenticated
+    const { data: { session } } = await supabase.auth.getSession();
 
-    if (profileError || !profile) {
-      return NextResponse.json({ error: 'Profil introuvable.' }, { status: 404 });
-    }
+    let userId: string;
+    let customerEmail: string;
+    let customerName: string;
 
-    // 3. Update profile phone if provided and currently empty
-    if (phone && !profile.phone) {
-      await supabase
-        .from('profiles')
-        .update({ phone })
-        .eq('id', userId);
-    }
-
-    // 4. Create pending subscription record
-    const { data: subscription, error: subError } = await supabase
-      .from('subscriptions')
-      .select('*')
-      .eq('user_id', userId)
-      .eq('status', 'active');
+    if (session?.user) {
+      // 1. Authenticated checkout
+      userId = session.user.id;
+      customerEmail = session.user.email || (email ? email.trim().toLowerCase() : '');
       
-    // Create new subscription entry
-    const { data: newSub, error: insertSubError } = await supabase
+      const { data: profile } = await adminSupabase
+        .from('profiles')
+        .select('full_name, phone')
+        .eq('id', userId)
+        .maybeSingle();
+
+      customerName = profile?.full_name || fullName?.trim() || 'Client IPTV';
+
+      if (phone && !profile?.phone) {
+        await adminSupabase
+          .from('profiles')
+          .update({ phone: phone.trim() })
+          .eq('id', userId);
+      }
+    } else {
+      // 2. Guest checkout (No authentication gate)
+      if (!email || typeof email !== 'string' || !email.includes('@')) {
+        return NextResponse.json(
+          { error: 'Veuillez saisir une adresse email valide pour recevoir vos identifiants.' },
+          { status: 400 }
+        );
+      }
+
+      if (!fullName || typeof fullName !== 'string' || fullName.trim().length === 0) {
+        return NextResponse.json(
+          { error: 'Veuillez renseigner votre nom complet pour la facturation.' },
+          { status: 400 }
+        );
+      }
+
+      customerEmail = email.trim().toLowerCase();
+      customerName = fullName.trim();
+
+      // Check if user already exists in auth
+      const { data: userList } = await adminSupabase.auth.admin.listUsers({ perPage: 1000 });
+      const existingUser = userList?.users?.find(
+        (u) => u.email?.toLowerCase() === customerEmail
+      );
+
+      if (existingUser) {
+        userId = existingUser.id;
+        // Ensure profile exists / update phone
+        await adminSupabase.from('profiles').upsert({
+          id: userId,
+          full_name: customerName,
+          phone: phone ? phone.trim() : null,
+          country_code: 'FR',
+        });
+      } else {
+        // Create user in Supabase auth system without requiring immediate password
+        const { data: newUser, error: createError } = await adminSupabase.auth.admin.createUser({
+          email: customerEmail,
+          email_confirm: true,
+          user_metadata: {
+            full_name: customerName,
+            phone: phone ? phone.trim() : null,
+          },
+        });
+
+        if (createError || !newUser?.user) {
+          console.error('Guest user creation failed:', createError);
+          return NextResponse.json(
+            { error: 'Erreur lors de la création du compte client pour votre commande.' },
+            { status: 500 }
+          );
+        }
+
+        userId = newUser.user.id;
+
+        // Ensure profile record exists
+        await adminSupabase.from('profiles').upsert({
+          id: userId,
+          full_name: customerName,
+          phone: phone ? phone.trim() : null,
+          country_code: 'FR',
+        });
+      }
+    }
+
+    // 3. Create pending subscription record using admin client (bypasses RLS)
+    const { data: newSub, error: insertSubError } = await adminSupabase
       .from('subscriptions')
       .insert({
         user_id: userId,
@@ -69,11 +146,12 @@ export async function POST(request: Request) {
       .single();
 
     if (insertSubError || !newSub) {
+      console.error('Subscription insertion error:', insertSubError);
       return NextResponse.json({ error: 'Échec de la création de la souscription.' }, { status: 500 });
     }
 
-    // 5. Create pending payment record
-    const { data: newPayment, error: insertPayError } = await supabase
+    // 4. Create pending payment record
+    const { data: newPayment, error: insertPayError } = await adminSupabase
       .from('payments')
       .insert({
         user_id: userId,
@@ -81,40 +159,47 @@ export async function POST(request: Request) {
         amount: priceCents,
         currency: 'eur',
         status: 'pending_instruction',
-        payment_method: paymentMethod || 'bank_transfer',
+        payment_method: paymentMethod || 'paypal',
       })
       .select()
       .single();
 
     if (insertPayError || !newPayment) {
-      // Cleanup orphan subscription
-      await supabase.from('subscriptions').delete().eq('id', newSub.id);
+      console.error('Payment insertion error:', insertPayError);
+      await adminSupabase.from('subscriptions').delete().eq('id', newSub.id);
       return NextResponse.json({ error: 'Échec de la création du paiement.' }, { status: 500 });
     }
 
-    // 6. Fetch manual payment instructions for specified plan
-    const { data: instructions } = await supabase
+    // 5. Fetch manual payment instructions for specified plan
+    const { data: instructions } = await adminSupabase
       .from('payment_instructions')
       .select('*')
       .eq('plan_type', planType)
-      .single();
+      .maybeSingle();
 
     const bankDetails = instructions?.bank_details || 'Bank: EuroBank | IBAN: FR76 3000 1234 5678 9012 345';
     const whatsappNum = instructions?.whatsapp_number || '+33612345678';
 
-    // 7. Fire off the automated instruction email via Resend
-    const emailResult = await sendPaymentInstructionsEmail(
-      userEmail,
-      profile.full_name,
-      planType,
-      priceCents,
-      bankDetails,
-      whatsappNum
-    );
+    // 6. Fire off automated instruction email via Resend
+    let emailSuccess = false;
+    try {
+      const emailResult = await sendPaymentInstructionsEmail(
+        customerEmail,
+        customerName,
+        planType,
+        priceCents,
+        bankDetails,
+        whatsappNum,
+        instructions?.instruction_text
+      );
+      emailSuccess = emailResult?.success ?? false;
+    } catch (err: unknown) {
+      console.error('Resend email error:', err instanceof Error ? err.message : err);
+    }
 
-    // If successful email, we transition payment status to 'pending_confirmation'
-    if (emailResult.success) {
-      await supabase
+    // If successful email, transition payment status to 'pending_confirmation'
+    if (emailSuccess) {
+      await adminSupabase
         .from('payments')
         .update({ status: 'pending_confirmation' })
         .eq('id', newPayment.id);
@@ -127,11 +212,11 @@ export async function POST(request: Request) {
       instructions: {
         bankDetails,
         whatsappNumber: whatsappNum,
-      }
+      },
     });
-
-  } catch (error: any) {
-    console.error('Send payment instructions error:', error);
-    return NextResponse.json({ error: 'Une erreur interne est survenue.' }, { status: 500 });
+  } catch (error: unknown) {
+    const errorMsg = error instanceof Error ? error.message : 'Une erreur interne est survenue.';
+    console.error('Send payment instructions route error:', errorMsg);
+    return NextResponse.json({ error: errorMsg }, { status: 500 });
   }
 }

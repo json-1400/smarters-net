@@ -71,6 +71,12 @@ export default async function AdminLayout({
             <span>Abonnements & Virement</span>
           </Link>
           <Link 
+            href="/admin/vod" 
+            className="flex items-center gap-3 px-3 py-2.5 rounded hover:bg-slate-800 hover:text-white transition-colors"
+          >
+            <span>Catalogue VOD & Swiper</span>
+          </Link>
+          <Link 
             href="/admin/customers" 
             className="flex items-center gap-3 px-3 py-2.5 rounded hover:bg-slate-800 hover:text-white transition-colors"
           >
@@ -87,6 +93,18 @@ export default async function AdminLayout({
             className="flex items-center gap-3 px-3 py-2.5 rounded hover:bg-slate-800 hover:text-white transition-colors"
           >
             <span>Paramètres Banque</span>
+          </Link>
+          <Link 
+            href="/admin/users" 
+            className="flex items-center gap-3 px-3 py-2.5 rounded hover:bg-slate-800 hover:text-white transition-colors"
+          >
+            <span>Gestion des Utilisateurs</span>
+          </Link>
+          <Link 
+            href="/admin/content" 
+            className="flex items-center gap-3 px-3 py-2.5 rounded hover:bg-slate-800 hover:text-white transition-colors"
+          >
+            <span>Gestion du Contenu</span>
           </Link>
         </nav>
 

@@ -36,10 +36,18 @@ export const createServerSideClient = () => {
   );
 };
 
-// Admin Service Role Supabase Client (Only for protected operations - NEVER expose to client)
+import { createClient } from '@supabase/supabase-js';
+
+// Admin Service Role Supabase Client (Only for protected server-side operations - NEVER expose to client)
 export const createAdminClient = () => {
-  return createBrowserClient(
+  return createClient(
     supabaseUrl,
-    supabaseServiceKey
+    supabaseServiceKey,
+    {
+      auth: {
+        persistSession: false,
+        autoRefreshToken: false,
+      },
+    }
   );
 };

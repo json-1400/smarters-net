@@ -52,7 +52,8 @@ export async function sendPaymentInstructionsEmail(
   planType: string, 
   amount: number, 
   bankDetails: string, 
-  whatsappNumber?: string
+  whatsappNumber?: string,
+  instructionText?: string
 ) {
   const subject = `Payment Instructions for Your ${planType} Plan Order`;
   const formattedAmount = (amount / 100).toFixed(2);
@@ -62,12 +63,20 @@ export async function sendPaymentInstructionsEmail(
        </p>`
     : '';
 
+  const customInstructions = instructionText 
+    ? `<div style="margin: 20px 0; padding: 15px; border-left: 4px solid #2563eb; background-color: #f8fafc;">
+         <p style="margin: 0; white-space: pre-wrap;">${instructionText}</p>
+       </div>`
+    : '';
+
   const html = `
     <div style="font-family: sans-serif; padding: 20px; color: #1f2937; max-width: 600px; margin: 0 auto; border: 1px solid #e5e7eb;">
       <h2 style="color: #2563eb; margin-bottom: 20px;">Order Registered - Manual Payment Action Required</h2>
       <p>Hello <strong>${fullName}</strong>,</p>
-      <p>We received your subscription order for the <strong>${planType} Plan</strong> (€${formattedAmount}/month). To activate your service, please perform a manual bank transfer using the instructions below:</p>
+      <p>We received your subscription order for the <strong>${planType} Plan</strong> (€${formattedAmount}/month). To activate your service, please follow the instructions below:</p>
       
+      ${customInstructions}
+
       <div style="background-color: #f3f4f6; padding: 15px; border-radius: 6px; margin: 20px 0;">
         <h4 style="margin-top: 0; color: #111827;">Bank Details for Transfer</h4>
         <p style="font-family: monospace; white-space: pre-wrap; margin: 0;">${bankDetails}</p>
@@ -111,6 +120,35 @@ export async function sendSubscriptionActivatedEmail(
 
       <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 30px 0;" />
       <p style="font-size: 12px; color: #6b7280;">Thanks for choosing IPTV Smarters Pro Clone!</p>
+    </div>
+  `;
+  return sendEmail({ to: email, subject, html });
+}
+
+// 4. Chat Reply Notification Email Template
+export async function sendChatReplyEmail(
+  email: string,
+  fullName: string,
+  messagePreview: string
+) {
+  const subject = `Nouveau message du support - IPTV Smarters Pro`;
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://smarterspro-france.net';
+  const html = `
+    <div style="font-family: sans-serif; padding: 20px; color: #1f2937; max-width: 600px; margin: 0 auto; border: 1px solid #e5e7eb; border-radius: 8px;">
+      <h2 style="color: #2563eb; margin-bottom: 16px;">Le support vous a répondu 💬</h2>
+      <p>Bonjour <strong>${fullName || 'Cher Client'}</strong>,</p>
+      <p>Un conseiller de l'équipe technique IPTV Smarters Pro vient de répondre à votre discussion en direct :</p>
+      
+      <div style="background-color: #f8fafc; border-left: 4px solid #2563eb; padding: 14px 16px; margin: 20px 0; border-radius: 4px; font-style: italic; color: #334155;">
+        "${messagePreview}"
+      </div>
+
+      <p style="margin: 25px 0;">
+        <a href="${siteUrl}/dashboard" style="background-color: #2563eb; color: #ffffff; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">Voir la réponse et poursuivre la discussion &rarr;</a>
+      </p>
+
+      <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 24px 0;" />
+      <p style="font-size: 12px; color: #64748b;">Vous recevez cet email car vous possédez un compte client actif sur IPTV Smarters Pro Officiel France.</p>
     </div>
   `;
   return sendEmail({ to: email, subject, html });

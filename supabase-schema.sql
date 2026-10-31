@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS public.profiles (
     phone TEXT,
     country_code TEXT,
     is_blocked BOOLEAN DEFAULT false,
+    is_admin BOOLEAN DEFAULT false,
     created_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL,
     updated_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL
 );
@@ -42,6 +43,16 @@ CREATE TABLE IF NOT EXISTS public.payments (
     confirmed_at TIMESTAMPTZ,
     notes TEXT,
     created_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+-- Table: payment_instructions
+CREATE TABLE IF NOT EXISTS public.payment_instructions (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    plan_type TEXT NOT NULL,
+    instruction_text TEXT NOT NULL,
+    bank_details TEXT,
+    whatsapp_number TEXT,
+    updated_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
 -- Table: support_tickets
@@ -138,76 +149,105 @@ ALTER TABLE public.chat_messages ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.crm_notes ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.admin_audit_log ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.site_settings ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.payment_instructions ENABLE ROW LEVEL SECURITY;
 
 -- 3.1 Profiles RLS Policies
+DROP POLICY IF EXISTS "Users can read own profile" ON public.profiles;
 CREATE POLICY "Users can read own profile" ON public.profiles
     FOR SELECT USING (auth.uid() = id);
 
+DROP POLICY IF EXISTS "Users can edit own profile" ON public.profiles;
 CREATE POLICY "Users can edit own profile" ON public.profiles
     FOR UPDATE USING (auth.uid() = id);
 
+DROP POLICY IF EXISTS "Service-role and admins can do all on profiles" ON public.profiles;
 CREATE POLICY "Service-role and admins can do all on profiles" ON public.profiles
     FOR ALL USING (
         (SELECT (raw_user_meta_data->>'is_admin')::boolean FROM auth.users WHERE id = auth.uid()) = true
     );
 
 -- 3.2 Subscriptions RLS Policies
+DROP POLICY IF EXISTS "Users can read own subscriptions" ON public.subscriptions;
 CREATE POLICY "Users can read own subscriptions" ON public.subscriptions
     FOR SELECT USING (auth.uid() = user_id);
 
+DROP POLICY IF EXISTS "Service-role and admins can do all on subscriptions" ON public.subscriptions;
 CREATE POLICY "Service-role and admins can do all on subscriptions" ON public.subscriptions
     FOR ALL USING (
         (SELECT (raw_user_meta_data->>'is_admin')::boolean FROM auth.users WHERE id = auth.uid()) = true
     );
 
 -- 3.3 Payments RLS Policies
+DROP POLICY IF EXISTS "Users can read own payments" ON public.payments;
 CREATE POLICY "Users can read own payments" ON public.payments
     FOR SELECT USING (auth.uid() = user_id);
 
+DROP POLICY IF EXISTS "Admins can do all on payments" ON public.payments;
 CREATE POLICY "Admins can do all on payments" ON public.payments
     FOR ALL USING (
         (SELECT (raw_user_meta_data->>'is_admin')::boolean FROM auth.users WHERE id = auth.uid()) = true
     );
 
 -- 3.4 Support Tickets RLS Policies
+DROP POLICY IF EXISTS "Users can read own tickets" ON public.support_tickets;
 CREATE POLICY "Users can read own tickets" ON public.support_tickets
     FOR SELECT USING (auth.uid() = user_id);
 
+DROP POLICY IF EXISTS "Users can create own tickets" ON public.support_tickets;
 CREATE POLICY "Users can create own tickets" ON public.support_tickets
     FOR INSERT WITH CHECK (auth.uid() = user_id);
 
+DROP POLICY IF EXISTS "Admins can do all on support tickets" ON public.support_tickets;
 CREATE POLICY "Admins can do all on support tickets" ON public.support_tickets
     FOR ALL USING (
         (SELECT (raw_user_meta_data->>'is_admin')::boolean FROM auth.users WHERE id = auth.uid()) = true
     );
 
 -- 3.5 Chat Messages RLS Policies
+DROP POLICY IF EXISTS "Users can read own chat room messages" ON public.chat_messages;
 CREATE POLICY "Users can read own chat room messages" ON public.chat_messages
     FOR SELECT USING (auth.uid() = sender_id OR room_id = 'user_' || auth.uid()::text || '_admin');
 
+DROP POLICY IF EXISTS "Users can write own chat messages" ON public.chat_messages;
 CREATE POLICY "Users can write own chat messages" ON public.chat_messages
     FOR INSERT WITH CHECK (auth.uid() = sender_id);
 
+DROP POLICY IF EXISTS "Admins can do all on chat messages" ON public.chat_messages;
 CREATE POLICY "Admins can do all on chat messages" ON public.chat_messages
     FOR ALL USING (
         (SELECT (raw_user_meta_data->>'is_admin')::boolean FROM auth.users WHERE id = auth.uid()) = true
     );
 
 -- 3.6 Settings, Notes, Audit Logs
+DROP POLICY IF EXISTS "Everyone can read settings" ON public.site_settings;
 CREATE POLICY "Everyone can read settings" ON public.site_settings
     FOR SELECT USING (true);
 
+DROP POLICY IF EXISTS "Only admins can edit settings" ON public.site_settings;
 CREATE POLICY "Only admins can edit settings" ON public.site_settings
     FOR ALL USING (
         (SELECT (raw_user_meta_data->>'is_admin')::boolean FROM auth.users WHERE id = auth.uid()) = true
     );
 
+DROP POLICY IF EXISTS "Only admins can handle crm notes" ON public.crm_notes;
 CREATE POLICY "Only admins can handle crm notes" ON public.crm_notes
     FOR ALL USING (
         (SELECT (raw_user_meta_data->>'is_admin')::boolean FROM auth.users WHERE id = auth.uid()) = true
     );
 
+DROP POLICY IF EXISTS "Only admins can view audit logs" ON public.admin_audit_log;
 CREATE POLICY "Only admins can view audit logs" ON public.admin_audit_log
     FOR ALL USING (
         (SELECT (raw_user_meta_data->>'is_admin')::boolean FROM auth.users WHERE id = auth.uid()) = true
     );
+
+DROP POLICY IF EXISTS "Everyone can read payment instructions" ON public.payment_instructions;
+CREATE POLICY "Everyone can read payment instructions" ON public.payment_instructions
+    FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Only admins can edit payment instructions" ON public.payment_instructions;
+CREATE POLICY "Only admins can edit payment instructions" ON public.payment_instructions
+    FOR ALL USING (
+        (SELECT (raw_user_meta_data->>'is_admin')::boolean FROM auth.users WHERE id = auth.uid()) = true
+    );
+

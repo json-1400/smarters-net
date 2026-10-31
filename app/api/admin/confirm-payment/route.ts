@@ -51,7 +51,16 @@ export async function POST(request: Request) {
 
     const now = new Date().toISOString();
     const expiryDate = new Date();
-    expiryDate.setMonth(expiryDate.getMonth() + 1);
+    const planType = (payment as any).subscription?.plan_type || 'Starter';
+    
+    if (planType === 'Confort') {
+      expiryDate.setMonth(expiryDate.getMonth() + 3);
+    } else if (planType === 'Premium') {
+      expiryDate.setMonth(expiryDate.getMonth() + 12);
+    } else {
+      expiryDate.setMonth(expiryDate.getMonth() + 1);
+    }
+    
     const expiryIso = expiryDate.toISOString();
 
     // 3. Update payment status to confirmed

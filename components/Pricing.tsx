@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import { Check, ShieldCheck, Zap } from 'lucide-react';
 
 const PLANS = [
   {
@@ -9,17 +10,17 @@ const PLANS = [
     originalPrice: '34.99',
     duration: '3 Mois',
     popular: false,
-    color: 'border-slate-200 bg-white hover:border-slate-300',
-    btnBg: 'bg-slate-800 hover:bg-slate-900 text-white shadow-sm',
+    color: 'border-slate-800 bg-slate-900/90 hover:border-slate-700',
+    btnBg: 'bg-slate-800 hover:bg-slate-700 text-white border border-slate-700',
     badge: 'Formule Découverte',
     savings: 'Économisez 42%',
     features: [
       '1 Connexion active simultanée',
       'Qualité IPTV 4K & HD',
-      '+20 000 Chaînes TV en Direct',
-      '+60 000 Films & Séries (VOD)',
-      'Replay 48h sur toutes les chaînes',
-      'Mises à jour quotidiennes de la VOD',
+      '+25 000 Chaînes TV en Direct',
+      '+90 000 Films & Séries (VOD)',
+      'Replay 48h sur les chaînes principales',
+      'Mises à jour quotidiennes du catalogue',
       'Technologie anti-freeze intégrée',
       'Assistance client par WhatsApp 7j/7'
     ]
@@ -31,59 +32,59 @@ const PLANS = [
     originalPrice: '49.99',
     duration: '6 Mois',
     popular: false,
-    color: 'border-slate-200 bg-white hover:border-slate-300',
-    btnBg: 'bg-slate-800 hover:bg-slate-900 text-white shadow-sm',
-    badge: 'Formule Avantageux',
+    color: 'border-slate-800 bg-slate-900/90 hover:border-slate-700',
+    btnBg: 'bg-slate-800 hover:bg-slate-700 text-white border border-slate-700',
+    badge: 'Formule Avantage',
     savings: 'Économisez 40%',
     features: [
       '1 Connexion active simultanée',
       'Qualité IPTV 4K & HD',
-      '+20 000 Chaînes TV en Direct',
-      '+75 000 Films & Séries (VOD)',
+      '+25 000 Chaînes TV en Direct',
+      '+90 000 Films & Séries (VOD)',
       'Replay 48h sur toutes les chaînes',
       'Mises à jour quotidiennes de la VOD',
-      'Technologie anti-freeze intégrée',
-      'Assistance client par WhatsApp 7j/7'
+      'Technologie anti-freeze v4.2',
+      'Assistance client prioritaire WhatsApp'
     ]
   },
   {
     id: 'Premium',
-    name: 'Abonnement IPTV 12 Mois',
+    name: 'Abonnement IPTV 12 Mois VIP',
     price: '39.99',
     originalPrice: '59.99',
     duration: '12 Mois',
     popular: true,
-    color: 'border-blue-600 bg-white ring-4 ring-blue-500/5',
-    btnBg: 'bg-blue-600 hover:bg-blue-700 text-white shadow-md',
-    badge: 'MEILLEURE VENTE',
-    savings: 'Économisez 33% — Recommandé',
+    color: 'border-blue-500 bg-gradient-to-b from-blue-950/30 to-slate-900 ring-2 ring-blue-500/30 shadow-2xl shadow-blue-500/10',
+    btnBg: 'bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-600/30',
+    badge: 'MEILLEURE VENTE & RECOMMANDÉ',
+    savings: 'Économisez 33% — Meilleur Tarif',
     features: [
       '1 Connexion active simultanée',
-      'Qualité IPTV 4K & HD',
-      '+20 000 Chaînes TV en Direct',
-      '+95 000 Films & Séries (VOD) 4K',
-      'Replay 72h sur toutes les chaînes',
-      'Mises à jour quotidiennes de la VOD',
-      'Technologie anti-freeze v4.2',
-      'Assistance technique VIP 7j/7'
+      'Qualité IPTV 4K & UHD 60fps',
+      '+25 000 Chaînes TV en Direct',
+      '+90 000 Films & Séries (VOD) 4K',
+      'Replay 72h & EPG électronique complet',
+      'Serveurs VIP ultra-rapides sans buffering',
+      'Technologie anti-freeze avancée',
+      'Support VIP dédié WhatsApp & Live Chat 7j/7'
     ]
   },
   {
     id: 'Pack2',
-    name: 'Abonnement Pack 2 Codes',
+    name: 'Abonnement Pack Duo (2 Écrans)',
     price: '59.99',
     originalPrice: '79.99',
     duration: '12 Mois (2 Appareils)',
     popular: false,
-    color: 'border-slate-200 bg-white hover:border-slate-300',
-    btnBg: 'bg-slate-800 hover:bg-slate-900 text-white shadow-sm',
+    color: 'border-slate-800 bg-slate-900/90 hover:border-slate-700',
+    btnBg: 'bg-slate-800 hover:bg-slate-700 text-white border border-slate-700',
     badge: 'Offre Duo & Foyer',
     savings: 'Économisez 25%',
     features: [
       '2 Connexions actives indépendantes',
       'Qualité IPTV 4K & HD',
-      '+20 000 Chaînes TV en Direct',
-      '+95 000 Films & Séries (VOD) 4K',
+      '+25 000 Chaînes TV en Direct',
+      '+90 000 Films & Séries (VOD) 4K',
       'Replay 72h sur toutes les chaînes',
       'Mises à jour quotidiennes de la VOD',
       'Technologie anti-freeze v4.2',
@@ -94,81 +95,83 @@ const PLANS = [
 
 export function Pricing() {
   return (
-    <section id="pricing" className="py-24 bg-slate-50 border-t border-slate-200 font-sans">
+    <section id="pricing" className="py-24 bg-slate-950 border-t border-slate-900 font-sans text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Heading */}
-        <div className="text-center mb-20">
-          <span className="inline-flex items-center rounded-full bg-blue-50 px-3 py-1.5 text-xs font-bold text-blue-700 ring-1 ring-inset ring-blue-700/10 mb-4 uppercase tracking-wider">
-            ABONNEMENT IPTV FLEXIBLE
+        <div className="text-center mb-16">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-blue-500/10 px-3.5 py-1.5 text-xs font-bold text-blue-400 border border-blue-500/20 mb-4 uppercase tracking-wider">
+            <Zap className="w-3.5 h-3.5" />
+            Tarifs Transparents & Sans Engagement
           </span>
-          <h2 className="text-3xl sm:text-5xl font-black text-slate-950 tracking-tight leading-none">
-            Nos Tarifs Smarters Pro
+          <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight leading-none">
+            Choisissez Votre Formule IPTV Smarters Pro
           </h2>
-          <p className="mt-4 text-base sm:text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
-            Profitez de nos abonnements IPTV Smarters Pro en France. Pas d'engagement, pas de prélèvement automatique, paiement manuel 100% sécurisé et confidentiel.
+          <p className="mt-4 text-sm sm:text-base text-slate-400 max-w-2xl mx-auto leading-relaxed">
+            Profitez de nos offres d'abonnement en France. Aucun renouvellement automatique caché : vous renouvelez uniquement si vous êtes 100% satisfait.
           </p>
         </div>
 
         {/* Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 items-stretch">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
           {PLANS.map((plan) => (
             <div 
               key={plan.id} 
-              className={`border rounded-2xl p-6 flex flex-col relative transition-all duration-200 hover:-translate-y-1 shadow-sm hover:shadow-md ${plan.color}`}
+              className={`border rounded-2xl p-6 flex flex-col relative transition-all duration-300 hover:-translate-y-1.5 shadow-lg ${plan.color}`}
             >
               {/* Popular Badge */}
               {plan.popular && (
-                <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-blue-600 text-white text-[10px] font-black px-4 py-1 rounded-full uppercase tracking-widest shadow-sm">
+                <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-blue-600 text-white text-[10px] font-black px-4 py-1 rounded-full uppercase tracking-widest shadow-md">
                   MEILLEURE VENTE
                 </span>
               )}
               
               {/* Card Header */}
-              <div className="mb-6 border-b border-slate-100 pb-6">
-                <span className="text-xs font-extrabold text-blue-600 uppercase tracking-widest block mb-1">
+              <div className="mb-6 border-b border-slate-800 pb-6">
+                <span className="text-[11px] font-extrabold text-blue-400 uppercase tracking-widest block mb-1">
                   {plan.badge}
                 </span>
-                <h3 className="text-lg font-black text-slate-950 min-h-[3.5rem] flex items-center">{plan.name}</h3>
+                <h3 className="text-lg font-black text-white min-h-[3.2rem] flex items-center leading-snug">
+                  {plan.name}
+                </h3>
                 
                 {/* Price Display */}
                 <div className="flex items-baseline mt-4 mb-2">
-                  <span className="text-slate-400 text-sm font-semibold line-through mr-2">
+                  <span className="text-slate-500 text-sm font-semibold line-through mr-2">
                     {plan.originalPrice} €
                   </span>
-                  <span className="text-4xl font-black text-slate-950 tracking-tight">{plan.price}</span>
-                  <span className="text-xl font-bold text-slate-950 ml-1">€</span>
-                  <span className="text-slate-400 text-[11px] font-semibold ml-2">/ {plan.duration}</span>
+                  <span className="text-4xl font-black text-white tracking-tight">{plan.price}</span>
+                  <span className="text-xl font-bold text-blue-400 ml-1">€</span>
+                  <span className="text-slate-400 text-xs font-semibold ml-2">/ {plan.duration}</span>
                 </div>
                 
                 {/* Savings tag */}
-                <span className="inline-block text-[10px] font-bold px-2 py-0.5 rounded bg-green-50 border border-green-200 text-green-700">
+                <span className="inline-block text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
                   {plan.savings}
                 </span>
               </div>
 
               {/* Card Features List */}
-              <ul className="space-y-3.5 mb-8 flex-grow">
+              <ul className="space-y-3 mb-8 flex-grow">
                 {plan.features.map((feature, idx) => (
-                  <li key={idx} className="flex items-start text-xs text-slate-600 font-semibold leading-normal">
-                    <svg className="h-4 w-4 text-green-500 mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" />
-                    </svg>
-                    <span className="leading-snug">{feature}</span>
+                  <li key={idx} className="flex items-start text-xs text-slate-300 font-medium leading-relaxed">
+                    <Check className="h-4 w-4 text-emerald-400 mr-2 mt-0.5 flex-shrink-0" />
+                    <span>{feature}</span>
                   </li>
                 ))}
               </ul>
 
               {/* CTA Link */}
-              <div className="mt-auto">
+              <div className="mt-auto pt-2">
                 <Link
                   href={`/checkout?plan=${plan.id}`}
-                  className={`w-full inline-flex items-center justify-center font-bold py-3.5 px-4 rounded-lg text-xs transition-all duration-200 uppercase tracking-wider text-center ${plan.btnBg}`}
+                  className={`w-full inline-flex items-center justify-center font-extrabold py-3.5 px-4 rounded-xl text-xs transition-all uppercase tracking-wider text-center ${plan.btnBg}`}
                 >
-                  Choisir cette formule
+                  Choisir cette formule &rarr;
                 </Link>
-                <span className="text-[9px] text-slate-400 text-center block mt-3 font-medium">
-                  🔒 Activation manuelle sécurisée &middot; Garantie 7 jours
-                </span>
+                <div className="flex items-center justify-center gap-1.5 text-[10px] text-slate-400 text-center mt-3 font-medium">
+                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>Activation manuelle sécurisée</span>
+                </div>
               </div>
             </div>
           ))}

@@ -27,10 +27,18 @@ export default async function DashboardPage() {
 
   if (profile?.is_blocked) {
     return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
-        <div className="max-w-md bg-white border border-red-200 rounded p-6 text-center">
-          <h1 className="text-xl font-bold text-red-700">Compte Bloqué</h1>
-          <p className="text-slate-500 text-sm mt-2">Votre compte a été bloqué par un administrateur. Veuillez contacter le support pour en savoir plus.</p>
+      <div className="min-h-screen bg-slate-950 flex items-center justify-center p-4">
+        <div className="max-w-md bg-slate-900 border border-red-500/30 rounded-2xl p-6 text-center">
+          <h1 className="text-xl font-bold text-red-400">Compte Bloqué</h1>
+          <p className="text-slate-400 text-sm mt-2">
+            Votre compte a été bloqué par un administrateur. Veuillez contacter le support pour en savoir plus.
+          </p>
+          <Link
+            href="/support"
+            className="mt-4 inline-flex items-center justify-center px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-sm font-semibold transition-colors"
+          >
+            Contacter le support
+          </Link>
         </div>
       </div>
     );
@@ -63,56 +71,56 @@ export default async function DashboardPage() {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'active':
-        return <span className="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded border border-green-200">Actif</span>;
+        return <span className="bg-emerald-500/10 text-emerald-400 text-xs font-semibold px-2.5 py-1 rounded-full border border-emerald-500/20">Actif</span>;
       case 'pending_payment':
-        return <span className="bg-amber-100 text-amber-800 text-xs font-semibold px-2.5 py-0.5 rounded border border-amber-200">En attente de paiement</span>;
+        return <span className="bg-amber-500/10 text-amber-400 text-xs font-semibold px-2.5 py-1 rounded-full border border-amber-500/20">En attente de paiement</span>;
       case 'expired':
-        return <span className="bg-slate-100 text-slate-800 text-xs font-semibold px-2.5 py-0.5 rounded border border-slate-200">Expiré</span>;
+        return <span className="bg-slate-800 text-slate-400 text-xs font-semibold px-2.5 py-1 rounded-full border border-slate-700">Expiré</span>;
       default:
-        return <span className="bg-red-100 text-red-800 text-xs font-semibold px-2.5 py-0.5 rounded border border-red-200">Annulé</span>;
+        return <span className="bg-red-500/10 text-red-400 text-xs font-semibold px-2.5 py-1 rounded-full border border-red-500/20">Annulé</span>;
     }
   };
 
   const getPaymentStatusBadge = (status: string) => {
     switch (status) {
       case 'confirmed':
-        return <span className="bg-green-100 text-green-700 text-xs font-bold px-2 py-0.5 rounded">Confirmé</span>;
+        return <span className="bg-emerald-500/10 text-emerald-400 text-xs font-bold px-2.5 py-0.5 rounded-full border border-emerald-500/20">Confirmé</span>;
       case 'pending_confirmation':
-        return <span className="bg-amber-100 text-amber-700 text-xs font-bold px-2 py-0.5 rounded">Vérification en cours</span>;
+        return <span className="bg-amber-500/10 text-amber-400 text-xs font-bold px-2.5 py-0.5 rounded-full border border-amber-500/20">Vérification en cours</span>;
       case 'pending_instruction':
-        return <span className="bg-slate-100 text-slate-700 text-xs font-bold px-2 py-0.5 rounded">Instructions envoyées</span>;
+        return <span className="bg-slate-800 text-slate-400 text-xs font-bold px-2.5 py-0.5 rounded-full border border-slate-700">Instructions envoyées</span>;
       default:
-        return <span className="bg-red-100 text-red-700 text-xs font-bold px-2 py-0.5 rounded">Échoué</span>;
+        return <span className="bg-red-500/10 text-red-400 text-xs font-bold px-2.5 py-0.5 rounded-full border border-red-500/20">Échoué</span>;
     }
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50">
+    <div className="min-h-screen flex flex-col bg-slate-950 text-slate-100 antialiased selection:bg-blue-600 selection:text-white">
       {/* Header */}
       <Header />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-grow w-full">
         {/* Welcome Block */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between pb-6 border-b border-slate-200 mb-8 gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between pb-6 border-b border-slate-800 mb-8 gap-4">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
               Bonjour, {profile?.full_name || 'Client'}
             </h1>
-            <p className="text-sm text-slate-500 mt-1">
+            <p className="text-sm text-slate-400 mt-1">
               Gérez vos abonnements IPTV Smarters Pro et consultez votre historique de facturation.
             </p>
           </div>
           <div className="flex items-center gap-3">
             <Link
               href="/support"
-              className="inline-flex items-center justify-center px-4 py-2 border border-slate-300 rounded text-sm font-semibold text-slate-700 bg-white hover:bg-slate-50 transition-colors shadow-sm"
+              className="inline-flex items-center justify-center px-4 py-2 border border-slate-800 rounded-xl text-sm font-semibold text-slate-300 bg-slate-900 hover:bg-slate-800 hover:text-white transition-colors"
             >
               Assistance Technique
             </Link>
             <form action="/api/auth/logout" method="POST">
               <button
                 type="submit"
-                className="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded text-sm font-semibold text-white bg-slate-800 hover:bg-slate-900 transition-colors shadow-sm"
+                className="inline-flex items-center justify-center px-4 py-2 border border-slate-800 rounded-xl text-sm font-semibold text-slate-300 bg-slate-900 hover:bg-red-950/60 hover:text-red-300 hover:border-red-500/30 transition-colors"
               >
                 Déconnexion
               </button>
@@ -122,19 +130,19 @@ export default async function DashboardPage() {
 
         {/* Pending Activation Banner */}
         {pendingSub && (
-          <div className="bg-amber-50 border border-amber-200 rounded-lg p-5 mb-8">
+          <div className="bg-amber-950/40 border border-amber-500/30 rounded-2xl p-5 mb-8">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               <div>
-                <h3 className="font-extrabold text-amber-800 text-base">⚠️ Commande en attente de paiement manuel</h3>
-                <p className="text-sm text-amber-700 mt-1">
-                  Votre abonnement <span className="font-bold">{pendingSub.plan_type}</span> est enregistré. Veuillez finaliser votre transfert bancaire et nous envoyer le reçu par WhatsApp pour activer votre compte.
+                <h3 className="font-extrabold text-amber-300 text-base">⚠️ Commande en attente de paiement</h3>
+                <p className="text-sm text-amber-200/80 mt-1">
+                  Votre abonnement <span className="font-bold text-white">{pendingSub.plan_type}</span> est enregistré. Veuillez finaliser votre transfert et nous notifier sur WhatsApp pour activer votre compte.
                 </p>
               </div>
               <a
-                href="https://wa.me/33612345678?text=Bonjour!%20Je%20souhaite%20activer%20mon%20abonnement%20en%20attente."
+                href="https://wa.me/33600000000?text=Bonjour!%20Je%20souhaite%20activer%20mon%20abonnement%20en%20attente."
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center px-4 py-2 rounded bg-amber-600 hover:bg-amber-700 text-white font-bold text-sm transition-colors"
+                className="inline-flex items-center justify-center px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-sm transition-colors shrink-0 shadow-lg shadow-amber-500/20"
               >
                 Envoyer le reçu sur WhatsApp
               </a>
@@ -146,8 +154,8 @@ export default async function DashboardPage() {
           {/* Left Column: Subscriptions & Payments */}
           <div className="lg:col-span-2 space-y-8">
             {/* Active Subscription Summary */}
-            <div className="bg-white border border-slate-200 rounded-lg p-6 shadow-sm">
-              <h2 className="text-lg font-extrabold text-slate-900 border-b border-slate-100 pb-3 mb-4">
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-sm">
+              <h2 className="text-lg font-extrabold text-white border-b border-slate-800 pb-3 mb-4">
                 Mon Abonnement IPTV Actif
               </h2>
 
@@ -155,25 +163,25 @@ export default async function DashboardPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Formule active</span>
-                    <span className="text-lg font-extrabold text-slate-900">{activeSub.plan_type}</span>
+                    <span className="text-lg font-extrabold text-white">{activeSub.plan_type}</span>
                     <div className="mt-1">{getStatusBadge(activeSub.status)}</div>
                   </div>
                   <div className="space-y-2">
                     <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Période de validité</span>
-                    <span className="text-sm text-slate-700 block">
-                      <strong>Début :</strong> {new Date(activeSub.current_period_start!).toLocaleDateString('fr-FR')}
+                    <span className="text-sm text-slate-300 block">
+                      <strong className="text-white">Début :</strong> {new Date(activeSub.current_period_start!).toLocaleDateString('fr-FR')}
                     </span>
-                    <span className="text-sm text-slate-700 block">
-                      <strong>Fin / Expiration :</strong> {new Date(activeSub.current_period_end!).toLocaleDateString('fr-FR')}
+                    <span className="text-sm text-slate-300 block">
+                      <strong className="text-white">Fin / Expiration :</strong> {new Date(activeSub.current_period_end!).toLocaleDateString('fr-FR')}
                     </span>
                   </div>
                 </div>
               ) : (
                 <div className="text-center py-6">
-                  <p className="text-slate-500 text-sm">Vous n'avez aucun abonnement actif en cours.</p>
+                  <p className="text-slate-400 text-sm">Vous n'avez aucun abonnement actif en cours.</p>
                   <Link
                     href="/#pricing"
-                    className="mt-4 inline-flex items-center justify-center px-4 py-2 border border-transparent rounded text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 transition-colors"
+                    className="mt-4 inline-flex items-center justify-center px-5 py-2.5 rounded-xl text-sm font-bold text-white bg-blue-600 hover:bg-blue-500 transition-colors shadow-lg shadow-blue-600/30"
                   >
                     Souscrire maintenant
                   </Link>
@@ -182,14 +190,14 @@ export default async function DashboardPage() {
             </div>
 
             {/* Historical Payments Grid */}
-            <div className="bg-white border border-slate-200 rounded-lg p-6 shadow-sm">
-              <h2 className="text-lg font-extrabold text-slate-900 border-b border-slate-100 pb-3 mb-4">
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-sm">
+              <h2 className="text-lg font-extrabold text-white border-b border-slate-800 pb-3 mb-4">
                 Historique des transactions
               </h2>
 
               {payments && payments.length > 0 ? (
                 <div className="overflow-x-auto">
-                  <table className="min-w-full divide-y divide-slate-200 text-sm">
+                  <table className="min-w-full divide-y divide-slate-800 text-sm">
                     <thead>
                       <tr className="text-left text-slate-400 text-xs font-semibold uppercase">
                         <th className="py-2.5">Date</th>
@@ -198,12 +206,12 @@ export default async function DashboardPage() {
                         <th className="py-2.5">Statut</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-slate-100 font-medium text-slate-700">
+                    <tbody className="divide-y divide-slate-800/60 font-medium text-slate-300">
                       {payments.map((payment) => (
-                        <tr key={payment.id}>
+                        <tr key={payment.id} className="hover:bg-slate-800/30 transition-colors">
                           <td className="py-3">{new Date(payment.created_at).toLocaleDateString('fr-FR')}</td>
                           <td className="py-3 capitalize">{payment.payment_method.replace('_', ' ')}</td>
-                          <td className="py-3">{(payment.amount / 100).toFixed(2)} €</td>
+                          <td className="py-3 font-semibold text-white">{(payment.amount / 100).toFixed(2)} €</td>
                           <td className="py-3">{getPaymentStatusBadge(payment.status)}</td>
                         </tr>
                       ))}
@@ -218,14 +226,14 @@ export default async function DashboardPage() {
 
           {/* Right Column: Support Ticket List */}
           <div className="space-y-8">
-            <div className="bg-white border border-slate-200 rounded-lg p-6 shadow-sm flex flex-col">
-              <div className="flex justify-between items-center border-b border-slate-100 pb-3 mb-4">
-                <h2 className="text-lg font-extrabold text-slate-900">Mes tickets d'assistance</h2>
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-sm flex flex-col">
+              <div className="flex justify-between items-center border-b border-slate-800 pb-3 mb-4">
+                <h2 className="text-lg font-extrabold text-white">Mes tickets d'assistance</h2>
                 <Link
                   href="/support"
-                  className="text-xs font-bold text-blue-600 hover:underline"
+                  className="text-xs font-bold text-blue-400 hover:text-blue-300 transition-colors"
                 >
-                  Nouveau
+                  Nouveau +
                 </Link>
               </div>
 
@@ -234,33 +242,33 @@ export default async function DashboardPage() {
                   {tickets.map((ticket) => (
                     <div 
                       key={ticket.id} 
-                      className="border border-slate-100 hover:border-slate-200 rounded p-4 flex flex-col bg-slate-50 transition-colors"
+                      className="border border-slate-800 hover:border-slate-700 rounded-xl p-4 flex flex-col bg-slate-950/60 transition-colors"
                     >
                       <div className="flex justify-between items-center text-xs mb-1.5">
-                        <span className="font-semibold text-slate-500">
+                        <span className="font-semibold text-slate-400">
                           {new Date(ticket.created_at).toLocaleDateString('fr-FR')}
                         </span>
-                        <span className={`text-[10px] font-extrabold uppercase px-1.5 py-0.5 rounded ${
+                        <span className={`text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full ${
                           ticket.status === 'open' 
-                            ? 'bg-blue-100 text-blue-700' 
+                            ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20' 
                             : ticket.status === 'in_progress' 
-                            ? 'bg-amber-100 text-amber-700' 
-                            : 'bg-slate-200 text-slate-700'
+                            ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20' 
+                            : 'bg-slate-800 text-slate-300 border border-slate-700'
                         }`}>
                           {ticket.status === 'in_progress' ? 'En cours' : ticket.status === 'open' ? 'Ouvert' : 'Résolu'}
                         </span>
                       </div>
-                      <h4 className="font-bold text-slate-800 text-sm leading-snug">{ticket.subject}</h4>
-                      <p className="text-xs text-slate-500 mt-1 line-clamp-2 leading-relaxed">{ticket.message}</p>
+                      <h4 className="font-bold text-white text-sm leading-snug">{ticket.subject}</h4>
+                      <p className="text-xs text-slate-400 mt-1 line-clamp-2 leading-relaxed">{ticket.message}</p>
                     </div>
                   ))}
                 </div>
               ) : (
-                <div className="text-center py-6 text-slate-500 text-sm">
+                <div className="text-center py-6 text-slate-400 text-sm">
                   <p>Aucun ticket ouvert.</p>
                   <Link
                     href="/support"
-                    className="mt-3 inline-flex text-xs font-bold bg-slate-100 border border-slate-200 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded transition-colors"
+                    className="mt-3 inline-flex text-xs font-bold bg-slate-800 hover:bg-slate-700 text-white px-3.5 py-2 rounded-xl transition-colors"
                   >
                     Créer mon premier ticket
                   </Link>
