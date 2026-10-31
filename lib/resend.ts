@@ -132,7 +132,7 @@ export async function sendChatReplyEmail(
   messagePreview: string
 ) {
   const subject = `Nouveau message du support - IPTV Smarters Pro`;
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://smarterspro-france.net';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://smarterspro12.net';
   const html = `
     <div style="font-family: sans-serif; padding: 20px; color: #1f2937; max-width: 600px; margin: 0 auto; border: 1px solid #e5e7eb; border-radius: 8px;">
       <h2 style="color: #2563eb; margin-bottom: 16px;">Le support vous a répondu 💬</h2>

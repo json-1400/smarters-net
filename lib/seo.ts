@@ -20,8 +20,8 @@ export const SITE_CONFIG = {
     'xtream codes france',
     'm3u france'
   ],
-  supportEmail: 'support@smarterspro-france.net',
-  dmcaEmail: 'dmca@smarterspro-france.net',
+  supportEmail: 'support@smarterspro12.net',
+  dmcaEmail: 'dmca@smarterspro12.net',
   locales: [
     { code: 'fr-FR', name: 'France' },
     { code: 'fr-BE', name: 'Belgique' },
