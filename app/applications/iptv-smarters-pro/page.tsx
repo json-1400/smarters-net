@@ -17,46 +17,26 @@ import {
   SlidersHorizontal,
   ChevronRight
 } from 'lucide-react';
-import { SITE_CONFIG } from '@/lib/seo';
+import { SITE_CONFIG, constructMetadata } from '@/lib/seo';
 
 const PAGE_CANONICAL = 'https://smarterspro12.net/applications/iptv-smarters-pro';
 
 export function generateMetadata(): Metadata {
-  const title = "IPTV Smarters Pro : Application Officielle, Configuration & Abonnement France";
-  const description = "Guide complet IPTV Smarters Pro en France : Téléchargement officiel, configuration Xtream Codes et M3U pas-à-pas, compatibilité Smart TV, Fire Stick et abonnement 4K stable.";
-
-  return {
-    title,
-    description,
+  return constructMetadata({
+    title: "Application IPTV Smarters Pro : Télécharger APK & Configuration Xtream",
+    description: "Guide officiel de l'application IPTV Smarters Pro (V4.0) : téléchargement APK gratuit, configuration API Xtream Codes et M3U sur Smart TV Samsung, LG et Fire TV Stick.",
+    canonicalUrl: PAGE_CANONICAL,
+    type: 'article',
     keywords: [
-      'iptv smarters pro',
       'application iptv smarters pro',
+      'iptv smarters pro apk',
       'telecharger iptv smarters pro',
-      'abonnement iptv smarters pro',
       'configuration iptv smarters pro',
       'xtream codes iptv smarters pro',
       'iptv smarters pro fire tv stick',
       'iptv smarters pro smart tv samsung'
     ],
-    alternates: {
-      canonical: PAGE_CANONICAL,
-      languages: {
-        'fr-FR': `${PAGE_CANONICAL}?lang=fr-fr`,
-        'fr-BE': `${PAGE_CANONICAL}?lang=fr-be`,
-        'fr-CH': `${PAGE_CANONICAL}?lang=fr-ch`,
-        'fr-CA': `${PAGE_CANONICAL}?lang=fr-ca`,
-        'x-default': PAGE_CANONICAL,
-      },
-    },
-    openGraph: {
-      title,
-      description,
-      url: PAGE_CANONICAL,
-      siteName: SITE_CONFIG.name,
-      locale: 'fr_FR',
-      type: 'article',
-    },
-  };
+  });
 }
 
 export default function IptvSmartersProPage() {
@@ -201,11 +181,11 @@ export default function IptvSmartersProPage() {
             </div>
 
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-tight">
-              IPTV Smarters Pro : Téléchargement, Configuration & Abonnement France
+              Application IPTV Smarters Pro : Téléchargement APK & Configuration Xtream
             </h1>
 
             <p className="text-base sm:text-lg text-slate-300 leading-relaxed">
-              Découvrez le guide de référence pour installer et configurer <strong>IPTV Smarters Pro</strong> en 2026. Compatible avec tous les appareils (Fire TV Stick, Smart TV Samsung, LG, Android et iOS), profitez d'une diffusion 4K fluide sans coupure grâce à l'architecture Xtream Codes API.
+              Découvrez le guide technique officiel pour installer et paramétrer l'<strong>application IPTV Smarters Pro</strong> en 2026. Compatible avec tous les systèmes (Fire TV Stick, Smart TV Samsung Tizen, LG webOS, Android APK et iOS), ce lecteur multimédia décode vos flux 4K via l'API Xtream Codes.
             </p>
 
             <div className="flex flex-wrap gap-4 pt-2">
@@ -477,7 +457,7 @@ export default function IptvSmartersProPage() {
                   Sélectionnez le type <strong>URL M3U</strong>.
                 </li>
                 <li className="leading-relaxed">
-                  Entrez le nom de votre liste de lecture et collez l'URL complète fournie dans votre espace client.
+                  Entrez le nom de votre liste de lecture et collez l'URL complète fournie par e-mail ou WhatsApp.
                 </li>
                 <li className="leading-relaxed">
                   Validez en cliquant sur <strong>Ajouter un utilisateur</strong>.

@@ -1,6 +1,12 @@
 import { NextResponse } from 'next/server';
 import { createServerSideClient, createAdminClient } from '@/lib/supabase';
 import { sendEmail } from '@/lib/resend';
+import { adminPaymentActionSchema } from '@/lib/validations';
+import type { Payment, Profile } from '@/types/database';
+
+interface PaymentWithRelations extends Payment {
+  user?: Profile | null;
+}
 
 export async function POST(request: Request) {
   const supabase = createServerSideClient();
@@ -17,17 +23,25 @@ export async function POST(request: Request) {
 
     if (!adminProfile?.is_admin) return NextResponse.json({ error: 'Accès refusé.' }, { status: 403 });
 
-    const { paymentId, notes } = await request.json();
+    const rawPayload: unknown = await request.json();
+    const parsed = adminPaymentActionSchema.safeParse(rawPayload);
 
-    if (!paymentId) return NextResponse.json({ error: 'Identifiant de paiement requis.' }, { status: 400 });
+    if (!parsed.success) {
+      const firstIssue = parsed.error.issues[0]?.message || 'Identifiant de paiement requis.';
+      return NextResponse.json({ error: firstIssue }, { status: 400 });
+    }
 
-    const { data: payment, error: paymentError } = await supabase
+    const { paymentId, notes } = parsed.data;
+
+    const { data: rawPayment, error: paymentError } = await supabase
       .from('payments')
       .select('*, subscription:subscriptions(*), user:profiles(*)')
       .eq('id', paymentId)
       .single();
 
-    if (paymentError || !payment) return NextResponse.json({ error: 'Paiement introuvable.' }, { status: 404 });
+    if (paymentError || !rawPayment) return NextResponse.json({ error: 'Paiement introuvable.' }, { status: 404 });
+    const payment = rawPayment as PaymentWithRelations;
+
     if (payment.status === 'confirmed') return NextResponse.json({ error: 'Ce paiement a déjà été validé.' }, { status: 400 });
 
     const { error: payUpdateError } = await supabase
@@ -40,7 +54,7 @@ export async function POST(request: Request) {
 
     if (payUpdateError) return NextResponse.json({ error: 'Échec de la mise à jour du paiement.' }, { status: 500 });
 
-    const { error: subUpdateError } = await supabase
+    await supabase
       .from('subscriptions')
       .update({ status: 'canceled' })
       .eq('id', payment.subscription_id);
@@ -59,10 +73,10 @@ export async function POST(request: Request) {
     const targetEmail = userData?.user?.email;
 
     if (targetEmail) {
-      const clientName = (payment as any).user?.full_name || 'Client';
+      const clientName = payment.user?.full_name || 'Client';
       await sendEmail({
         to: targetEmail,
-        subject: `Paiement rejeté pour votre commande ${(payment as any).subscription?.plan_type}`,
+        subject: `Paiement rejeté pour votre commande ${payment.subscription?.plan_type || 'IPTV'}`,
         html: `<div style="font-family: sans-serif; padding: 20px;">
           <h2 style="color: #ef4444;">Paiement non validé</h2>
           <p>Bonjour ${clientName},</p>
@@ -74,7 +88,8 @@ export async function POST(request: Request) {
     }
 
     return NextResponse.json({ success: true, message: 'Paiement rejeté.' });
-  } catch (error) {
+  } catch (error: unknown) {
+    console.error('Reject payment error:', error instanceof Error ? error.message : error);
     return NextResponse.json({ error: 'Erreur interne.' }, { status: 500 });
   }
 }

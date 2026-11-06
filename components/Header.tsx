@@ -1,69 +1,76 @@
 'use client';
-// CLIENT: Interactive header navigation with responsive mega-menu dropdowns and session state
+// CLIENT: Interactive header navigation with responsive mega-menu dropdowns and active state tracking
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { createClientSideClient } from '@/lib/supabase-client';
+import { usePathname } from 'next/navigation';
 import {
   Menu,
   X,
-  User,
   ChevronDown,
   Tv,
   Flame,
   ShieldCheck,
   HelpCircle,
-  Smartphone,
-  Laptop,
   Zap,
   Download,
   CreditCard,
   Sparkles,
   Users,
-  Lock,
-  TrendingDown,
+  Newspaper,
+  BookOpen,
 } from 'lucide-react';
 
-interface AuthUser {
-  id: string;
-  email?: string;
+interface NavItemProps {
+  href: string;
+  className?: string;
+  activeClassName?: string;
+  onClick?: () => void;
+  children: React.ReactNode;
+}
+
+function NavItem({ href, className = '', activeClassName = '', onClick, children }: NavItemProps) {
+  const pathname = usePathname();
+  const isActive = pathname === href;
+
+  if (isActive) {
+    return (
+      <span
+        aria-current="page"
+        className={`${className} ${activeClassName} cursor-default select-none`}
+        onClick={(e) => {
+          e.preventDefault();
+          if (onClick) onClick();
+        }}
+      >
+        {children}
+      </span>
+    );
+  }
+
+  return (
+    <Link href={href} onClick={onClick} className={className}>
+      {children}
+    </Link>
+  );
 }
 
 export function Header() {
-  const supabase = createClientSideClient();
-  const [user, setUser] = useState<AuthUser | null>(null);
-  const [isAdmin, setIsAdmin] = useState(false);
+  const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [openMobileSection, setOpenMobileSection] = useState<string | null>(null);
-
-  useEffect(() => {
-    async function getSession() {
-      try {
-        const { data: { session } } = await supabase.auth.getSession();
-        if (session?.user) {
-          setUser({ id: session.user.id, email: session.user.email });
-          const { data: profile } = await supabase
-            .from('profiles')
-            .select('is_admin')
-            .eq('id', session.user.id)
-            .maybeSingle();
-
-          setIsAdmin(profile?.is_admin || false);
-        }
-      } catch {
-        // Safe fallback
-      }
-    }
-    getSession();
-  }, []);
 
   const toggleMobileSection = (section: string) => {
     setOpenMobileSection(openMobileSection === section ? null : section);
   };
 
+  const isTarifsActive = pathname.startsWith('/tarifs-abonnement') || pathname === '/abonnement-iptv-12-mois' || pathname === '/test-iptv-gratuit';
+  const isInstallActive = pathname.startsWith('/guide-installation');
+  const isChaineActive = pathname === '/chaine' || pathname === '/sport' || pathname.startsWith('/catalogue-vod');
+
   return (
-    <header className="w-full bg-slate-950/95 backdrop-blur-md border-b border-slate-800/80 sticky top-0 z-50 text-slate-200 font-sans">
+    <header className="w-full bg-slate-950 border-b border-slate-800/80 sticky top-0 z-50 text-slate-200 font-sans">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         
         {/* Brand Logo */}
@@ -90,24 +97,31 @@ export function Header() {
 
         {/* Desktop Navigation Links with Mega-Menu Dropdowns */}
         <nav className="hidden lg:flex items-center space-x-1 text-xs font-bold uppercase tracking-wider text-slate-300">
-          <Link href="/" className="px-3 py-2 rounded-lg hover:text-white hover:bg-slate-900 transition-colors">
+          <NavItem 
+            href="/" 
+            className="px-3 py-2 rounded-lg hover:text-white hover:bg-slate-900 transition-colors"
+            activeClassName="text-white bg-slate-900 font-black"
+          >
             Accueil
-          </Link>
+          </NavItem>
 
           {/* 1. Tarifs & Abonnements Dropdown */}
           <div className="relative group">
-            <Link
+            <NavItem
               href="/tarifs-abonnement"
-              className="flex items-center gap-1.5 px-3 py-2 rounded-lg hover:text-white hover:bg-slate-900 transition-colors"
+              className={`flex items-center gap-1.5 px-3 py-2 rounded-lg hover:text-white hover:bg-slate-900 transition-colors ${
+                isTarifsActive ? 'text-blue-400 font-black' : ''
+              }`}
             >
               <span>Tarifs</span>
               <ChevronDown className="w-3.5 h-3.5 group-hover:rotate-180 transition-transform" />
-            </Link>
+            </NavItem>
             <div className="absolute left-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 pointer-events-none group-hover:pointer-events-auto">
               <div className="w-72 bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl p-3 space-y-1 normal-case text-left">
-                <Link
+                <NavItem
                   href="/tarifs-abonnement"
                   className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-slate-800/80 transition-colors group/item"
+                  activeClassName="bg-slate-800 text-blue-400"
                 >
                   <div className="p-2 rounded-lg bg-blue-600/20 text-blue-400 group-hover/item:bg-blue-600 group-hover/item:text-white transition-colors">
                     <CreditCard className="w-4 h-4" />
@@ -116,11 +130,12 @@ export function Header() {
                     <span className="block text-xs font-bold text-white">Grille Tarifaire Complète</span>
                     <span className="block text-[11px] text-slate-400">Comparatif 3, 6 et 12 mois</span>
                   </div>
-                </Link>
+                </NavItem>
 
-                <Link
+                <NavItem
                   href="/abonnement-iptv-12-mois"
                   className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-slate-800/80 transition-colors group/item"
+                  activeClassName="bg-slate-800 text-blue-400"
                 >
                   <div className="p-2 rounded-lg bg-emerald-600/20 text-emerald-400 group-hover/item:bg-emerald-600 group-hover/item:text-white transition-colors">
                     <Flame className="w-4 h-4" />
@@ -130,53 +145,81 @@ export function Header() {
                       <span className="text-xs font-bold text-white">Abonnement 12 Mois VIP</span>
                       <span className="text-[9px] bg-blue-600 text-white font-extrabold px-1.5 py-0.2 rounded-full uppercase">1 Mois Offert</span>
                     </div>
-                    <span className="block text-[11px] text-slate-400">39.99 € — 2 connexions 4K incluses</span>
+                    <span className="block text-[11px] text-slate-400">49.99 € — 1 connexion 4K dédiée</span>
                   </div>
-                </Link>
+                </NavItem>
 
-                <Link
-                  href="/tarifs-abonnement/iptv-pas-cher"
-                  className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-slate-800/80 transition-colors group/item"
-                >
-                  <div className="p-2 rounded-lg bg-emerald-600/20 text-emerald-400 group-hover/item:bg-emerald-600 group-hover/item:text-white transition-colors">
-                    <TrendingDown className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <span className="block text-xs font-bold text-white">IPTV Pas Cher & Fiable</span>
-                    <span className="block text-[11px] text-slate-400">Comparatif prix & anti-arnaque 2026</span>
-                  </div>
-                </Link>
-
-                <Link
+                <NavItem
                   href="/tarifs-abonnement/iptv-multi-ecran"
                   className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-slate-800/80 transition-colors group/item"
+                  activeClassName="bg-slate-800 text-blue-400"
                 >
                   <div className="p-2 rounded-lg bg-cyan-600/20 text-cyan-400 group-hover/item:bg-cyan-600 group-hover/item:text-white transition-colors">
                     <Users className="w-4 h-4" />
                   </div>
                   <div>
                     <span className="block text-xs font-bold text-white">IPTV Multi-Écran</span>
-                    <span className="block text-[11px] text-slate-400">2 à 5 connexions simultanées sans freeze</span>
+                    <span className="block text-[11px] text-slate-400">2 à 4 connexions simultanées sans freeze</span>
                   </div>
-                </Link>
+                </NavItem>
+
+                <NavItem
+                  href="/test-iptv-gratuit"
+                  className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-slate-800/80 transition-colors group/item"
+                  activeClassName="bg-slate-800 text-blue-400"
+                >
+                  <div className="p-2 rounded-lg bg-purple-600/20 text-purple-400 group-hover/item:bg-purple-600 group-hover/item:text-white transition-colors">
+                    <Zap className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <span className="block text-xs font-bold text-white">Test IPTV 24h &amp; Découverte</span>
+                    <span className="block text-[11px] text-slate-400">Tester la stabilité 4K sans risque</span>
+                  </div>
+                </NavItem>
               </div>
             </div>
           </div>
 
-          {/* 2. Installation Dropdown */}
+          {/* 2. Applications Hub (Lien Pilier) */}
+          <NavItem 
+            href="/applications" 
+            className="px-3 py-2 rounded-lg hover:text-white hover:bg-slate-900 transition-colors"
+            activeClassName="text-white bg-slate-900 font-black"
+          >
+            Applications
+          </NavItem>
+
+          {/* 3. Installation Dropdown */}
           <div className="relative group">
-            <Link
+            <NavItem
               href="/guide-installation"
-              className="flex items-center gap-1.5 px-3 py-2 rounded-lg hover:text-white hover:bg-slate-900 transition-colors"
+              className={`flex items-center gap-1.5 px-3 py-2 rounded-lg hover:text-white hover:bg-slate-900 transition-colors ${
+                isInstallActive ? 'text-blue-400 font-black' : ''
+              }`}
             >
               <span>Installation</span>
               <ChevronDown className="w-3.5 h-3.5 group-hover:rotate-180 transition-transform" />
-            </Link>
+            </NavItem>
             <div className="absolute left-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 pointer-events-none group-hover:pointer-events-auto">
               <div className="w-80 bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl p-3 space-y-1 normal-case text-left">
-                <Link
+                <NavItem
+                  href="/guide-installation"
+                  className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-slate-800/80 transition-colors group/item"
+                  activeClassName="bg-slate-800 text-blue-400"
+                >
+                  <div className="p-2 rounded-lg bg-blue-600/20 text-blue-400 group-hover/item:bg-blue-600 group-hover/item:text-white transition-colors">
+                    <BookOpen className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <span className="block text-xs font-bold text-white">Guide d'Installation Complet</span>
+                    <span className="block text-[11px] text-slate-400">Tutoriels pas à pas par appareil</span>
+                  </div>
+                </NavItem>
+
+                <NavItem
                   href="/guide-installation/fire-tv-stick"
                   className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-slate-800/80 transition-colors group/item"
+                  activeClassName="bg-slate-800 text-blue-400"
                 >
                   <div className="p-2 rounded-lg bg-orange-600/20 text-orange-400 group-hover/item:bg-orange-600 group-hover/item:text-white transition-colors">
                     <Flame className="w-4 h-4" />
@@ -185,11 +228,12 @@ export function Header() {
                     <span className="block text-xs font-bold text-white">Amazon Fire TV Stick</span>
                     <span className="block text-[11px] text-slate-400">Installation pas à pas avec Downloader</span>
                   </div>
-                </Link>
+                </NavItem>
 
-                <Link
+                <NavItem
                   href="/guide-installation/smart-tv-samsung-lg"
                   className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-slate-800/80 transition-colors group/item"
+                  activeClassName="bg-slate-800 text-blue-400"
                 >
                   <div className="p-2 rounded-lg bg-cyan-600/20 text-cyan-400 group-hover/item:bg-cyan-600 group-hover/item:text-white transition-colors">
                     <Tv className="w-4 h-4" />
@@ -198,50 +242,42 @@ export function Header() {
                     <span className="block text-xs font-bold text-white">Smart TV (Samsung & LG)</span>
                     <span className="block text-[11px] text-slate-400">Configuration Tizen et webOS</span>
                   </div>
-                </Link>
+                </NavItem>
 
-                <Link
-                  href="/applications/iptv-smarters-pro"
+                <NavItem
+                  href="/guide-installation/contourner-blocage-fai-iptv-dns-vpn"
                   className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-slate-800/80 transition-colors group/item"
+                  activeClassName="bg-slate-800 text-blue-400"
                 >
-                  <div className="p-2 rounded-lg bg-purple-600/20 text-purple-400 group-hover/item:bg-purple-600 group-hover/item:text-white transition-colors">
-                    <Sparkles className="w-4 h-4" />
+                  <div className="p-2 rounded-lg bg-emerald-600/20 text-emerald-400 group-hover/item:bg-emerald-600 group-hover/item:text-white transition-colors">
+                    <ShieldCheck className="w-4 h-4" />
                   </div>
                   <div>
-                    <div className="flex items-center gap-1.5">
-                      <span className="text-xs font-bold text-white">IPTV Smarters Pro Officiel</span>
-                      <span className="text-[9px] bg-blue-600 text-white font-extrabold px-1.5 py-0.2 rounded-full uppercase">App</span>
-                    </div>
-                    <span className="block text-[11px] text-slate-400">Configuration Xtream Codes API</span>
+                    <span className="block text-xs font-bold text-white">Débloquer FAI (DNS &amp; VPN)</span>
+                    <span className="block text-[11px] text-slate-400">Solution Free, Orange, SFR, Bouygues</span>
                   </div>
-                </Link>
-
-                <div className="pt-2 border-t border-slate-800/80 mt-1">
-                  <Link
-                    href="/guide-installation"
-                    className="block text-center text-[11px] font-bold text-blue-400 hover:text-blue-300 py-1"
-                  >
-                    Voir le guide d'installation complet &rarr;
-                  </Link>
-                </div>
+                </NavItem>
               </div>
             </div>
           </div>
 
-          {/* 3. Chaînes & Direct Dropdown */}
+          {/* 4. Chaînes & Direct Dropdown */}
           <div className="relative group">
-            <Link
+            <NavItem
               href="/chaine"
-              className="flex items-center gap-1.5 px-3 py-2 rounded-lg hover:text-white hover:bg-slate-900 transition-colors"
+              className={`flex items-center gap-1.5 px-3 py-2 rounded-lg hover:text-white hover:bg-slate-900 transition-colors ${
+                isChaineActive ? 'text-blue-400 font-black' : ''
+              }`}
             >
               <span>Chaînes & Direct</span>
               <ChevronDown className="w-3.5 h-3.5 group-hover:rotate-180 transition-transform" />
-            </Link>
+            </NavItem>
             <div className="absolute left-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 pointer-events-none group-hover:pointer-events-auto">
               <div className="w-80 bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl p-3 space-y-1 normal-case text-left">
-                <Link
+                <NavItem
                   href="/chaine"
                   className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-slate-800/80 transition-colors group/item"
+                  activeClassName="bg-slate-800 text-blue-400"
                 >
                   <div className="p-2 rounded-lg bg-blue-600/20 text-blue-400 group-hover/item:bg-blue-600 group-hover/item:text-white transition-colors">
                     <Tv className="w-4 h-4" />
@@ -250,11 +286,12 @@ export function Header() {
                     <span className="block text-xs font-bold text-white">+25 000 Chaînes TV en Direct</span>
                     <span className="block text-[11px] text-slate-400">TNT France HD, Belgique, Suisse, Monde</span>
                   </div>
-                </Link>
+                </NavItem>
 
-                <Link
+                <NavItem
                   href="/sport"
                   className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-slate-800/80 transition-colors group/item"
+                  activeClassName="bg-slate-800 text-blue-400"
                 >
                   <div className="p-2 rounded-lg bg-emerald-600/20 text-emerald-400 group-hover/item:bg-emerald-600 group-hover/item:text-white transition-colors">
                     <Flame className="w-4 h-4" />
@@ -263,11 +300,12 @@ export function Header() {
                     <span className="block text-xs font-bold text-white">Football & Sports en Direct 4K</span>
                     <span className="block text-[11px] text-slate-400">Ligue 1, Champions League, F1, UFC</span>
                   </div>
-                </Link>
+                </NavItem>
 
-                <Link
+                <NavItem
                   href="/catalogue-vod"
                   className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-slate-800/80 transition-colors group/item"
+                  activeClassName="bg-slate-800 text-blue-400"
                 >
                   <div className="p-2 rounded-lg bg-purple-600/20 text-purple-400 group-hover/item:bg-purple-600 group-hover/item:text-white transition-colors">
                     <Download className="w-4 h-4" />
@@ -276,106 +314,38 @@ export function Header() {
                     <span className="block text-xs font-bold text-white">Catalogue VOD (+90 000 Titres)</span>
                     <span className="block text-[11px] text-slate-400">Films récents & Séries intégrales 4K</span>
                   </div>
-                </Link>
-
-                <Link
-                  href="/catalogue-vod/iptv-adulte"
-                  className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-slate-800/80 transition-colors group/item"
-                >
-                  <div className="p-2 rounded-lg bg-amber-600/20 text-amber-400 group-hover/item:bg-amber-600 group-hover/item:text-white transition-colors">
-                    <Lock className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <span className="block text-xs font-bold text-white">Contrôle Parental & +18</span>
-                    <span className="block text-[11px] text-slate-400">Guide PIN & protection des mineurs</span>
-                  </div>
-                </Link>
+                </NavItem>
               </div>
             </div>
           </div>
 
-          {/* 4. Guide IPTV Dropdown */}
-          <div className="relative group">
-            <Link
-              href="/guide-iptv"
-              className="flex items-center gap-1.5 px-3 py-2 rounded-lg hover:text-white hover:bg-slate-900 transition-colors"
-            >
-              <span>Guide IPTV</span>
-              <ChevronDown className="w-3.5 h-3.5 group-hover:rotate-180 transition-transform" />
-            </Link>
-            <div className="absolute left-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 pointer-events-none group-hover:pointer-events-auto">
-              <div className="w-80 bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl p-3 space-y-1 normal-case text-left">
-                <Link
-                  href="/guide-iptv"
-                  className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-slate-800/80 transition-colors group/item"
-                >
-                  <div className="p-2 rounded-lg bg-blue-600/20 text-blue-400 group-hover/item:bg-blue-600 group-hover/item:text-white transition-colors">
-                    <HelpCircle className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <span className="block text-xs font-bold text-white">Guide Débutant IPTV</span>
-                    <span className="block text-[11px] text-slate-400">Comprendre l'IPTV et faire le bon choix</span>
-                  </div>
-                </Link>
+          {/* 5. Blog Hub (Lien Pilier) */}
+          <NavItem 
+            href="/blog" 
+            className="px-3 py-2 rounded-lg hover:text-white hover:bg-slate-900 transition-colors"
+            activeClassName="text-white bg-slate-900 font-black"
+          >
+            Blog
+          </NavItem>
 
-                <Link
-                  href="/guide-iptv"
-                  className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-slate-800/80 transition-colors group/item"
-                >
-                  <div className="p-2 rounded-lg bg-emerald-600/20 text-emerald-400 group-hover/item:bg-emerald-600 group-hover/item:text-white transition-colors">
-                    <ShieldCheck className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <span className="block text-xs font-bold text-white">Éviter les Coupures & Buffering</span>
-                    <span className="block text-[11px] text-slate-400">Les 5 astuces pour un direct 100% stable</span>
-                  </div>
-                </Link>
-              </div>
-            </div>
-          </div>
-
-          {/* 5. Support Direct Link */}
-          <Link href="/support" className="px-3 py-2 rounded-lg hover:text-white hover:bg-slate-900 transition-colors">
+          {/* 6. Support Direct Link */}
+          <NavItem 
+            href="/support" 
+            className="px-3 py-2 rounded-lg hover:text-white hover:bg-slate-900 transition-colors"
+            activeClassName="text-emerald-400 bg-slate-900 font-black"
+          >
             Support 7j/7
-          </Link>
+          </NavItem>
         </nav>
 
         {/* Right Action CTAs */}
         <div className="flex items-center space-x-3">
-          {user ? (
-            <div className="flex items-center space-x-2">
-              {isAdmin && (
-                <Link
-                  href="/admin/dashboard"
-                  className="hidden sm:inline-flex text-xs bg-red-950/80 text-red-400 border border-red-800/80 hover:bg-red-900/50 font-bold px-3 py-1.5 rounded-lg transition-colors"
-                >
-                  Admin
-                </Link>
-              )}
-              <Link
-                href="/dashboard"
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-900 border border-slate-700 text-slate-200 hover:bg-slate-800 transition-colors"
-              >
-                <User className="w-3.5 h-3.5" />
-                <span>Mon Espace</span>
-              </Link>
-            </div>
-          ) : (
-            <div className="flex items-center space-x-2">
-              <Link
-                href="/login"
-                className="hidden sm:inline-flex items-center text-xs font-bold text-slate-300 hover:text-white px-3 py-1.5 transition-colors"
-              >
-                Connexion
-              </Link>
-              <Link
-                href="/#pricing"
-                className="inline-flex items-center justify-center px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-extrabold rounded-xl shadow-md shadow-blue-600/30 transition-all uppercase tracking-wider"
-              >
-                Commander
-              </Link>
-            </div>
-          )}
+          <Link
+            href="/tarifs-abonnement"
+            className="inline-flex items-center justify-center px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-extrabold rounded-xl shadow-md shadow-blue-600/30 transition-all uppercase tracking-wider"
+          >
+            Commander
+          </Link>
 
           {/* Mobile Menu Hamburger */}
           <div className="lg:hidden flex items-center">
@@ -405,20 +375,32 @@ export function Header() {
             </button>
             {openMobileSection === 'abonnements' && (
               <div className="pl-3 pr-1 py-1 space-y-1.5 text-xs text-slate-400">
-                <Link href="/tarifs-abonnement" onClick={() => setMobileMenuOpen(false)} className="block py-1 hover:text-white">
+                <NavItem href="/tarifs-abonnement" onClick={() => setMobileMenuOpen(false)} className="block py-1 hover:text-white" activeClassName="text-blue-400 font-bold">
                   Grille Tarifaire Complète
-                </Link>
-                <Link href="/abonnement-iptv-12-mois" onClick={() => setMobileMenuOpen(false)} className="block py-1 text-blue-400 font-bold">
-                  Abonnement 12 Mois VIP (39.99 €)
-                </Link>
-                <Link href="/checkout?plan=Confort" onClick={() => setMobileMenuOpen(false)} className="block py-1 hover:text-white">
-                  Formule Confort 6 Mois (29.99 €)
-                </Link>
-                <Link href="/checkout?plan=Starter" onClick={() => setMobileMenuOpen(false)} className="block py-1 hover:text-white">
-                  Formule Découverte 3 Mois (19.99 €)
-                </Link>
+                </NavItem>
+                <NavItem href="/abonnement-iptv-12-mois" onClick={() => setMobileMenuOpen(false)} className="block py-1 text-blue-400 font-bold" activeClassName="text-white font-extrabold">
+                  Abonnement 12 Mois VIP (49.99 €)
+                </NavItem>
+                <NavItem href="/tarifs-abonnement/iptv-multi-ecran" onClick={() => setMobileMenuOpen(false)} className="block py-1 hover:text-white" activeClassName="text-blue-400 font-bold">
+                  Packs IPTV Multi-Écrans
+                </NavItem>
+                <NavItem href="/test-iptv-gratuit" onClick={() => setMobileMenuOpen(false)} className="block py-1 hover:text-white" activeClassName="text-blue-400 font-bold">
+                  Test IPTV 24h Gratuit
+                </NavItem>
               </div>
             )}
+          </div>
+
+          {/* Applications Hub */}
+          <div className="border-b border-slate-900 pb-2">
+            <NavItem
+              href="/applications"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block py-2 text-sm font-bold text-slate-200 hover:text-white"
+              activeClassName="text-blue-400 font-black"
+            >
+              Applications IPTV
+            </NavItem>
           </div>
 
           {/* Installation Section */}
@@ -432,18 +414,18 @@ export function Header() {
             </button>
             {openMobileSection === 'tutoriels' && (
               <div className="pl-3 pr-1 py-1 space-y-1.5 text-xs text-slate-400">
-                <Link href="/guide-installation" onClick={() => setMobileMenuOpen(false)} className="block py-1 text-blue-400 font-bold">
+                <NavItem href="/guide-installation" onClick={() => setMobileMenuOpen(false)} className="block py-1 text-blue-400 font-bold" activeClassName="text-white font-extrabold">
                   Guide d'Installation Complet
-                </Link>
-                <Link href="/guide-installation/fire-tv-stick" onClick={() => setMobileMenuOpen(false)} className="block py-1 hover:text-white">
+                </NavItem>
+                <NavItem href="/guide-installation/fire-tv-stick" onClick={() => setMobileMenuOpen(false)} className="block py-1 hover:text-white" activeClassName="text-blue-400 font-bold">
                   Amazon Fire TV Stick
-                </Link>
-                <Link href="/guide-installation/smart-tv-samsung-lg" onClick={() => setMobileMenuOpen(false)} className="block py-1 hover:text-white">
+                </NavItem>
+                <NavItem href="/guide-installation/smart-tv-samsung-lg" onClick={() => setMobileMenuOpen(false)} className="block py-1 hover:text-white" activeClassName="text-blue-400 font-bold">
                   Smart TV Samsung & LG
-                </Link>
-                <Link href="/applications/iptv-smarters-pro" onClick={() => setMobileMenuOpen(false)} className="block py-1 hover:text-white">
-                  IPTV Smarters Pro Officiel
-                </Link>
+                </NavItem>
+                <NavItem href="/guide-installation/contourner-blocage-fai-iptv-dns-vpn" onClick={() => setMobileMenuOpen(false)} className="block py-1 hover:text-white" activeClassName="text-blue-400 font-bold">
+                  Débloquer FAI (DNS & VPN)
+                </NavItem>
               </div>
             )}
           </div>
@@ -459,61 +441,55 @@ export function Header() {
             </button>
             {openMobileSection === 'chaines' && (
               <div className="pl-3 pr-1 py-1 space-y-1.5 text-xs text-slate-400">
-                <Link href="/chaine" onClick={() => setMobileMenuOpen(false)} className="block py-1 hover:text-white">
+                <NavItem href="/chaine" onClick={() => setMobileMenuOpen(false)} className="block py-1 hover:text-white" activeClassName="text-blue-400 font-bold">
                   +25 000 Chaînes TV en Direct
-                </Link>
-                <Link href="/sport" onClick={() => setMobileMenuOpen(false)} className="block py-1 text-emerald-400 font-bold">
+                </NavItem>
+                <NavItem href="/sport" onClick={() => setMobileMenuOpen(false)} className="block py-1 text-emerald-400 font-bold" activeClassName="text-white font-extrabold">
                   Football & Sports en Direct 4K
-                </Link>
-                <Link href="/catalogue-vod" onClick={() => setMobileMenuOpen(false)} className="block py-1 hover:text-white">
+                </NavItem>
+                <NavItem href="/catalogue-vod" onClick={() => setMobileMenuOpen(false)} className="block py-1 hover:text-white" activeClassName="text-blue-400 font-bold">
                   Catalogue VOD (+90 000 Films & Séries)
-                </Link>
+                </NavItem>
               </div>
             )}
           </div>
 
-          {/* Guide IPTV & Support Links */}
-          <Link
-            href="/guide-iptv"
+          {/* Blog & Support Links */}
+          <NavItem
+            href="/blog"
             onClick={() => setMobileMenuOpen(false)}
             className="block py-2 text-sm font-bold text-slate-200 hover:text-white"
+            activeClassName="text-blue-400 font-black"
           >
-            Guide IPTV & Anti-Coupures
-          </Link>
+            Blog & Comparatifs IPTV
+          </NavItem>
 
-          <Link
+          <NavItem
             href="/support"
             onClick={() => setMobileMenuOpen(false)}
             className="block py-2 text-sm font-bold text-emerald-400 hover:text-emerald-300"
+            activeClassName="text-white font-black"
           >
             Support Client WhatsApp 7j/7
-          </Link>
+          </NavItem>
 
-          <Link
+          <NavItem
             href="/dmca"
             onClick={() => setMobileMenuOpen(false)}
             className="block py-1.5 text-xs font-semibold text-slate-500 hover:text-slate-400"
+            activeClassName="text-white font-bold"
           >
             Notice DMCA & Légalité
-          </Link>
+          </NavItem>
 
           <div className="pt-3 border-t border-slate-900 space-y-2">
             <Link
-              href="/#pricing"
+              href="/tarifs-abonnement"
               onClick={() => setMobileMenuOpen(false)}
               className="w-full flex items-center justify-center px-4 py-3 bg-blue-600 hover:bg-blue-500 text-white text-xs font-extrabold rounded-xl shadow-md uppercase tracking-wider"
             >
               Commander mon Abonnement
             </Link>
-            {!user && (
-              <Link
-                href="/login"
-                onClick={() => setMobileMenuOpen(false)}
-                className="w-full flex items-center justify-center px-4 py-2.5 bg-slate-900 border border-slate-800 text-slate-300 text-xs font-bold rounded-xl"
-              >
-                Espace Client (Connexion)
-              </Link>
-            )}
           </div>
         </div>
       )}

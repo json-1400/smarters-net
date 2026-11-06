@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { 
   Zap, 
   ShieldCheck, 
@@ -14,6 +15,27 @@ import {
 export function Hero() {
   return (
     <section className="bg-slate-950 text-white py-12 lg:py-20 relative overflow-hidden border-b border-slate-800/80 font-sans">
+      {/* Background Image: World-Class Cinematic Scrim & High Vibrancy */}
+      <div className="absolute inset-0 z-0 pointer-events-none select-none">
+        <Image
+          src="/images/hero-family-bg.jpg"
+          alt="Famille profitant d'un abonnement IPTV Smarters Pro 4K sur Smart TV"
+          fill
+          priority
+          sizes="100vw"
+          quality={90}
+          className="object-cover object-center opacity-70 sm:opacity-80 lg:opacity-85"
+        />
+        {/* Directional Scrim: Strong on left for H1/CTA contrast, feathering into vivid TV & family on right */}
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/90 sm:via-slate-950/80 to-transparent lg:w-7/12" />
+        
+        {/* Subtle global dark veil to preserve color richness without washing out */}
+        <div className="absolute inset-0 bg-slate-950/35 sm:bg-slate-950/20" />
+
+        {/* Top/Bottom seamless fade to navbar and following section */}
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/80 via-transparent to-slate-950" />
+      </div>
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           
@@ -32,7 +54,7 @@ export function Hero() {
             </h1>
 
             <p className="text-base sm:text-lg text-slate-300 max-w-2xl leading-relaxed">
-              Profitez du meilleur <strong className="text-white font-semibold">abonnement IPTV Smarters Pro</strong> en France. Accédez à plus de 25 000 chaînes directes et 90 000 films et séries en qualité 4K Ultra HD à 60 FPS avec notre technologie anti-freeze garantie.
+              Profitez du meilleur <strong className="text-white font-semibold">abonnement IPTV Smarters Pro</strong> en France. Accédez à plus de 25 000 chaînes directes et 90 000 films et séries en <strong>qualité 4K Ultra HD</strong> à <strong>60 FPS</strong> avec notre <strong>technologie anti-freeze</strong> garantie.
             </p>
 
             {/* CTAs */}
@@ -71,7 +93,7 @@ export function Hero() {
 
           {/* Right Column (5 cols): High-Trust Live Streaming Hub Card */}
           <div className="lg:col-span-5">
-            <div className="rounded-2xl bg-slate-900 border border-slate-800 p-6 sm:p-7 space-y-6 shadow-2xl">
+            <div className="rounded-2xl bg-slate-900 border border-slate-800/90 p-6 sm:p-7 space-y-6 shadow-2xl shadow-black/50">
               
               {/* Header Status Bar */}
               <div className="flex items-center justify-between pb-4 border-b border-slate-800">
@@ -98,15 +120,15 @@ export function Hero() {
                 <div className="grid grid-cols-2 gap-2 text-xs">
                   <div className="p-2.5 rounded-xl bg-slate-950 border border-slate-800 flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-blue-500" />
-                    <span className="font-semibold text-slate-200">Canal+ & Cinéma</span>
+                    <span className="font-semibold text-slate-200">Cinéma & Séries</span>
                   </div>
                   <div className="p-2.5 rounded-xl bg-slate-950 border border-slate-800 flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-purple-500" />
-                    <span className="font-semibold text-slate-200">beIN Sports 1-10</span>
+                    <span className="font-semibold text-slate-200">Sport en Direct HD</span>
                   </div>
                   <div className="p-2.5 rounded-xl bg-slate-950 border border-slate-800 flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-amber-500" />
-                    <span className="font-semibold text-slate-200">RMC Sport & DAZN</span>
+                    <span className="font-semibold text-slate-200">Football & Ligues 4K</span>
                   </div>
                   <div className="p-2.5 rounded-xl bg-slate-950 border border-slate-800 flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-emerald-500" />

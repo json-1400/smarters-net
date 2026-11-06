@@ -1,6 +1,8 @@
 'use client';
+// CLIENT: Interactive VOD category filter and horizontal carousel
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
+import Image from 'next/image';
 import { ChevronLeft, ChevronRight, Play, Star, Sparkles, Film, Tv, Trophy } from 'lucide-react';
 import { VodItem, VodModal } from './VodModal';
 export type { VodItem } from './VodModal';
@@ -222,8 +224,7 @@ export function VodSwiper() {
         {/* Interactive Swiper / Carousel Grid */}
         <div
           ref={sliderRef}
-          className="flex gap-4 sm:gap-6 overflow-x-auto pb-6 pt-2 snap-x snap-mandatory scrollbar-none select-none cursor-grab active:cursor-grabbing"
-          style={{ scrollBehavior: 'smooth' }}
+          className="flex gap-4 sm:gap-6 overflow-x-auto pb-6 pt-2 snap-x snap-mandatory scroll-smooth scrollbar-none select-none cursor-grab active:cursor-grabbing"
         >
           {filteredItems.map((item) => (
             <div
@@ -233,11 +234,12 @@ export function VodSwiper() {
             >
               {/* Poster Image with ratio */}
               <div className="relative aspect-[2/3] w-full overflow-hidden bg-slate-950">
-                <img
+                <Image
                   src={item.poster}
                   alt={item.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  loading="lazy"
+                  fill
+                  sizes="(max-width: 640px) 256px, 288px"
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 
                 {/* Overlay gradient */}
@@ -245,16 +247,16 @@ export function VodSwiper() {
 
                 {/* Quality & Audio Badges */}
                 <div className="absolute top-3 left-3 flex flex-col gap-1 items-start">
-                  <span className="bg-blue-600/90 backdrop-blur-sm text-white text-[10px] font-extrabold px-2 py-0.5 rounded shadow">
+                  <span className="bg-blue-600 text-white text-[10px] font-extrabold px-2 py-0.5 rounded shadow">
                     {item.quality}
                   </span>
-                  <span className="bg-black/70 backdrop-blur-sm text-slate-300 text-[9px] font-bold px-2 py-0.5 rounded border border-white/10">
+                  <span className="bg-slate-950/90 text-slate-300 text-[9px] font-bold px-2 py-0.5 rounded border border-slate-800">
                     {item.audio}
                   </span>
                 </div>
 
                 {/* Rating Badge */}
-                <div className="absolute top-3 right-3 bg-black/70 backdrop-blur-sm text-yellow-400 text-[10px] font-black px-2 py-0.5 rounded flex items-center gap-1 border border-white/10">
+                <div className="absolute top-3 right-3 bg-slate-950/90 text-yellow-400 text-[10px] font-black px-2 py-0.5 rounded flex items-center gap-1 border border-slate-800">
                   <Star className="w-3 h-3 fill-current" />
                   <span>{item.rating}</span>
                 </div>

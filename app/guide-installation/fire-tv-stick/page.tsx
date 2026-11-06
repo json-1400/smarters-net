@@ -14,20 +14,22 @@ import {
   Zap,
   Flame,
   Layers,
-  Radio
+  Radio,
+  Sliders,
+  Wifi
 } from 'lucide-react';
-import { SITE_CONFIG } from '@/lib/seo';
+import { SITE_CONFIG, constructMetadata } from '@/lib/seo';
 
 const PAGE_CANONICAL = 'https://smarterspro12.net/guide-installation/fire-tv-stick';
 
 export function generateMetadata(): Metadata {
-  const title = "Installer IPTV Smarters Pro sur Fire TV Stick : Tutoriel 2026 Pas-à-Pas";
-  const description = "Guide officiel pour installer IPTV Smarters Pro sur Amazon Fire TV Stick en 4 minutes via Downloader. Codes directs, configuration Xtream Codes et astuces anti-coupures.";
-
-  return {
-    title,
-    description,
+  return constructMetadata({
+    title: "Installer IPTV sur Amazon Fire TV Stick : Tutoriel 2026 Pas-à-Pas",
+    description: "Guide complet 2026 pour installer IPTV sur Amazon Fire TV Stick en 4 minutes via Downloader. Codes directs, configuration Xtream Codes et astuces anti-coupures.",
+    canonicalUrl: PAGE_CANONICAL,
+    type: 'article',
     keywords: [
+      'installer iptv sur amazon fire tv stick',
       'iptv smarters pro fire tv stick',
       'installer iptv smarters pro firestick',
       'code downloader iptv smarters pro',
@@ -35,25 +37,7 @@ export function generateMetadata(): Metadata {
       'configuration iptv fire tv stick',
       'telecharger smarters pro fire tv'
     ],
-    alternates: {
-      canonical: PAGE_CANONICAL,
-      languages: {
-        'fr-FR': `${PAGE_CANONICAL}?lang=fr-fr`,
-        'fr-BE': `${PAGE_CANONICAL}?lang=fr-be`,
-        'fr-CH': `${PAGE_CANONICAL}?lang=fr-ch`,
-        'fr-CA': `${PAGE_CANONICAL}?lang=fr-ca`,
-        'x-default': PAGE_CANONICAL,
-      },
-    },
-    openGraph: {
-      title,
-      description,
-      url: PAGE_CANONICAL,
-      siteName: SITE_CONFIG.name,
-      locale: 'fr_FR',
-      type: 'article',
-    },
-  };
+  });
 }
 
 export default function FireStickTutorialPage() {
@@ -63,8 +47,8 @@ export default function FireStickTutorialPage() {
       {
         '@type': 'HowTo',
         '@id': `${PAGE_CANONICAL}/#howto`,
-        name: 'Comment Installer IPTV Smarters Pro sur Amazon Fire TV Stick',
-        description: 'Tutoriel complet en 4 étapes pour installer IPTV Smarters Pro avec Downloader sur Amazon Firestick 4K et Fire TV Cube.',
+        name: 'Comment Installer IPTV sur Amazon Fire TV Stick',
+        description: 'Tutoriel complet en 4 étapes pour installer IPTV Smarters Pro et TiviMate avec Downloader sur Amazon Firestick 4K et Fire TV Cube.',
         totalTime: 'PT4M',
         step: [
           {
@@ -193,11 +177,11 @@ export default function FireStickTutorialPage() {
             </div>
 
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-tight">
-              Comment Installer IPTV Smarters Pro sur <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-400">Amazon Fire TV Stick</span>
+              Comment <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-400">Installer IPTV sur Amazon Fire TV Stick</span> en 2026
             </h1>
 
             <p className="text-base sm:text-lg text-slate-300 leading-relaxed">
-              L'<strong>Amazon Fire TV Stick</strong> (Lite, 4K, 4K Max et Cube) est le support idéal pour profiter d'<strong>IPTV Smarters Pro</strong> en ultra haute définition. Découvrez la méthode complète et sécurisée pour télécharger l'application via Downloader et configurer votre abonnement sans blocage.
+              Découvrez notre guide complet pour <strong>installer IPTV sur Amazon Fire TV Stick</strong> (modèles Lite, 4K, 4K Max et Cube) en moins de 4 minutes. Grâce à l'application officielle <strong>Downloader</strong> et au protocole <strong>API Xtream Codes</strong>, profitez de plus de 25 000 chaînes directes et de vos films VOD en <strong>4K UHD à 60 FPS</strong> sans aucune saccade.
             </p>
 
             <div className="flex flex-wrap gap-4 pt-2">
@@ -274,7 +258,7 @@ export default function FireStickTutorialPage() {
 
               <div className="pt-2">
                 <Link
-                  href="/checkout?plan=Premium"
+                  href="/tarifs-abonnement"
                   className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-orange-600 to-amber-600 text-white font-bold text-xs uppercase tracking-wider hover:brightness-110 transition-all"
                 >
                   <span>Activer mon Accès Serveur 4K</span>
@@ -299,7 +283,7 @@ export default function FireStickTutorialPage() {
               Branchée en HDMI directement sur votre téléviseur, la clé <strong>Amazon Fire TV Stick</strong> offre une puissance de calcul dédiée qui libère votre écran de toute lenteur logicielle. Avec son processeur quad-core et sa télécommande vocale Alexa, elle lit les flux vidéo 4K à 60 FPS sans coupure avec un temps de réponse instantané.
             </p>
             <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-              Grâce à l'application <strong>Downloader</strong> certifiée par Amazon, vous contournez les limitations géographiques des stores pour installer la version officielle et la plus stable d'IPTV Smarters Pro en moins de 4 minutes.
+              Grâce à l'application <strong>Downloader</strong> certifiée par Amazon, vous contournez les limitations géographiques des stores pour installer la version officielle et la plus stable d'IPTV Smarters Pro ou de TiviMate en moins de 4 minutes.
             </p>
           </div>
 
@@ -308,7 +292,7 @@ export default function FireStickTutorialPage() {
               <Zap className="w-6 h-6 text-orange-400" />
               <h3 className="text-base font-bold text-white">Zapping Éclair Alexa</h3>
               <p className="text-xs text-slate-400 leading-relaxed">
-                Navigation rapide et recherche vocale pour changer de chaîne instantanément avec la télécommande Fire TV.
+                Navigation fluide et recherche vocale pour basculer d'une chaîne à l'autre sans latence via la télécommande Fire TV.
               </p>
             </div>
             <div className="p-5 rounded-xl bg-slate-900 border border-slate-800 space-y-3">
@@ -322,7 +306,7 @@ export default function FireStickTutorialPage() {
               <ShieldCheck className="w-6 h-6 text-emerald-400" />
               <h3 className="text-base font-bold text-white">Format Nomade</h3>
               <p className="text-xs text-slate-400 leading-relaxed">
-                Emportez votre clé en vacances ou en déplacement et retrouvez tous vos bouquets sur n'importe quel téléviseur HDMI.
+                Emportez votre clé en vacances ou en déplacement professionnel et retrouvez tous vos bouquets sur n'importe quel téléviseur HDMI.
               </p>
             </div>
           </div>
@@ -332,10 +316,10 @@ export default function FireStickTutorialPage() {
         <section id="tutoriel-firestick" className="space-y-8">
           <div className="max-w-3xl space-y-3">
             <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
-              Tutoriel d'Installation Pas-à-Pas sur Amazon Fire TV Stick
+              Méthode Recommandée : Installer IPTV sur Amazon Fire TV Stick via Downloader
             </h2>
             <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-              Suivez ces 4 étapes rigoureuses pour activer votre lecteur avec le code officiel :
+              Suivez ces 4 étapes rigoureuses pour activer votre lecteur avec le code numérique officiel en toute sécurité :
             </p>
           </div>
 
@@ -362,7 +346,7 @@ export default function FireStickTutorialPage() {
                 <h3 className="text-lg font-bold text-white">Autoriser les applications inconnues</h3>
               </div>
               <p className="text-xs sm:text-sm text-slate-300 leading-relaxed pl-11">
-                Allez dans <strong>Paramètres &gt; Ma Fire TV &gt; Options pour les développeurs &gt; Installer les applications inconnues</strong>. Cliquez sur Downloader pour passer l'état à <strong>ACTIVÉ</strong>. (Si l'option n'apparaît pas, cliquez 7 fois sur le nom de votre clé dans <em>À propos</em>).
+                Allez dans Paramètres &gt; Ma Fire TV &gt; <strong>Options pour les développeurs</strong> &gt; <strong>Installer les applications inconnues</strong>. Cliquez sur Downloader pour passer l'état à <strong>ACTIVÉ</strong>. (Si le menu développeur est masqué, cliquez 7 fois de suite sur le nom de votre clé dans <em>À propos</em>).
               </p>
             </div>
 
@@ -438,7 +422,7 @@ export default function FireStickTutorialPage() {
               href="/abonnement-iptv-12-mois"
               className="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-orange-500 hover:bg-orange-400 text-white font-black text-sm uppercase tracking-wider shadow-xl shadow-orange-500/20 transition-all hover:scale-105"
             >
-              <span>Découvrir l'Abonnement 12 Mois VIP (1 Mois Offert)</span>
+              <span>Découvrir l'Abonnement 12 Mois VIP (2 Écrans Inclus)</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
@@ -472,7 +456,7 @@ export default function FireStickTutorialPage() {
                 <span>Comment éviter les saccades et le buffering sur Firestick ?</span>
               </h3>
               <p className="text-xs text-slate-400 leading-relaxed pl-6">
-                Utilisez un réseau Wi-Fi 5 GHz ou l'adaptateur Ethernet Amazon officiel, videz régulièrement le cache dans les paramètres de la Fire TV, et assurez-vous d'utiliser un abonnement IPTV avec des serveurs haute vitesse dédiés.
+                Utilisez un réseau Wi-Fi 5 GHz, videz régulièrement le cache dans les paramètres Fire OS, et consultez notre tutoriel pour <Link href="/guide-installation/contourner-blocage-fai-iptv-dns-vpn" className="text-blue-400 underline">configurer le DNS Cloudflare 1.1.1.1 ou un VPN</Link>. Vous pouvez aussi vérifier la compatibilité via notre page <Link href="/test-iptv-gratuit" className="text-blue-400 underline">test IPTV gratuit 24h</Link>.
               </p>
             </div>
 

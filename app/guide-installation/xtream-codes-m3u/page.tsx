@@ -10,25 +10,27 @@ import {
   ArrowRight, 
   ChevronRight, 
   ShieldCheck, 
-  Zap,
-  Globe,
-  Layers,
-  Flame,
-  Radio,
-  Server
+  Zap, 
+  Globe, 
+  Layers, 
+  Flame, 
+  Radio, 
+  Server,
+  Sliders,
+  Wifi
 } from 'lucide-react';
-import { SITE_CONFIG } from '@/lib/seo';
+import { SITE_CONFIG, constructMetadata } from '@/lib/seo';
 
 const PAGE_CANONICAL = 'https://smarterspro12.net/guide-installation/xtream-codes-m3u';
 
 export function generateMetadata(): Metadata {
-  const title = "Xtream Codes API vs M3U IPTV : Guide de Configuration 2026";
-  const description = "Comprendre et utiliser vos identifiants Xtream Codes et liens M3U. Différences, tutoriel de configuration pas-à-pas et résolution des erreurs de connexion.";
-
-  return {
-    title,
-    description,
+  return constructMetadata({
+    title: "Xtream Codes vs M3U IPTV : Comparatif & Configuration 2026",
+    description: "Comparatif complet Xtream Codes vs M3U en 2026 : Différences techniques, tutoriel de configuration pas-à-pas et résolution des erreurs d'authentification IPTV.",
+    canonicalUrl: PAGE_CANONICAL,
+    type: 'article',
     keywords: [
+      'xtream codes vs m3u',
       'xtream codes iptv',
       'lien m3u iptv',
       'configuration xtream codes',
@@ -36,25 +38,7 @@ export function generateMetadata(): Metadata {
       'comment utiliser lien m3u',
       'url serveur port username password iptv'
     ],
-    alternates: {
-      canonical: PAGE_CANONICAL,
-      languages: {
-        'fr-FR': `${PAGE_CANONICAL}?lang=fr-fr`,
-        'fr-BE': `${PAGE_CANONICAL}?lang=fr-be`,
-        'fr-CH': `${PAGE_CANONICAL}?lang=fr-ch`,
-        'fr-CA': `${PAGE_CANONICAL}?lang=fr-ca`,
-        'x-default': PAGE_CANONICAL,
-      },
-    },
-    openGraph: {
-      title,
-      description,
-      url: PAGE_CANONICAL,
-      siteName: SITE_CONFIG.name,
-      locale: 'fr_FR',
-      type: 'article',
-    },
-  };
+  });
 }
 
 export default function XtreamCodesM3uTutorialPage() {
@@ -72,7 +56,7 @@ export default function XtreamCodesM3uTutorialPage() {
             '@type': 'HowToStep',
             position: 1,
             name: 'Récupérer vos identifiants d\'accès',
-            text: 'Consultez votre e-mail de confirmation d\'abonnement ou votre espace client pour obtenir vos 3 données clés : Nom d\'utilisateur, Mot de passe et URL du serveur avec le port.',
+            text: 'Consultez votre e-mail de confirmation d\'abonnement ou votre message WhatsApp d\'activation pour obtenir vos 3 données clés : Nom d\'utilisateur, Mot de passe et URL du serveur avec le port.',
           },
           {
             '@type': 'HowToStep',
@@ -194,12 +178,15 @@ export default function XtreamCodesM3uTutorialPage() {
             </div>
 
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-tight">
-              Comprendre vos Identifiants <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-400">Xtream Codes & Liens M3U</span>
+              Comprendre vos Accès : <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-400">Xtream Codes vs M3U</span> pour IPTV en 2026
             </h1>
 
-            <p className="text-base sm:text-lg text-slate-300 leading-relaxed">
-              Lorsque vous souscrivez un <strong>abonnement IPTV</strong>, vous recevez deux formats de connexion. Découvrez la différence entre l'API Xtream Codes et la playlist M3U, comment convertir l'une en l'autre et comment résoudre les erreurs d'authentification.
-            </p>
+            <div className="p-4 rounded-xl bg-slate-900 border-l-4 border-amber-500 space-y-1">
+              <span className="text-[11px] font-bold text-amber-400 uppercase tracking-wider">Réponse Directe &amp; Résumé Clé</span>
+              <p className="text-sm sm:text-base text-slate-200 leading-relaxed">
+                Découvrez notre guide technique complet analysant <strong>Xtream Codes vs M3U</strong> pour configurer votre <strong>abonnement IPTV 4K</strong> sans ralentissement. Découvrez la différence fondamentale entre l&apos;<strong>API Xtream Codes</strong> et la <strong>playlist M3U</strong>, comment convertir l&apos;une en l&apos;autre et comment résoudre les erreurs d&apos;authentification sur <strong>Smart TV Samsung et LG</strong>, <strong>Fire TV Stick</strong> ou <strong>Box Android TV</strong>.
+              </p>
+            </div>
 
             <div className="flex flex-wrap gap-4 pt-2">
               <Link
@@ -275,7 +262,7 @@ export default function XtreamCodesM3uTutorialPage() {
 
               <div className="pt-2">
                 <Link
-                  href="/checkout?plan=Premium"
+                  href="/tarifs-abonnement"
                   className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-amber-600 to-orange-600 text-slate-950 font-black text-xs uppercase tracking-wider hover:brightness-110 transition-all"
                 >
                   <span>Recevoir mes Accès Serveur 4K</span>
@@ -294,7 +281,7 @@ export default function XtreamCodesM3uTutorialPage() {
         <section id="comparatif-protocoles" className="space-y-8">
           <div className="max-w-3xl space-y-3">
             <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
-              Comparatif Détaillé : API Xtream Codes vs Playlist M3U
+              Comparatif Technique : Xtream Codes vs M3U pour Votre Lecteur IPTV
             </h2>
             <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
               Comprendre la différence fondamentale entre ces deux technologies vous permet de configurer votre application de manière optimale pour éviter les ralentissements :
@@ -312,12 +299,12 @@ export default function XtreamCodesM3uTutorialPage() {
               </div>
               <h3 className="text-xl font-bold text-white">API Xtream Codes</h3>
               <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                Vos accès sont segmentés en 4 champs distincts. L'application interroge la base de données du serveur uniquement lorsque vous naviguez dans une catégorie, sans saturer la mémoire de votre Smart TV ou Fire Stick.
+                Vos accès sont segmentés en 4 champs distincts. L'application interroge la base de données du serveur uniquement lorsque vous naviguez dans une catégorie, sans saturer la mémoire vive de votre <strong>Smart TV Samsung et LG</strong> ou de votre <strong>Amazon Fire TV Stick</strong>.
               </p>
               <ul className="space-y-2.5 text-xs text-slate-300 pt-2 border-t border-slate-800">
                 <li className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                  <span>Synchronisation EPG (Guide des programmes) en direct</span>
+                  <span>Synchronisation <strong>guide TV EPG</strong> en direct sur 7 jours</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
@@ -357,6 +344,46 @@ export default function XtreamCodesM3uTutorialPage() {
                 </li>
               </ul>
             </div>
+          </div>
+
+          {/* Comparison Table */}
+          <div className="overflow-x-auto rounded-2xl border border-slate-800 bg-slate-900/60">
+            <table className="w-full text-left text-xs sm:text-sm text-slate-300 border-collapse">
+              <thead className="bg-slate-950 text-slate-200 border-b border-slate-800 text-[11px] sm:text-xs uppercase font-bold">
+                <tr>
+                  <th className="p-3.5 sm:p-4">Critère Technique</th>
+                  <th className="p-3.5 sm:p-4">API Xtream Codes</th>
+                  <th className="p-3.5 sm:p-4">Lien Playlist M3U</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-800">
+                <tr className="hover:bg-slate-800/40">
+                  <td className="p-3.5 sm:p-4 font-semibold text-white">Format des Données</td>
+                  <td className="p-3.5 sm:p-4 text-amber-400 font-mono">Serveur, Port, Username, Password</td>
+                  <td className="p-3.5 sm:p-4 text-slate-400 font-mono">URL complète type get.php?...</td>
+                </tr>
+                <tr className="hover:bg-slate-800/40">
+                  <td className="p-3.5 sm:p-4 font-semibold text-white">Vitesse de Synchronisation</td>
+                  <td className="p-3.5 sm:p-4 text-emerald-400 font-semibold">Instantanée (&lt; 2 secondes)</td>
+                  <td className="p-3.5 sm:p-4 text-slate-400">Plus lente (téléchargement intégral)</td>
+                </tr>
+                <tr className="hover:bg-slate-800/40">
+                  <td className="p-3.5 sm:p-4 font-semibold text-white">Guide des Programmes (EPG)</td>
+                  <td className="p-3.5 sm:p-4 text-emerald-400 font-semibold">Intégré et synchronisé automatiquement</td>
+                  <td className="p-3.5 sm:p-4 text-slate-400">Nécessite une URL XMLTV distincte</td>
+                </tr>
+                <tr className="hover:bg-slate-800/40">
+                  <td className="p-3.5 sm:p-4 font-semibold text-white">Catalogue VOD (Films & Séries)</td>
+                  <td className="p-3.5 sm:p-4 text-emerald-400 font-semibold">Jaquettes, casting, synopsis complets</td>
+                  <td className="p-3.5 sm:p-4 text-slate-400">Liste textuelle simple sans métadonnées</td>
+                </tr>
+                <tr className="hover:bg-slate-800/40">
+                  <td className="p-3.5 sm:p-4 font-semibold text-white">Fonction Replay / Catch-up</td>
+                  <td className="p-3.5 sm:p-4 text-emerald-400 font-semibold">Prise en charge native avec décalage</td>
+                  <td className="p-3.5 sm:p-4 text-slate-400">Non disponible ou instable</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </section>
 
@@ -424,7 +451,7 @@ export default function XtreamCodesM3uTutorialPage() {
                 <h3 className="text-base font-bold text-white">Erreur "Network Error" ou Sablier Infini</h3>
               </div>
               <p className="text-xs text-slate-400 leading-relaxed">
-                Ce problème se produit lorsque le numéro de port (ex: <code>:8080</code>) est oublié dans l'URL serveur, ou lorsque votre fournisseur d'accès internet bloque le résolveur DNS par défaut. Changez vos DNS vers 1.1.1.1 pour rétablir la connexion.
+                Ce problème se produit lorsque le numéro de port (ex: <code>:8080</code>) est oublié dans l'URL serveur, ou lorsque votre fournisseur d'accès internet bloque le résolveur DNS par défaut. Changez vos DNS vers <strong>DNS Cloudflare 1.1.1.1</strong> pour rétablir la connexion.
               </p>
             </div>
           </div>
@@ -437,7 +464,7 @@ export default function XtreamCodesM3uTutorialPage() {
               Recevez vos Identifiants Xtream Codes Sécurisés en 3 Minutes
             </h2>
             <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
-              Accédez immédiatement à vos accès VIP par e-mail et WhatsApp avec lien M3U haute vitesse et guide pas-à-pas personnalisé.
+              Accédez immédiatement à vos accès VIP par e-mail et WhatsApp avec lien M3U haute vitesse et guide pas-à-pas personnalisé pour tous vos écrans.
             </p>
           </div>
           <div className="pt-2">
@@ -445,7 +472,7 @@ export default function XtreamCodesM3uTutorialPage() {
               href="/abonnement-iptv-12-mois"
               className="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-sm uppercase tracking-wider shadow-xl shadow-amber-500/20 transition-all hover:scale-105"
             >
-              <span>Découvrir l'Abonnement 12 Mois VIP (1 Mois Offert)</span>
+              <span>Découvrir l'Abonnement 12 Mois VIP (2 Écrans Inclus)</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>

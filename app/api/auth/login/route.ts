@@ -1,15 +1,20 @@
 import { NextResponse } from 'next/server';
 import { createServerSideClient } from '@/lib/supabase';
+import { loginSchema } from '@/lib/validations';
 
 export async function POST(request: Request) {
   const supabase = createServerSideClient();
 
   try {
-    const { email, password } = await request.json();
+    const rawPayload: unknown = await request.json();
+    const parsed = loginSchema.safeParse(rawPayload);
 
-    if (!email || !password) {
-      return NextResponse.json({ error: 'Adresse e-mail et mot de passe requis.' }, { status: 400 });
+    if (!parsed.success) {
+      const firstIssue = parsed.error.issues[0]?.message || 'Adresse e-mail et mot de passe requis.';
+      return NextResponse.json({ error: firstIssue }, { status: 400 });
     }
+
+    const { email, password } = parsed.data;
 
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
@@ -21,8 +26,8 @@ export async function POST(request: Request) {
     }
 
     return NextResponse.json({ success: true, user: data.user });
-  } catch (error) {
-    console.error('Login route error:', error);
+  } catch (error: unknown) {
+    console.error('Login route error:', error instanceof Error ? error.message : error);
     return NextResponse.json({ error: 'Une erreur interne est survenue.' }, { status: 500 });
   }
 }

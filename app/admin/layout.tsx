@@ -35,10 +35,10 @@ export default async function AdminLayout({
           </p>
           <div className="mt-4">
             <Link
-              href="/dashboard"
+              href="/"
               className="inline-flex text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded transition-colors"
             >
-              Retour à mon espace
+              Retour à l&apos;accueil
             </Link>
           </div>
         </div>
@@ -109,13 +109,6 @@ export default async function AdminLayout({
         </nav>
 
         <div className="p-4 border-t border-slate-800 text-xs flex flex-col gap-2">
-          <Link 
-            href="/dashboard" 
-            className="text-slate-400 hover:text-white flex items-center justify-between"
-          >
-            <span>Mon Espace Client</span>
-            <span>&rarr;</span>
-          </Link>
           <Link 
             href="/" 
             className="text-slate-400 hover:text-white flex items-center justify-between"

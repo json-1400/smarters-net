@@ -15,20 +15,23 @@ import {
   PlayCircle,
   Flame,
   Layers,
-  Settings
+  Settings,
+  Wifi,
+  Sliders,
+  ShieldCheck
 } from 'lucide-react';
-import { SITE_CONFIG } from '@/lib/seo';
+import { SITE_CONFIG, constructMetadata } from '@/lib/seo';
 
 const PAGE_CANONICAL = 'https://smarterspro12.net/guide-installation';
 
 export function generateMetadata(): Metadata {
-  const title = "Guide d'Installation IPTV Complet : Tous Appareils & Applications (2026)";
-  const description = "Tutoriel universel d'installation IPTV en France : Configuration pas à pas sur Fire Stick, Smart TV Samsung & LG, Box Android, Apple TV et PC en 3 minutes.";
-
-  return {
-    title,
-    description,
+  return constructMetadata({
+    title: "Guide d'Installation IPTV Complet 2026 : Tous Appareils & Matériels",
+    description: "Consultez notre guide d'installation IPTV complet 2026 : tutoriels pas à pas pour configurer votre abonnement sur Smart TV, Firestick, Box Android, Apple TV et PC.",
+    canonicalUrl: PAGE_CANONICAL,
+    type: 'article',
     keywords: [
+      "guide d'installation iptv",
       'guide installation iptv',
       'installer iptv',
       'comment installer iptv',
@@ -37,25 +40,7 @@ export function generateMetadata(): Metadata {
       'installation iptv fire stick',
       'xtream codes m3u guide'
     ],
-    alternates: {
-      canonical: PAGE_CANONICAL,
-      languages: {
-        'fr-FR': `${PAGE_CANONICAL}?lang=fr-fr`,
-        'fr-BE': `${PAGE_CANONICAL}?lang=fr-be`,
-        'fr-CH': `${PAGE_CANONICAL}?lang=fr-ch`,
-        'fr-CA': `${PAGE_CANONICAL}?lang=fr-ca`,
-        'x-default': PAGE_CANONICAL,
-      },
-    },
-    openGraph: {
-      title,
-      description,
-      url: PAGE_CANONICAL,
-      siteName: SITE_CONFIG.name,
-      locale: 'fr_FR',
-      type: 'article',
-    },
-  };
+  });
 }
 
 export default function GuideInstallationPage() {
@@ -107,6 +92,36 @@ export default function GuideInstallationPage() {
           },
         ],
       },
+      {
+        '@type': 'FAQPage',
+        '@id': `${PAGE_CANONICAL}#faq`,
+        mainEntity: [
+          {
+            '@type': 'Question',
+            name: 'Combien de temps prend l’installation d’un abonnement IPTV ?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'La configuration complète prend moins de 3 minutes sur n’importe quel appareil (Fire TV Stick, Smart TV Samsung/LG, Box Android ou Apple TV) en saisissant vos identifiants Xtream Codes.',
+            },
+          },
+          {
+            '@type': 'Question',
+            name: 'Faut-il privilégier l’API Xtream Codes ou le lien M3U ?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'Privilégiez toujours l’API Xtream Codes (Nom d’utilisateur, Mot de passe, URL du serveur) : elle synchronise automatiquement les catégories TV, les affiches VOD 4K et le guide des programmes EPG sur 7 jours.',
+            },
+          },
+          {
+            '@type': 'Question',
+            name: 'Que faire si mon fournisseur d’accès internet bloque le chargement des chaînes ?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'En cas de bridage par votre opérateur (Orange, Free, SFR, Bouygues) lors des soirées sportives, modifiez le DNS de votre équipement vers Cloudflare (1.1.1.1) ou activez un VPN.',
+            },
+          },
+        ],
+      },
     ],
   };
 
@@ -144,7 +159,7 @@ export default function GuideInstallationPage() {
           </h1>
 
           <p className="text-base sm:text-lg text-slate-300 leading-relaxed">
-            Configurez facilement votre <strong>abonnement IPTV</strong> sur votre téléviseur, clé de streaming, smartphone ou ordinateur. Suivez nos tutoriels pas à pas adaptés à chaque système et commencez à regarder vos flux 4K en moins de 3 minutes.
+            Bienvenue sur notre <strong>guide d'installation IPTV</strong> officiel 2026. Configurez facilement votre <strong>abonnement IPTV 4K</strong> sur votre téléviseur, clé de streaming, smartphone ou ordinateur en moins de 3 minutes. Suivez nos tutoriels pas à pas adaptés à chaque système et commencez à regarder vos flux en <strong>4K UHD à 60 FPS</strong> sans aucune coupure.
           </p>
         </div>
       </header>
@@ -155,8 +170,10 @@ export default function GuideInstallationPage() {
         {/* Device Matrix Grid */}
         <section className="space-y-6">
           <div className="max-w-2xl">
-            <h2 className="text-2xl font-bold text-white">Choisissez Votre Matériel :</h2>
-            <p className="text-xs sm:text-sm text-slate-400">Cliquez sur votre appareil pour afficher la procédure pas-à-pas détaillée.</p>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
+              Guide d'Installation IPTV Universel par Appareil & Système d'Exploitation
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-400">Cliquez sur votre équipement pour afficher la procédure pas-à-pas détaillée et certifiée.</p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -296,6 +313,74 @@ export default function GuideInstallationPage() {
           </div>
         </section>
 
+        {/* Section Tableau Récapitulatif Matériel */}
+        <section className="space-y-6">
+          <div className="space-y-2">
+            <h2 className="text-2xl font-bold text-white">Tableau Synthétique des Méthodes d'Installation par Appareil</h2>
+            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              Consultez ce récapitulatif pour identifier en un coup d'œil l'application idéale et le mode de connexion recommandé selon votre matériel.
+            </p>
+          </div>
+
+          <div className="overflow-x-auto rounded-2xl border border-slate-800 bg-slate-900/60">
+            <table className="w-full text-left text-xs sm:text-sm text-slate-300 border-collapse">
+              <thead className="bg-slate-950 text-slate-200 border-b border-slate-800 text-[11px] sm:text-xs uppercase font-bold">
+                <tr>
+                  <th className="p-3.5 sm:p-4">Appareil & Système</th>
+                  <th className="p-3.5 sm:p-4">Application Recommandée</th>
+                  <th className="p-3.5 sm:p-4">Méthode de Téléchargement</th>
+                  <th className="p-3.5 sm:p-4">Protocole Conseillé</th>
+                  <th className="p-3.5 sm:p-4">Temps Moyen</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-800">
+                <tr className="hover:bg-slate-800/40">
+                  <td className="p-3.5 sm:p-4 font-bold text-white">Amazon Fire TV Stick</td>
+                  <td className="p-3.5 sm:p-4 text-amber-400">IPTV Smarters Pro / TiviMate</td>
+                  <td className="p-3.5 sm:p-4">Downloader (Code 250931)</td>
+                  <td className="p-3.5 sm:p-4 text-emerald-400 font-mono">API Xtream Codes</td>
+                  <td className="p-3.5 sm:p-4 text-slate-200 font-semibold">&lt; 3 min</td>
+                </tr>
+                <tr className="hover:bg-slate-800/40">
+                  <td className="p-3.5 sm:p-4 font-bold text-white">Smart TV Samsung (Tizen)</td>
+                  <td className="p-3.5 sm:p-4 text-blue-400">IBO Player / Smarters Lite</td>
+                  <td className="p-3.5 sm:p-4">Samsung Smart Hub Store</td>
+                  <td className="p-3.5 sm:p-4 text-emerald-400 font-mono">API Xtream Codes / MAC</td>
+                  <td className="p-3.5 sm:p-4 text-slate-200 font-semibold">&lt; 2 min</td>
+                </tr>
+                <tr className="hover:bg-slate-800/40">
+                  <td className="p-3.5 sm:p-4 font-bold text-white">Smart TV LG (webOS)</td>
+                  <td className="p-3.5 sm:p-4 text-purple-400">IBO Player / Smarters Lite</td>
+                  <td className="p-3.5 sm:p-4">LG Content Store officiel</td>
+                  <td className="p-3.5 sm:p-4 text-emerald-400 font-mono">API Xtream Codes / MAC</td>
+                  <td className="p-3.5 sm:p-4 text-slate-200 font-semibold">&lt; 2 min</td>
+                </tr>
+                <tr className="hover:bg-slate-800/40">
+                  <td className="p-3.5 sm:p-4 font-bold text-white">Box Android TV & Shield</td>
+                  <td className="p-3.5 sm:p-4 text-emerald-400">TiviMate / IPTV Smarters Pro</td>
+                  <td className="p-3.5 sm:p-4">Google Play Store / APK direct</td>
+                  <td className="p-3.5 sm:p-4 text-emerald-400 font-mono">API Xtream Codes</td>
+                  <td className="p-3.5 sm:p-4 text-slate-200 font-semibold">&lt; 3 min</td>
+                </tr>
+                <tr className="hover:bg-slate-800/40">
+                  <td className="p-3.5 sm:p-4 font-bold text-white">Apple TV, iPhone & iPad</td>
+                  <td className="p-3.5 sm:p-4 text-sky-400">Smarters Player Lite / IPTVX</td>
+                  <td className="p-3.5 sm:p-4">App Store Apple officiel</td>
+                  <td className="p-3.5 sm:p-4 text-emerald-400 font-mono">API Xtream Codes</td>
+                  <td className="p-3.5 sm:p-4 text-slate-200 font-semibold">&lt; 2 min</td>
+                </tr>
+                <tr className="hover:bg-slate-800/40">
+                  <td className="p-3.5 sm:p-4 font-bold text-white">PC Windows & Apple Mac</td>
+                  <td className="p-3.5 sm:p-4 text-indigo-400">IPTV Smarters Pro Desktop / VLC</td>
+                  <td className="p-3.5 sm:p-4">Installateur EXE / DMG officiel</td>
+                  <td className="p-3.5 sm:p-4 text-emerald-400 font-mono">Xtream Codes / M3U</td>
+                  <td className="p-3.5 sm:p-4 text-slate-200 font-semibold">&lt; 3 min</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
         {/* Section Xtream Codes vs M3U */}
         <section className="rounded-2xl bg-slate-900/60 border border-slate-800 p-8 space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -307,13 +392,22 @@ export default function GuideInstallationPage() {
                 Après confirmation de votre commande sur notre site, vous recevez deux formats de connexion. Voici la différence fondamentale pour bien choisir :
               </p>
             </div>
-            <Link
-              href="/guide-installation/xtream-codes-m3u"
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-400 font-bold text-xs shrink-0 transition-colors"
-            >
-              <span>Guide Xtream vs M3U</span>
-              <ChevronRight className="w-4 h-4" />
-            </Link>
+            <div className="flex flex-wrap gap-2 shrink-0">
+              <Link
+                href="/guide-installation/xtream-codes-m3u"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-400 font-bold text-xs transition-colors"
+              >
+                <span>Guide Xtream vs M3U</span>
+                <ChevronRight className="w-4 h-4" />
+              </Link>
+              <Link
+                href="/guide-installation/contourner-blocage-fai-iptv-dns-vpn"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-emerald-400 font-bold text-xs transition-colors"
+              >
+                <span>Débloquer FAI (DNS &amp; VPN)</span>
+                <ChevronRight className="w-4 h-4" />
+              </Link>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -323,7 +417,7 @@ export default function GuideInstallationPage() {
               </span>
               <h3 className="text-lg font-bold text-white">1. API Xtream Codes</h3>
               <p className="text-xs text-slate-300 leading-relaxed">
-                Composé de 3 éléments : <strong>Nom d'utilisateur</strong>, <strong>Mot de passe</strong> et <strong>URL du serveur</strong>. C'est le protocole le plus rapide : il organise les chaînes par pays, télécharge automatiquement les affiches des films VOD et actualise le guide des programmes (EPG) en temps réel.
+                Composé de 3 éléments : <strong>Nom d'utilisateur</strong>, <strong>Mot de passe</strong> et <strong>URL du serveur</strong>. C'est le protocole le plus rapide : il organise les chaînes par pays, télécharge automatiquement les affiches des films VOD et actualise le <strong>guide TV EPG</strong> en temps réel.
               </p>
             </div>
 
@@ -333,7 +427,114 @@ export default function GuideInstallationPage() {
               </span>
               <h3 className="text-lg font-bold text-white">2. Lien de Playlist M3U Plus</h3>
               <p className="text-xs text-slate-300 leading-relaxed">
-                Il s'agit d'une URL web complète contenant l'intégralité du catalogue. Idéal pour les logiciels génériques tels que VLC, Kodi ou Perfect Player, mais plus lourd à charger lors du premier démarrage sur téléviseur.
+                Il s'agit d'une URL web complète contenant l'intégralité du catalogue. Idéal pour les logiciels génériques tels que <strong>VLC Media Player</strong>, Kodi ou Perfect Player, mais plus lourd à charger lors du premier démarrage sur téléviseur.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Section Optimisation Réseau & Anti-Coupure */}
+        <section className="space-y-6">
+          <div className="space-y-2">
+            <h2 className="text-2xl font-bold text-white">Conseils Réseau & Optimisation Anti-Coupure lors de l'Installation</h2>
+            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              Pour profiter de vos retransmissions sportives en <strong>4K UHD à 60 FPS</strong> sans aucune interruption, appliquez ces règles techniques :
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
+              <h3 className="text-sm font-bold text-white flex items-center gap-2">
+                <Wifi className="w-4 h-4 text-blue-400" />
+                Connexion Câblée Ethernet ou Wi-Fi 5 GHz
+              </h3>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                Pour éviter les pertes de paquets et la latence, privilégiez un câble <strong>Ethernet RJ45</strong> ou connectez votre équipement sur la bande <strong>Wi-Fi 5 GHz</strong> de votre box internet. Évitez le Wi-Fi 2,4 GHz saturé.
+              </p>
+            </div>
+
+            <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
+              <h3 className="text-sm font-bold text-white flex items-center gap-2">
+                <Settings className="w-4 h-4 text-emerald-400" />
+                Configuration du DNS Cloudflare 1.1.1.1
+              </h3>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                Les opérateurs télécoms (Orange, Free, SFR, Bouygues) appliquent parfois des filtres DNS les soirs de grands matchs. Configurez le <strong>DNS Cloudflare 1.1.1.1</strong> sur votre téléviseur pour contourner ces blocages.
+              </p>
+            </div>
+
+            <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
+              <h3 className="text-sm font-bold text-white flex items-center gap-2">
+                <Sliders className="w-4 h-4 text-amber-400" />
+                Réglage de la Mémoire Tampon (Buffer Size)
+              </h3>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                Dans les paramètres de votre application (TiviMate ou Smarters Pro), réglez la taille du tampon vidéo sur <strong>Grand (10 secondes)</strong> si votre débit réseau présente de petites variations passagères.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Section Diagnostic des Erreurs d'Installation */}
+        <section className="space-y-6">
+          <div className="space-y-2">
+            <h2 className="text-2xl font-bold text-white">Diagnostic Express des 3 Erreurs d'Installation Fréquentes</h2>
+            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              Si vous rencontrez une anomalie lors de la première configuration de votre application, appliquez ces solutions vérifiées par nos techniciens :
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+              <h3 className="text-sm font-bold text-white">1. Erreur « Server URL Not Reachable »</h3>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                Vérifiez attentivement la syntaxe de l'URL du serveur. L'oubli du préfixe <strong>http://</strong> ou du numéro de port (ex: <strong>:8080</strong>) empêche la connexion. Assurez-vous également que votre box internet n'utilise pas un résolveur DNS bloquant en passant sur <strong>1.1.1.1</strong>.
+              </p>
+            </div>
+
+            <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+              <h3 className="text-sm font-bold text-white">2. Écran Noir ou Son sans Image en 4K</h3>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                Ce symptôme apparaît lorsque le lecteur utilise le décodage logiciel au lieu de l'accélération matérielle. Dans les paramètres de votre application (IPTV Smarters Pro ou XCIPTV), activez le moteur <strong>Hardware Decoder (ExoPlayer)</strong> pour exploiter la puce graphique de votre téléviseur.
+              </p>
+            </div>
+
+            <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+              <h3 className="text-sm font-bold text-white">3. Liste M3U qui Fige au Démarrage</h3>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                Sur les téléviseurs plus anciens disposant de 1 Go de RAM, charger une playlist brute de plus de 25 000 canaux sature la mémoire. Basculez impérativement sur l'<strong>API Xtream Codes</strong> pour charger les bouquets à la demande de manière compartimentée.
+              </p>
+            </div>
+
+            <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+              <h3 className="text-sm font-bold text-white">4. Décalage Audio ou Désynchronisation Voix</h3>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                Si la piste audio est décalée par rapport à l'image sur les flux sportifs 60 FPS, ajustez la temporisation audio dans votre lecteur ou passez le moteur de lecture en <strong>AudioTrack natif</strong> pour rétablir une synchronisation parfaite à la milliseconde près.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* FAQ Installation */}
+        <section className="space-y-6">
+          <h2 className="text-2xl font-bold text-white">Questions Fréquentes sur l’Installation IPTV</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+              <h3 className="text-sm font-bold text-white">Combien de temps prend l’installation d’un abonnement IPTV ?</h3>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                Moins de 3 minutes : dès réception de vos codes par WhatsApp ou e-mail, entrez-les dans <Link href="/applications/iptv-smarters-pro" className="text-blue-400 hover:underline">IPTV Smarters Pro</Link> pour charger vos chaînes instantanément.
+              </p>
+            </div>
+            <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+              <h3 className="text-sm font-bold text-white">Faut-il privilégier l’API Xtream Codes ou le lien M3U ?</h3>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                Utilisez l’<Link href="/guide-installation/xtream-codes-m3u" className="text-blue-400 hover:underline">API Xtream Codes</Link> en priorité : elle synchronise automatiquement les jaquettes VOD 4K et le guide TV EPG 7 jours.
+              </p>
+            </div>
+            <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+              <h3 className="text-sm font-bold text-white">Que faire si mon FAI bloque le chargement des chaînes ?</h3>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                Suivez notre <Link href="/guide-installation/contourner-blocage-fai-iptv-dns-vpn" className="text-blue-400 hover:underline">tutoriel DNS 1.1.1.1 &amp; VPN</Link> pour contourner le bridage opérateur (Orange, Free, SFR, Bouygues) les soirs de match.
               </p>
             </div>
           </div>
@@ -347,9 +548,10 @@ export default function GuideInstallationPage() {
           </div>
           <Link
             href="/support"
-            className="px-6 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs uppercase tracking-wider transition-all whitespace-nowrap shadow-lg"
+            className="px-6 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs uppercase tracking-wider transition-all whitespace-nowrap shadow-lg flex items-center gap-2"
           >
-            Contacter le Support 7j/7 &rarr;
+            <span>Contacter le Support 7j/7</span>
+            <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
 

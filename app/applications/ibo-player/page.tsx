@@ -11,19 +11,23 @@ import {
   Star, 
   Globe, 
   KeyRound,
-  ShieldCheck 
+  ShieldCheck,
+  Download,
+  Settings,
+  Sliders,
+  Wifi,
+  HelpCircle
 } from 'lucide-react';
-import { SITE_CONFIG } from '@/lib/seo';
+import { SITE_CONFIG, constructMetadata } from '@/lib/seo';
 
 const PAGE_CANONICAL = 'https://smarterspro12.net/applications/ibo-player';
 
 export function generateMetadata(): Metadata {
-  const title = "IBO Player Pro : Activation, Configuration Smart TV & Abonnement France";
-  const description = "Guide complet IBO Player en France : Téléchargement sur Smart TV Samsung et LG, activation Device ID/Key et configuration Xtream Codes sans coupure.";
-
-  return {
-    title,
-    description,
+  return constructMetadata({
+    title: "IBO Player Pro : Activation, Configuration Smart TV & Abonnement France",
+    description: "Guide complet IBO Player en France : Téléchargement sur Smart TV Samsung et LG, activation Device ID/Key et configuration Xtream Codes sans coupure.",
+    canonicalUrl: PAGE_CANONICAL,
+    type: 'article',
     keywords: [
       'ibo player',
       'abonnement ibo player',
@@ -33,25 +37,7 @@ export function generateMetadata(): Metadata {
       'configurer ibo player',
       'ibo player pro france'
     ],
-    alternates: {
-      canonical: PAGE_CANONICAL,
-      languages: {
-        'fr-FR': `${PAGE_CANONICAL}?lang=fr-fr`,
-        'fr-BE': `${PAGE_CANONICAL}?lang=fr-be`,
-        'fr-CH': `${PAGE_CANONICAL}?lang=fr-ch`,
-        'fr-CA': `${PAGE_CANONICAL}?lang=fr-ca`,
-        'x-default': PAGE_CANONICAL,
-      },
-    },
-    openGraph: {
-      title,
-      description,
-      url: PAGE_CANONICAL,
-      siteName: SITE_CONFIG.name,
-      locale: 'fr_FR',
-      type: 'article',
-    },
-  };
+  });
 }
 
 export default function IboPlayerPage() {
@@ -122,6 +108,36 @@ export default function IboPlayerPage() {
           },
         ],
       },
+      {
+        '@type': 'FAQPage',
+        '@id': `${PAGE_CANONICAL}#faq`,
+        mainEntity: [
+          {
+            '@type': 'Question',
+            name: 'L’application IBO Player est-elle gratuite sur Smart TV ?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'IBO Player propose une période d’essai gratuite de 7 jours à l’installation. Passé ce délai, l’éditeur de l’application demande une licence unique d’environ 8 € par adresse MAC (indépendante de votre abonnement IPTV).',
+            },
+          },
+          {
+            '@type': 'Question',
+            name: 'Vaut-il mieux ajouter un lien M3U ou Xtream Codes sur IBO Player ?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'Privilégiez toujours l\'option "Add XC Playlist" avec l\'API Xtream Codes : vos bouquets de chaînes en direct et films VOD se chargent instantanément avec jaquettes et guide EPG complet.',
+            },
+          },
+          {
+            '@type': 'Question',
+            name: 'Que faire si mes chaînes ne s’affichent pas après l’ajout sur iboplayer.com ?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'Une fois vos identifiants validés sur le portail web, appuyez sur le bouton "Change Playlist / Reload" sur l\'écran de votre Smart TV pour actualiser les données.',
+            },
+          },
+        ],
+      },
     ],
   };
 
@@ -154,8 +170,8 @@ export default function IboPlayerPage() {
       <header className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14">
         <div className="max-w-4xl space-y-5">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-semibold">
-            <Monitor className="w-3.5 h-3.5" />
-            <span>Solution N°1 Smart TV Samsung & LG &middot; Note : 4.7 / 5</span>
+            <Star className="w-3.5 h-3.5 fill-cyan-400" />
+            <span>Lecteur N°1 Smart TV Samsung & LG &middot; Note : 4.7 / 5</span>
           </div>
 
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-tight">
@@ -163,7 +179,7 @@ export default function IboPlayerPage() {
           </h1>
 
           <p className="text-base sm:text-lg text-slate-300 leading-relaxed">
-            <strong>IBO Player</strong> est le lecteur IPTV de référence pour les téléviseurs connectés Samsung (Tizen) et LG (webOS). Très fluide, disponible directement sur les stores officiels, il permet de profiter de nos flux 4K sans nécessiter de boîtier externe.
+            Spécialement développé pour les téléviseurs connectés, <strong>IBO Player Pro</strong> est devenu l'application de prédilection des possesseurs de Smart TV. Découvrez notre guide complet pour l'installer, activer votre licence et connecter votre abonnement 4K en quelques minutes sans manipulation technique complexe.
           </p>
         </div>
       </header>
@@ -174,29 +190,124 @@ export default function IboPlayerPage() {
           
           <div className="lg:col-span-8 space-y-10">
             
-            {/* Guide Step-by-Step */}
-            <section className="p-6 sm:p-8 rounded-2xl bg-slate-900 border border-slate-800 space-y-5">
-              <h2 className="text-xl font-bold text-white">Comment Installer et Configurer IBO Player ?</h2>
-              <ol className="space-y-4 text-xs sm:text-sm text-slate-300 list-decimal list-inside">
-                <li>Allumez votre Smart TV et ouvrez le <strong>Samsung Smart Hub</strong> ou le <strong>LG Content Store</strong>.</li>
-                <li>Tapez <strong className="text-white">IBO Player</strong> dans la recherche et téléchargez l'application officielle.</li>
-                <li>Lancez l'application : notez le <strong>Device ID</strong> (adresse MAC) et la <strong>Device Key</strong> affichés sur votre écran.</li>
-                <li>Depuis votre smartphone ou ordinateur, connectez-vous sur le portail officiel de téléversement.</li>
-                <li>Ajoutez vos codes Xtream (Username, Password, Server URL) fournis par notre service et rechargez l'application sur votre TV.</li>
-              </ol>
+            {/* Section 1: Installation on Smart TV */}
+            <section className="p-6 sm:p-8 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
+              <h2 className="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+                <Tv className="w-5 h-5 text-cyan-400" />
+                <span>Téléchargement & Installation d'IBO Player sur Smart TV Samsung et LG</span>
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                Contrairement à d'autres lecteurs qui requièrent un téléchargement APK manuel via une clé USB, <strong>IBO Player</strong> est directement référencé dans les magasins d'applications officiels des plus grands fabricants de téléviseurs :
+              </p>
+
+              <div className="space-y-4 pt-2">
+                <div className="space-y-1">
+                  <h3 className="text-sm font-bold text-white">Installation sur Samsung Smart Hub (Tizen OS 2016-2026)</h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    Allumez votre téléviseur Samsung, ouvrez la barre d'accueil <strong>Smart Hub</strong>, accédez à la section <strong>Apps</strong>, puis tapez <strong>IBO Player</strong> dans la loupe de recherche. Cliquez sur Installer puis épinglez l'application à votre écran d'accueil.
+                  </p>
+                </div>
+
+                <div className="space-y-1">
+                  <h3 className="text-sm font-bold text-white">Installation sur LG Content Store (webOS 3.0 à webOS 24)</h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    Sur votre téléviseur LG, lancez le <strong>LG Content Store</strong> ou le portail <strong>LG Apps</strong>. Recherchez <strong>IBO Player</strong>, téléchargez l'application officielle et ouvrez-la directement avec votre télécommande Magic Remote.
+                  </p>
+                </div>
+
+                <div className="space-y-1">
+                  <h3 className="text-sm font-bold text-white">Disponibilité sur Apple TV, Firestick & Android</h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    IBO Player est également disponible sur l'App Store d'<strong>Apple TV (tvOS)</strong>, sur <strong>Amazon Fire TV Stick</strong> et sur le <strong>Google Play Store</strong> pour les boîtiers Android TV, offrant la même interface épurée sur tous vos écrans de maison.
+                  </p>
+                </div>
+              </div>
             </section>
 
-            {/* Avantages */}
-            <section className="p-6 sm:p-8 rounded-2xl bg-slate-900 border-2 border-cyan-500/30 space-y-4">
-              <h2 className="text-xl font-bold text-white">Les Avantages d'IBO Player Pro</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+            {/* Section 2: Web Portal Playlist Upload */}
+            <section className="p-6 sm:p-8 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
+              <h2 className="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+                <Globe className="w-5 h-5 text-cyan-400" />
+                <span>Gestion de Playlist sur le Portail Officiel (iboplayer.com)</span>
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                La configuration des chaînes s'effectue facilement depuis un navigateur web sur smartphone, tablette ou ordinateur sans avoir à taper de longs identifiants avec la télécommande de la télévision :
+              </p>
+
+              <div className="space-y-4 pt-2">
+                <div className="space-y-1">
+                  <h3 className="text-sm font-bold text-white">Étape 1 : Récupérer le Device ID et la Device Key</h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    Lancez l'application sur votre TV. Sur l'écran principal ou dans les réglages, notez l'adresse <strong>Device ID</strong> (format adresse MAC) et le code secret <strong>Device Key</strong> généré pour votre appareil.
+                  </p>
+                </div>
+
+                <div className="space-y-1">
+                  <h3 className="text-sm font-bold text-white">Étape 2 : Privilégier l'option Add XC Playlist (Xtream Codes)</h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    Rendez-vous sur le portail <em>iboplayer.com</em>, connectez-vous avec vos deux identifiants puis cliquez sur <strong>Add XC Playlist</strong>. Renseignez l'URL du serveur, votre identifiant et votre mot de passe. Cette méthode est nettement plus rapide et stable que l'ajout d'une URL M3U brute.
+                  </p>
+                </div>
+
+                <div className="space-y-1">
+                  <h3 className="text-sm font-bold text-white">Étape 3 : Rechargement et mise à jour de la liste</h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    Une fois la playlist enregistrée en ligne, retournez sur votre téléviseur et appuyez sur <strong>Reload Playlist</strong>. Vos bouquets de chaînes directes, films et séries VOD apparaissent instantanément avec leurs catégories respectives.
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            {/* Section 3: Recommended Settings & Anti-Buffering */}
+            <section className="p-6 sm:p-8 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
+              <h2 className="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+                <Sliders className="w-5 h-5 text-cyan-400" />
+                <span>Paramètres Recommandés & Dépannage Anti-Coupure</span>
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                Pour profiter pleinement des retransmissions sportives en <strong>4K UHD à 60 FPS</strong> sans décalage ni coupure, ajustez les paramètres internes de l'application :
+              </p>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
                 <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-1.5">
-                  <span className="font-bold text-sm text-white block">Compatible 4K & Dolby Audio</span>
-                  <p className="text-xs text-slate-400">Décodage matériel natif sans saccade.</p>
+                  <h3 className="text-sm font-bold text-white">Sélection du Lecteur Vidéo Interne</h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    Dans les réglages d'IBO Player, vous pouvez basculer entre le moteur <strong>EXO Player</strong> et <strong>VLC Player</strong>. Si un flux vidéo spécifique présente un écran noir ou un problème de son, changer de lecteur résout immédiatement le souci.
+                  </p>
+                </div>
+
+                <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-1.5">
+                  <h3 className="text-sm font-bold text-white">Optimisation DNS FAI Anti-Blocage</h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    Si vos chaînes peinent à charger les soirs de match de Ligue des Champions, modifiez les paramètres réseau de votre Smart TV en configurant le <strong>DNS Cloudflare 1.1.1.1</strong> pour contourner les ralentissements imposés par votre fournisseur d'accès.
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            {/* FAQ IBO Player */}
+            <section className="p-6 sm:p-8 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
+              <h2 className="text-xl sm:text-2xl font-bold text-white">
+                Questions Fréquentes sur IBO Player Pro
+              </h2>
+              <div className="space-y-4">
+                <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-1.5">
+                  <h3 className="text-sm font-bold text-white">L’application IBO Player est-elle gratuite sur Smart TV ?</h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    IBO Player offre une période d’essai gratuit de 7 jours. Ensuite, son éditeur facture une activation unique d’environ 8 € à vie par adresse MAC (indépendante de votre <Link href="/abonnement-iptv-12-mois" className="text-cyan-400 hover:underline">abonnement IPTV</Link>). Pour un lecteur 100% gratuit, optez pour <Link href="/applications/iptv-smarters-pro" className="text-cyan-400 hover:underline">IPTV Smarters Pro</Link>.
+                  </p>
                 </div>
                 <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-1.5">
-                  <span className="font-bold text-sm text-white block">Gestion Multi-Langues</span>
-                  <p className="text-xs text-slate-400">Choix instantané des pistes audio (VF/VOSTFR) et sous-titres.</p>
+                  <h3 className="text-sm font-bold text-white">Vaut-il mieux ajouter un lien M3U ou Xtream Codes sur IBO Player ?</h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    Privilégiez systématiquement <strong>Add XC Playlist</strong> (<Link href="/guide-installation/xtream-codes-m3u" className="text-cyan-400 hover:underline">API Xtream Codes</Link>) : vos bouquets TV, films VOD et guide EPG se chargent instantanément sans ralentir la mémoire de votre téléviseur.
+                  </p>
+                </div>
+                <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-1.5">
+                  <h3 className="text-sm font-bold text-white">Que faire si mes chaînes ne s’affichent pas après l’ajout sur iboplayer.com ?</h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    Une fois la liste validée sur le portail web, appuyez sur <strong>Change Playlist / Reload</strong> sur votre Smart TV Samsung ou LG pour forcer la synchronisation immédiate des serveurs.
+                  </p>
                 </div>
               </div>
             </section>
@@ -211,28 +322,46 @@ export default function IboPlayerPage() {
               </span>
               <h3 className="text-lg font-bold text-white">Prêt à activer IBO Player avec nos flux 4K ?</h3>
               <p className="text-xs text-slate-300 leading-relaxed">
-                Recevez vos codes de connexion en 15 minutes et profitez de +25 000 chaînes sans freeze sur votre Smart TV.
+                Recevez vos identifiants API Xtream Codes par email en 15 minutes et profitez de plus de 25 000 chaînes directes sans freeze sur votre <strong>Smart TV Samsung</strong> ou <strong>LG</strong>.
               </p>
               <Link
                 href="/tarifs-abonnement"
                 className="w-full flex items-center justify-center py-3.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs uppercase tracking-wider transition-all"
               >
-                Découvrir les Tarifs &rarr;
+                Découvrir nos Tarifs &rarr;
               </Link>
             </div>
 
             <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
-              <h3 className="text-xs font-bold text-white uppercase tracking-wider">Autres Lecteurs</h3>
+              <h3 className="text-xs font-bold text-white uppercase tracking-wider">Autres Lecteurs Recommandés</h3>
               <ul className="space-y-2 text-xs">
                 <li>
-                  <Link href="/applications/iptv-smarters-pro" className="text-slate-300 hover:text-blue-400 flex items-center justify-between">
-                    <span>IPTV Smarters Pro</span>
+                  <Link href="/applications/iptv-smarters-pro" className="text-slate-300 hover:text-cyan-400 flex items-center justify-between">
+                    <span>IPTV Smarters Pro Officiel</span>
                     <ChevronRight className="w-3.5 h-3.5 text-slate-600" />
                   </Link>
                 </li>
                 <li>
-                  <Link href="/applications/tivimate" className="text-slate-300 hover:text-blue-400 flex items-center justify-between">
+                  <Link href="/applications/tivimate" className="text-slate-300 hover:text-cyan-400 flex items-center justify-between">
                     <span>TiviMate IPTV Player</span>
+                    <ChevronRight className="w-3.5 h-3.5 text-slate-600" />
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/applications/smart-iptv" className="text-slate-300 hover:text-cyan-400 flex items-center justify-between">
+                    <span>Smart IPTV (SIPTV)</span>
+                    <ChevronRight className="w-3.5 h-3.5 text-slate-600" />
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/applications/xciptv" className="text-slate-300 hover:text-cyan-400 flex items-center justify-between">
+                    <span>XCIPTV Player Pro</span>
+                    <ChevronRight className="w-3.5 h-3.5 text-slate-600" />
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/guide-iptv/meilleur-abonnement-iptv" className="text-slate-300 hover:text-cyan-400 flex items-center justify-between">
+                    <span>Guide Meilleur IPTV 2026</span>
                     <ChevronRight className="w-3.5 h-3.5 text-slate-600" />
                   </Link>
                 </li>

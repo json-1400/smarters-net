@@ -1,4 +1,4 @@
-export type PlanType = 'Starter' | 'Confort' | 'Premium';
+export type PlanType = 'Starter' | 'Confort' | 'Premium' | 'Pack2' | 'Pack3' | 'Pack4';
 export type SubscriptionStatus = 'pending_payment' | 'active' | 'canceled' | 'expired';
 export type PaymentStatus = 'pending_instruction' | 'pending_confirmation' | 'confirmed' | 'failed';
 export type PaymentMethod = 'bank_transfer' | 'whatsapp' | 'other';
@@ -100,5 +100,5 @@ export interface AdminAuditLog {
 
 export interface SiteSettings {
   key: string;
-  value: any;
+  value: unknown;
 }

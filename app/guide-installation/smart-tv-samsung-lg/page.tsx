@@ -16,18 +16,18 @@ import {
   Radio,
   Layers
 } from 'lucide-react';
-import { SITE_CONFIG } from '@/lib/seo';
+import { SITE_CONFIG, constructMetadata } from '@/lib/seo';
 
 const PAGE_CANONICAL = 'https://smarterspro12.net/guide-installation/smart-tv-samsung-lg';
 
 export function generateMetadata(): Metadata {
-  const title = "Installer IPTV sur Smart TV Samsung & LG : Tutoriel 2026 Pas-à-Pas";
-  const description = "Guide complet pour installer IPTV Smarters Pro sur Smart TV Samsung (Tizen) et LG (webOS). Recherche sur le store officiel, configuration Xtream Codes et astuces sans boîtier.";
-
-  return {
-    title,
-    description,
+  return constructMetadata({
+    title: "Installer IPTV sur Smart TV Samsung et LG : Tutoriel 2026 Pas-à-Pas",
+    description: "Guide complet 2026 pour installer IPTV sur Smart TV Samsung et LG sans boîtier externe. Tutoriel officiel Smarters Player Lite et IBO Player 4K sans freeze.",
+    canonicalUrl: PAGE_CANONICAL,
+    type: 'article',
     keywords: [
+      'iptv sur smart tv samsung et lg',
       'iptv smart tv samsung',
       'iptv smart tv lg',
       'installer iptv smarters pro samsung',
@@ -36,25 +36,7 @@ export function generateMetadata(): Metadata {
       'iptv webos lg',
       'smarters player lite smart tv'
     ],
-    alternates: {
-      canonical: PAGE_CANONICAL,
-      languages: {
-        'fr-FR': `${PAGE_CANONICAL}?lang=fr-fr`,
-        'fr-BE': `${PAGE_CANONICAL}?lang=fr-be`,
-        'fr-CH': `${PAGE_CANONICAL}?lang=fr-ch`,
-        'fr-CA': `${PAGE_CANONICAL}?lang=fr-ca`,
-        'x-default': PAGE_CANONICAL,
-      },
-    },
-    openGraph: {
-      title,
-      description,
-      url: PAGE_CANONICAL,
-      siteName: SITE_CONFIG.name,
-      locale: 'fr_FR',
-      type: 'article',
-    },
-  };
+  });
 }
 
 export default function SmartTvSamsungLgTutorialPage() {
@@ -200,11 +182,11 @@ export default function SmartTvSamsungLgTutorialPage() {
             </div>
 
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-tight">
-              Comment Installer IPTV sur <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">Smart TV Samsung & LG</span>
+              Comment Installer <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">IPTV sur Smart TV Samsung et LG</span> en 2026
             </h1>
 
             <p className="text-base sm:text-lg text-slate-300 leading-relaxed">
-              Profitez du confort de votre écran 4K de salon sans aucun boîtier additionnel. Découvrez comment installer <strong>IPTV Smarters Pro</strong> (ou <strong>Smarters Player Lite</strong>) directement sur le Samsung Smart Hub et le LG Content Store, et activez votre flux en quelques instants.
+              Profitez du confort de votre écran 4K de salon sans aucun boîtier additionnel. Découvrez comment installer <strong>IPTV sur Smart TV Samsung et LG</strong> via <strong>IPTV Smarters Pro</strong> (ou <strong>Smarters Player Lite</strong>) directement sur le Samsung Smart Hub et le LG Content Store, et activez votre flux en quelques instants.
             </p>
 
             <div className="flex flex-wrap gap-4 pt-2">
@@ -339,7 +321,7 @@ export default function SmartTvSamsungLgTutorialPage() {
         <section id="tutoriel-smarttv" className="space-y-8">
           <div className="max-w-3xl space-y-3">
             <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
-              Tutoriel d'Installation selon votre Marque de Téléviseur
+              Tutoriel Officiel : Installer IPTV sur Smart TV Samsung et LG Pas-à-Pas
             </h2>
             <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
               Sélectionnez le guide adapté à votre écran de salon :
@@ -491,10 +473,10 @@ export default function SmartTvSamsungLgTutorialPage() {
             <div className="p-6 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
               <h3 className="text-sm font-bold text-white flex items-center gap-2">
                 <HelpCircle className="w-4 h-4 text-blue-400 flex-shrink-0" />
-                <span>Que faire si l'app n'apparaît pas sur mon store TV ?</span>
+                <span>Que faire si l'app n'apparaît pas ou si les chaînes bloquent ?</span>
               </h3>
               <p className="text-xs text-slate-400 leading-relaxed pl-6">
-                Sur certains modèles ou selon la région géographique configurée sur la télévision, l'application peut porter le nom "Smarters Player Lite" ou être temporairement absente. Vous pouvez alors installer des lecteurs alternatifs certifiés tels qu'IBO Player ou Smart IPTV, ou connecter un Amazon Fire TV Stick.
+                Si l'application est absente de votre région, installez IBO Player ou Smart IPTV. En cas d'écran noir lié à votre opérateur internet, suivez notre guide pour <Link href="/guide-installation/contourner-blocage-fai-iptv-dns-vpn" className="text-blue-400 underline">changer le DNS (1.1.1.1) sur Smart TV Samsung et LG</Link> et consultez notre <Link href="/guide-iptv/meilleur-abonnement-iptv" className="text-blue-400 underline">comparatif du meilleur abonnement IPTV 2026</Link>.
               </p>
             </div>
 

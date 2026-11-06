@@ -16,17 +16,18 @@ import {
   SlidersHorizontal,
   CheckCircle2
 } from 'lucide-react';
-import { SITE_CONFIG } from '@/lib/seo';
+import { SITE_CONFIG, constructMetadata } from '@/lib/seo';
+import { Header } from '@/components/Header';
+import { Footer } from '@/components/Footer';
 
 const PAGE_CANONICAL = 'https://smarterspro12.net/guide-iptv';
 
 export function generateMetadata(): Metadata {
-  const title = "Guide IPTV Ultime 2026 : Débuter, Optimiser & Éviter les Coupures";
-  const description = "Le guide de référence pour tout comprendre à l'IPTV en France : Guide débutant, solutions anti-buffering sans coupure, débits recommandés et conseils VPN.";
-
-  return {
-    title,
-    description,
+  return constructMetadata({
+    title: "Guide IPTV Ultime 2026 : Débuter, Optimiser & Éviter les Coupures",
+    description: "Le guide de référence pour tout comprendre à l'IPTV en France : Guide débutant, solutions anti-buffering sans coupure, débits recommandés et conseils VPN.",
+    canonicalUrl: PAGE_CANONICAL,
+    type: 'article',
     keywords: [
       'guide iptv',
       'iptv debutant',
@@ -37,25 +38,7 @@ export function generateMetadata(): Metadata {
       'iptv legal france',
       'optimiser iptv'
     ],
-    alternates: {
-      canonical: PAGE_CANONICAL,
-      languages: {
-        'fr-FR': `${PAGE_CANONICAL}?lang=fr-fr`,
-        'fr-BE': `${PAGE_CANONICAL}?lang=fr-be`,
-        'fr-CH': `${PAGE_CANONICAL}?lang=fr-ch`,
-        'fr-CA': `${PAGE_CANONICAL}?lang=fr-ca`,
-        'x-default': PAGE_CANONICAL,
-      },
-    },
-    openGraph: {
-      title,
-      description,
-      url: PAGE_CANONICAL,
-      siteName: SITE_CONFIG.name,
-      locale: 'fr_FR',
-      type: 'article',
-    },
-  };
+  });
 }
 
 export default function GuideIptvPage() {
@@ -126,12 +109,13 @@ export default function GuideIptvPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 antialiased">
+    <div className="min-h-screen flex flex-col bg-slate-950 text-slate-100 antialiased">
       {/* Schema Injection */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaGraph) }}
       />
+      <Header />
 
       {/* Breadcrumb Navigation */}
       <nav aria-label="Fil d'Ariane" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
@@ -170,13 +154,57 @@ export default function GuideIptvPage() {
         {/* Section 1: Fonctionnement */}
         <section className="rounded-2xl bg-slate-900 border border-slate-800 p-8 space-y-6">
           <div className="max-w-3xl space-y-3">
-            <h2 className="text-2xl font-bold text-white">Qu'est-ce que l'IPTV et comment ça marche ?</h2>
+            <h2 className="text-2xl font-bold text-white">
+              Guide IPTV 2026 : Principes, Fonctionnement et Protocoles de Diffusion
+            </h2>
             <p className="text-sm text-slate-300 leading-relaxed">
               L'<strong>IPTV</strong> (<em>Internet Protocol Television</em>) permet de recevoir des chaînes de télévision et des vidéos à la demande via une simple connexion internet haut débit (Fibre, VDSL ou 5G), sans nécessiter d'antenne râteau TNT ni de parabole satellite.
             </p>
             <p className="text-sm text-slate-300 leading-relaxed">
-              Le signal vidéo est encodé au format numérique (H.264 ou H.265 / HEVC) et transmis par paquets de données directement à votre application (comme <strong>IPTV Smarters Pro</strong>). Cela vous permet de profiter d'une qualité d'image allant jusqu'à la 4K Ultra HD à 60 images par seconde avec un zapping quasi instantané.
+              Le signal vidéo est encodé au format numérique (H.264 ou H.265 / HEVC) et transmis par paquets de données directement à votre application (comme <strong>IPTV Smarters Pro</strong>). Cela vous permet de profiter d'une qualité d'image allant jusqu'à la <strong>qualité 4K Ultra HD</strong> à <strong>60 images par seconde</strong> avec un zapping quasi instantané.
             </p>
+          </div>
+        </section>
+
+        {/* Section: Applications Recommandées */}
+        <section className="space-y-6">
+          <div className="max-w-3xl space-y-2">
+            <h2 className="text-2xl font-bold text-white">
+              Les Meilleurs Lecteurs Multimédias Analysés dans ce Guide IPTV
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-400">
+              Le choix du lecteur conditionne directement la fluidité et l'ergonomie de votre zapping au quotidien :
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+              <h3 className="text-base font-bold text-white">IPTV Smarters Pro</h3>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Le lecteur le plus polyvalent au monde, compatible avec Smart TV, Firestick, Android, iOS et Windows via l'<strong>API Xtream Codes</strong>.
+              </p>
+            </div>
+
+            <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+              <h3 className="text-base font-bold text-white">TiviMate IPTV Player</h3>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                L'interface télécommande la plus aboutie pour <strong>Fire TV Stick</strong> et <strong>Box Android</strong> avec multi-écrans et Replay.
+              </p>
+            </div>
+
+            <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+              <h3 className="text-base font-bold text-white">IBO Player Pro</h3>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Lecteur ultra-rapide optimisé pour les téléviseurs <strong>Samsung Tizen</strong> et <strong>LG webOS</strong> avec activation par adresse MAC.
+              </p>
+            </div>
+
+            <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+              <h3 className="text-base font-bold text-white">XCIPTV Player</h3>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Solution robuste intégrant les moteurs ExoPlayer et VLC avec double lecteur intégré pour pallier toute anomalie de codec audio ou vidéo.
+              </p>
+            </div>
           </div>
         </section>
 
@@ -236,7 +264,7 @@ export default function GuideIptvPage() {
               <ShieldCheck className="w-6 h-6 text-red-400" />
               <h3 className="text-base font-bold text-white">6. Choisir un Serveur Haute Capacité</h3>
               <p className="text-xs text-slate-400 leading-relaxed">
-                Aucune astuce technique ne peut compenser un serveur saturé. Optez pour nos serveurs CDN avec garantie anti-freeze 99.9%.
+                Aucune astuce technique ne peut compenser un serveur saturé. Consultez notre <Link href="/guide-iptv/meilleur-abonnement-iptv" className="text-blue-400 underline">comparatif du meilleur abonnement IPTV 2026</Link> pour vérifier les critères CDN 10 Gbps.
               </p>
             </div>
           </div>
@@ -272,11 +300,95 @@ export default function GuideIptvPage() {
           </div>
         </section>
 
+        {/* Section: Architecture Réseau */}
+        <section className="space-y-6">
+          <div className="max-w-3xl space-y-2">
+            <h2 className="text-2xl font-bold text-white">
+              Architecture Réseau : Pourquoi les Serveurs CDN Évitent la Saturation de Flux
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              La majorité des problèmes de freeze proviennent de serveurs low-cost hébergés sur des liaisons 1 Gbps mutualisées entre des milliers d'utilisateurs. Notre infrastructure repose sur des <strong>serveurs CDN 10 Gbps</strong> répartis en France, Suisse et Allemagne :
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+              <h3 className="text-base font-bold text-white">Routage Intelligent &amp; Équilibrage de Charge</h3>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Lors des grands soirs de match de football, notre système redirige instantanément votre demande vers le nœud européen le plus proche et le moins encombré pour éliminer tout temps de latence ou écran noir.
+              </p>
+            </div>
+
+            <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+              <h3 className="text-base font-bold text-white">Transcodage HEVC H.265 Ultra-Performant</h3>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Le format de compression <strong>HEVC H.265</strong> divise par deux le poids des données transmises par rapport à l'ancien format H.264, permettant de diffuser une image 4K 60 FPS parfaite même sur une connexion VDSL moyenne.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Section FAQ Guide IPTV */}
+        <section className="space-y-6">
+          <div className="max-w-3xl space-y-2">
+            <h2 className="text-2xl font-bold text-white">
+              Questions Fréquentes — Tout Comprendre avec ce Guide IPTV
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-400">
+              Retrouvez les réponses techniques indispensables pour exploiter votre abonnement dans les meilleures conditions.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+              <h3 className="text-sm font-bold text-white">Quelle vitesse de connexion internet faut-il pour la 4K ?</h3>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Pour la 4K Ultra HD à 60 FPS, un débit stable d'au moins 20 à 25 Mb/s est vivement conseillé. Pour le flux Full HD 1080p, une liaison de 10 à 15 Mb/s suffit amplement pour visionner vos chaînes sans coupure.
+              </p>
+            </div>
+
+            <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+              <h3 className="text-sm font-bold text-white">Pourquoi mon flux coupe-t-il le soir pendant les matchs ?</h3>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Ce phénomène s'explique par la saturation de serveurs bas de gamme ou par le filtrage temporaire appliqué par votre FAI (Orange, Free, SFR, Bouygues). Configurer le <strong>DNS Cloudflare 1.1.1.1</strong> ou activer un VPN résout le blocage.
+              </p>
+            </div>
+
+            <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+              <h3 className="text-sm font-bold text-white">L'utilisation d'un VPN est-elle obligatoire ?</h3>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Non, un VPN n'est pas nécessaire si votre opérateur ne bride pas votre débit. Cependant, il offre une garantie supplémentaire d'anonymat et protège vos paquets réseau contre les limitations de bande passante le soir.
+              </p>
+            </div>
+
+            <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+              <h3 className="text-sm font-bold text-white">Comment tester mon équipement avant de m'engager ?</h3>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Vous pouvez commander notre forfait Découverte 3 Mois ou demander un <Link href="/test-iptv-gratuit" className="text-blue-400 underline">test IPTV 24h</Link> direct pour vérifier la compatibilité de votre téléviseur ou Firestick avec notre catalogue.
+              </p>
+            </div>
+
+            <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+              <h3 className="text-sm font-bold text-white">Comment organiser ses chaînes favorites sur l'application ?</h3>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Dans IPTV Smarters Pro et TiviMate, maintenez appuyé le bouton central de votre télécommande sur n'importe quel canal pour l'ajouter à votre dossier Favoris. Vous accédez ainsi à vos chaînes sportives et TNT prioritaires sans naviguer dans l'arborescence complète.
+              </p>
+            </div>
+
+            <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+              <h3 className="text-sm font-bold text-white">Que faire si l'image fige mais que le son continue ?</h3>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Ce symptôme traduit une surcharge du processeur graphique lors du décodage 4K 60 FPS. Dans les paramètres de lecture, basculez le décodeur vidéo sur <strong>Hardware (HW+)</strong> ou <strong>ExoPlayer</strong> pour exploiter l'accélération matérielle native de votre téléviseur.
+              </p>
+            </div>
+          </div>
+        </section>
+
         {/* Section 4: CTA vers Tarifs */}
         <div className="p-8 rounded-2xl bg-gradient-to-r from-blue-900/40 via-slate-900 to-indigo-900/40 border border-blue-500/30 flex flex-col sm:flex-row items-center justify-between gap-6">
           <div>
             <h3 className="text-xl font-bold text-white">Prêt à tester une IPTV stable sans coupure ?</h3>
-            <p className="text-xs text-slate-300">Profitez de notre formule 12 mois VIP avec 1 mois offert et 2 connexions simultanées.</p>
+            <p className="text-xs text-slate-300">Profitez de notre formule 12 mois VIP avec 1 mois offert et 1 connexion 4K dédiée (options multi-écrans disponibles).</p>
           </div>
           <Link
             href="/tarifs-abonnement"
@@ -287,6 +399,7 @@ export default function GuideIptvPage() {
         </div>
 
       </main>
+      <Footer />
     </div>
   );
 }

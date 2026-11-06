@@ -1,6 +1,21 @@
 import { NextResponse } from 'next/server';
 import { createServerSideClient, createAdminClient } from '@/lib/supabase';
 import { sendSubscriptionActivatedEmail } from '@/lib/resend';
+import { adminPaymentActionSchema } from '@/lib/validations';
+import type { Payment, PlanType, Profile } from '@/types/database';
+
+const PLAN_DURATION_MONTHS: Record<PlanType, number> = {
+  Starter: 3,
+  Confort: 6,
+  Premium: 12,
+  Pack2: 12,
+  Pack3: 12,
+  Pack4: 12,
+};
+
+interface PaymentWithRelations extends Payment {
+  user?: Profile | null;
+}
 
 export async function POST(request: Request) {
   const supabase = createServerSideClient();
@@ -23,15 +38,19 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Accès refusé. Droits administrateur requis.' }, { status: 403 });
     }
 
-    // 2. Parse request payload
-    const { paymentId, notes } = await request.json();
+    // 2. Parse request payload with Zod
+    const rawPayload: unknown = await request.json();
+    const parsed = adminPaymentActionSchema.safeParse(rawPayload);
 
-    if (!paymentId) {
-      return NextResponse.json({ error: 'Identifiant de paiement requis.' }, { status: 400 });
+    if (!parsed.success) {
+      const firstIssue = parsed.error.issues[0]?.message || 'Identifiant de paiement requis.';
+      return NextResponse.json({ error: firstIssue }, { status: 400 });
     }
 
+    const { paymentId, notes } = parsed.data;
+
     // Fetch the payment log along with subscription and profile details
-    const { data: payment, error: paymentError } = await supabase
+    const { data: rawPayment, error: paymentError } = await supabase
       .from('payments')
       .select(`
         *,
@@ -41,9 +60,11 @@ export async function POST(request: Request) {
       .eq('id', paymentId)
       .single();
 
-    if (paymentError || !payment) {
+    if (paymentError || !rawPayment) {
       return NextResponse.json({ error: 'Paiement introuvable.' }, { status: 404 });
     }
+
+    const payment = rawPayment as PaymentWithRelations;
 
     if (payment.status === 'confirmed') {
       return NextResponse.json({ error: 'Ce paiement a déjà été validé.' }, { status: 400 });
@@ -51,16 +72,10 @@ export async function POST(request: Request) {
 
     const now = new Date().toISOString();
     const expiryDate = new Date();
-    const planType = (payment as any).subscription?.plan_type || 'Starter';
-    
-    if (planType === 'Confort') {
-      expiryDate.setMonth(expiryDate.getMonth() + 3);
-    } else if (planType === 'Premium') {
-      expiryDate.setMonth(expiryDate.getMonth() + 12);
-    } else {
-      expiryDate.setMonth(expiryDate.getMonth() + 1);
-    }
-    
+    const planType: PlanType = payment.subscription?.plan_type || 'Starter';
+    const monthsToAdd = PLAN_DURATION_MONTHS[planType] ?? 3;
+    expiryDate.setMonth(expiryDate.getMonth() + monthsToAdd);
+
     const expiryIso = expiryDate.toISOString();
 
     // 3. Update payment status to confirmed
@@ -70,7 +85,7 @@ export async function POST(request: Request) {
         status: 'confirmed',
         confirmed_by_admin_id: session.user.id,
         confirmed_at: now,
-        notes: notes || payment.notes,
+        notes: typeof notes === 'string' && notes.trim().length > 0 ? notes.trim() : payment.notes,
       })
       .eq('id', paymentId);
 
@@ -105,20 +120,12 @@ export async function POST(request: Request) {
       });
 
     // 6. Send subscription activation email using Resend
-    const clientEmail = (payment as any).user?.email || ''; // Wait! The profile doesn't have email. auth.users has email.
-    // Since we queried profiles, profiles doesn't contain email per database structure.
-    // Let's get the email from auth.users or we can look it up, or since profile email is not saved in profiles table,
-    // let's fetch auth.users email using admin supabase client to be robust, or we can use the payment user's ID
-    // to query Auth!
-    let targetEmail = '';
-    const adminSupabase = createServerSideClient(); // Wait, createServerSideClient accesses standard anon key.
-    // Let's look up auth.users using createAdminClient (which has the SERVICE role key!)
     const adminClient = createAdminClient();
     const { data: userData } = await adminClient.auth.admin.getUserById(payment.user_id);
-    targetEmail = userData?.user?.email || '';
+    const targetEmail = userData?.user?.email || '';
 
     if (targetEmail) {
-      const clientName = (payment as any).user?.full_name || 'Client';
+      const clientName = payment.user?.full_name || 'Client';
       const formattedExpiry = new Date(expiryIso).toLocaleDateString('fr-FR', {
         year: 'numeric',
         month: 'long',
@@ -128,7 +135,7 @@ export async function POST(request: Request) {
       await sendSubscriptionActivatedEmail(
         targetEmail,
         clientName,
-        (payment as any).subscription?.plan_type || 'Premium',
+        planType,
         formattedExpiry
       );
     }
@@ -138,8 +145,8 @@ export async function POST(request: Request) {
       message: 'Paiement confirmé et abonnement activé avec succès.'
     });
 
-  } catch (error: any) {
-    console.error('Confirm payment error:', error);
+  } catch (error: unknown) {
+    console.error('Confirm payment error:', error instanceof Error ? error.message : error);
     return NextResponse.json({ error: 'Une erreur interne est survenue.' }, { status: 500 });
   }
 }

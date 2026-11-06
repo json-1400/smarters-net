@@ -18,19 +18,19 @@ import {
   HelpCircle,
   FolderLock
 } from 'lucide-react';
-import { SITE_CONFIG } from '@/lib/seo';
+import { SITE_CONFIG, constructMetadata } from '@/lib/seo';
+import { buildWhatsappUrl } from '@/lib/contact';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 
 const PAGE_CANONICAL = 'https://smarterspro12.net/catalogue-vod/iptv-adulte';
 
 export function generateMetadata(): Metadata {
-  const title = "IPTV Adulte & VOD +18 : Guide des Chaînes, Sécurité & Contrôle Parental PIN";
-  const description = "Guide complet des chaînes et VOD adultes (+18) sur IPTV Smarters Pro : protection des mineurs, configuration du code PIN parental et option de suppression totale.";
-
-  return {
-    title,
-    description,
+  return constructMetadata({
+    title: "IPTV avec Chaînes Adultes (+18) : VOD, Sécurité & Contrôle Parental PIN",
+    description: "Guide complet IPTV avec chaînes adultes et VOD (+18) sur IPTV Smarters Pro : protection des mineurs, configuration du code PIN parental et suppression totale.",
+    canonicalUrl: PAGE_CANONICAL,
+    type: 'article',
     keywords: [
       'iptv adulte',
       'chaines adulte iptv',
@@ -41,25 +41,7 @@ export function generateMetadata(): Metadata {
       'bloquer chaines adultes iptv',
       'masquer categorie adulte iptv'
     ],
-    alternates: {
-      canonical: PAGE_CANONICAL,
-      languages: {
-        'fr-FR': `${PAGE_CANONICAL}?lang=fr-fr`,
-        'fr-BE': `${PAGE_CANONICAL}?lang=fr-be`,
-        'fr-CH': `${PAGE_CANONICAL}?lang=fr-ch`,
-        'fr-CA': `${PAGE_CANONICAL}?lang=fr-ca`,
-        'x-default': PAGE_CANONICAL,
-      },
-    },
-    openGraph: {
-      title,
-      description,
-      url: PAGE_CANONICAL,
-      siteName: SITE_CONFIG.name,
-      locale: 'fr_FR',
-      type: 'article',
-    },
-  };
+  });
 }
 
 export default function IptvAdultePage() {
@@ -214,13 +196,13 @@ export default function IptvAdultePage() {
             </div>
 
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-tight">
-              IPTV Adulte & VOD +18 : Guide des Chaînes, Protection et Contrôle Parental Sécurisé
+              IPTV avec Chaînes Adultes & VOD +18 : Guide, Protection et Contrôle Parental Sécurisé
             </h1>
 
             {/* AEO Direct Snippet Answer Box */}
             <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 text-sm leading-relaxed text-slate-300 space-y-2">
               <p>
-                <strong>Réponse directe :</strong> Le bouquet <strong>IPTV adulte (+18)</strong> regroupe les chaînes de télévision pour adultes et contenus VOD réservés aux personnes majeures, disponibles en option sécurisée sur l'application IPTV Smarters Pro. Pour garantir la protection absolue des mineurs et la sérénité du foyer familial, ce contenu est <strong>systématiquement verrouillable par un code PIN parental à 4 chiffres</strong>, et peut être totalement masqué ou supprimé sur simple demande lors de l'activation de votre abonnement.
+                <strong>Réponse directe :</strong> Un abonnement <strong>IPTV avec chaînes adultes</strong> (+18) regroupe les chaînes de télévision pour adultes et contenus VOD réservés aux personnes majeures sur <strong>IPTV Smarters Pro</strong> (compatible <strong>Smart TV &amp; Firestick</strong>, <strong>Box Android</strong>, <strong>Windows &amp; iOS</strong>). Pour garantir la protection des mineurs, ce bouquet est verrouillable par un <strong>code PIN parental</strong> à 4 chiffres, et peut être totalement supprimé sur simple demande lors de l'activation.
               </p>
             </div>
 
@@ -233,7 +215,7 @@ export default function IptvAdultePage() {
                 <ArrowRight className="w-4 h-4 ml-2" />
               </a>
               <a
-                href="https://wa.me/33600000000?text=Bonjour,%20je%20souhaite%20activer%20mon%20abonnement%20avec%20l'option%20Famille%20(Zéro%20Adulte)"
+                href={buildWhatsappUrl("Bonjour, je souhaite activer mon abonnement avec l'option Famille (Zéro Adulte)")}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center px-6 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-emerald-400 font-semibold text-sm transition-all"
@@ -267,7 +249,7 @@ export default function IptvAdultePage() {
                     <Lock className="w-4 h-4" />
                   </div>
                   <div>
-                    <h3 className="text-sm font-bold text-white">Verrouillage Parental Actif</h3>
+                    <h2 className="text-sm font-bold text-white">Verrouillage Parental Actif</h2>
                     <span className="text-[11px] text-slate-400">IPTV Smarters Pro &middot; Sécurité Foyer</span>
                   </div>
                 </div>
@@ -541,7 +523,7 @@ export default function IptvAdultePage() {
               <ArrowRight className="w-4 h-4 ml-2" />
             </Link>
             <a
-              href="https://wa.me/33600000000?text=Bonjour,%20je%20souhaite%20commander%20avec%20l'option%20Zéro%20Adulte%20pour%20ma%20famille"
+              href={buildWhatsappUrl("Bonjour, je souhaite commander avec l'option Zéro Adulte pour ma famille")}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center px-6 py-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm shadow-xl shadow-emerald-600/30 transition-all"

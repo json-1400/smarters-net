@@ -16,21 +16,22 @@ import {
   Flame,
   HelpCircle,
   Layers,
-  Sparkles
+  Sparkles,
+  MessageCircle
 } from 'lucide-react';
-import { SITE_CONFIG } from '@/lib/seo';
+import { SITE_CONFIG, constructMetadata } from '@/lib/seo';
+import { buildWhatsappUrl } from '@/lib/contact';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 
 const PAGE_CANONICAL = 'https://smarterspro12.net/tarifs-abonnement/iptv-multi-ecran';
 
 export function generateMetadata(): Metadata {
-  const title = "IPTV Multi-Écran (2 à 5 Écrans Simultanés) : Formules & Prix France 2026";
-  const description = "Découvrez nos offres IPTV multi-écrans sans coupure en France : regardez simultanément sur 2, 3 ou 5 appareils (Smart TV, Fire Stick, smartphone) en 4K fluide.";
-
-  return {
-    title,
-    description,
+  return constructMetadata({
+    title: "IPTV Multi-Écran (2 à 5 Écrans Simultanés) : Formules & Prix France 2026",
+    description: "Découvrez nos offres IPTV multi-écrans sans coupure en France : regardez simultanément sur 2, 3 ou 5 appareils (Smart TV, Fire Stick, smartphone) en 4K fluide.",
+    canonicalUrl: PAGE_CANONICAL,
+    type: 'article',
     keywords: [
       'iptv multi ecran',
       'iptv multi connexions',
@@ -41,25 +42,7 @@ export function generateMetadata(): Metadata {
       'iptv simultane famille',
       'iptv smarters pro multi ecran'
     ],
-    alternates: {
-      canonical: PAGE_CANONICAL,
-      languages: {
-        'fr-FR': `${PAGE_CANONICAL}?lang=fr-fr`,
-        'fr-BE': `${PAGE_CANONICAL}?lang=fr-be`,
-        'fr-CH': `${PAGE_CANONICAL}?lang=fr-ch`,
-        'fr-CA': `${PAGE_CANONICAL}?lang=fr-ca`,
-        'x-default': PAGE_CANONICAL,
-      },
-    },
-    openGraph: {
-      title,
-      description,
-      url: PAGE_CANONICAL,
-      siteName: SITE_CONFIG.name,
-      locale: 'fr_FR',
-      type: 'article',
-    },
-  };
+  });
 }
 
 export default function IptvMultiEcranPage() {
@@ -78,14 +61,14 @@ export default function IptvMultiEcranPage() {
         offers: {
           '@type': 'AggregateOffer',
           priceCurrency: 'EUR',
-          lowPrice: '59.99',
-          highPrice: '89.99',
+          lowPrice: '69.99',
+          highPrice: '120.00',
           offerCount: '3',
           offers: [
             {
               '@type': 'Offer',
               name: 'Pack Duo 2 Écrans Simultanés',
-              price: '59.99',
+              price: '69.99',
               priceCurrency: 'EUR',
               availability: 'https://schema.org/InStock',
               url: `${PAGE_CANONICAL}#duo`,
@@ -93,15 +76,15 @@ export default function IptvMultiEcranPage() {
             {
               '@type': 'Offer',
               name: 'Pack Trio 3 Écrans Famille',
-              price: '74.99',
+              price: '100.00',
               priceCurrency: 'EUR',
               availability: 'https://schema.org/InStock',
               url: `${PAGE_CANONICAL}#trio`,
             },
             {
               '@type': 'Offer',
-              name: 'Pack Maxi Multi-Room 4-5 Écrans',
-              price: '89.99',
+              name: 'Pack Maxi Multi-Room 4 Écrans',
+              price: '120.00',
               priceCurrency: 'EUR',
               availability: 'https://schema.org/InStock',
               url: `${PAGE_CANONICAL}#maxi`,
@@ -228,13 +211,13 @@ export default function IptvMultiEcranPage() {
             </div>
 
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-tight">
-              Abonnement IPTV Multi-Écran : 2 à 5 Connexions Simultanées 4K sans Coupure
+              Abonnement IPTV Multi-Écrans : 2 à 5 Connexions Simultanées 4K sans Coupure
             </h1>
 
             {/* AEO Direct Snippet Answer Box */}
             <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 text-sm leading-relaxed text-slate-300 space-y-2">
               <p>
-                <strong>Réponse directe :</strong> Un abonnement <strong>IPTV multi-écran</strong> (ou multi-connexions) permet de diffuser simultanément des chaînes de télévision et des films VOD différents sur <strong>2 à 5 téléviseurs ou appareils distincts</strong> au sein du même foyer sans coupure de flux. Contrairement à un abonnement standard limité à 1 seule session active, la technologie multi-écrans alloue des flux parallèles redondés garantissant une fluidité 4K à 60 FPS sur chaque écran même lors des grands événements sportifs.
+                <strong>Réponse directe :</strong> Un abonnement <strong>IPTV multi-écrans</strong> (ou multi-connexions) permet de diffuser simultanément des chaînes de télévision et des films VOD différents sur <strong>2 à 5 appareils distincts</strong> (<strong>Smart TV, Firestick et Box Android</strong> ainsi que <strong>PC Windows, iOS, iPhone et Android</strong>) au sein du même foyer sans coupure de flux. Contrairement à un abonnement standard limité à 1 seule session active, la technologie multi-écrans alloue des <strong>flux parallèles 4K 60 FPS</strong> redondés sur chaque écran.
               </p>
             </div>
 
@@ -247,7 +230,7 @@ export default function IptvMultiEcranPage() {
                 <ArrowRight className="w-4 h-4 ml-2" />
               </a>
               <a
-                href="https://wa.me/33600000000?text=Bonjour,%20je%20souhaite%20commander%20une%20formule%20IPTV%20Multi-Écran"
+                href={buildWhatsappUrl("Bonjour, je souhaite commander une formule IPTV Multi-Écran")}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center px-6 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-sm transition-all"
@@ -276,10 +259,10 @@ export default function IptvMultiEcranPage() {
           <div className="lg:col-span-5">
             <div className="p-7 rounded-2xl bg-gradient-to-b from-slate-900 to-slate-950 border border-slate-800 shadow-2xl space-y-5 relative">
               <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-                <h3 className="text-base font-bold text-white flex items-center gap-2">
+                <h2 className="text-base font-bold text-white flex items-center gap-2">
                   <Layers className="w-4 h-4 text-blue-400" />
                   <span>Diffusion Simultanée en Direct</span>
-                </h3>
+                </h2>
                 <span className="text-[10px] uppercase font-extrabold px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400">
                   En ligne (3 sessions)
                 </span>
@@ -363,10 +346,10 @@ export default function IptvMultiEcranPage() {
                 </div>
                 <div className="space-y-1">
                   <div className="flex items-baseline gap-1">
-                    <span className="text-4xl font-extrabold text-white">59,99 €</span>
+                    <span className="text-4xl font-extrabold text-white">69,99 €</span>
                     <span className="text-xs text-slate-400">/ an</span>
                   </div>
-                  <span className="block text-xs text-emerald-400 font-semibold">Soit ~29,99 € par écran pour 1 an</span>
+                  <span className="block text-xs text-emerald-400 font-semibold">Soit ~35 € par écran pour 1 an</span>
                 </div>
                 <p className="text-xs text-slate-400 leading-relaxed">
                   La solution parfaite pour un couple : le sport dans le salon et vos séries préférées dans la chambre sans conflit.
@@ -387,14 +370,24 @@ export default function IptvMultiEcranPage() {
                 </div>
               </div>
 
-              <a
-                href="https://wa.me/33600000000?text=Bonjour,%20je%20souhaite%20activer%20le%20Pack%20Duo%202%20Écrans%20(59.99€)"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs uppercase tracking-wider text-center block transition-colors"
-              >
-                Activer le Pack Duo
-              </a>
+              <div className="space-y-2 pt-2">
+                <Link
+                  href="/checkout?plan=Pack2"
+                  className="w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs uppercase tracking-wider text-center inline-flex items-center justify-center gap-1.5 transition-colors"
+                >
+                  <span>Commander en ligne</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+                <a
+                  href={buildWhatsappUrl("Bonjour, je souhaite commander le Pack Duo (2 Écrans en simultané) à 69,99 € / 12 mois. Pouvez-vous m'envoyer le lien de paiement et mes accès 4K ?")}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full py-2.5 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/30 font-bold text-xs uppercase tracking-wider text-center inline-flex items-center justify-center gap-1.5 transition-colors"
+                >
+                  <MessageCircle className="w-3.5 h-3.5" />
+                  <span>Commander via WhatsApp</span>
+                </a>
+              </div>
             </div>
 
             {/* Trio Pack (Most Popular for Families) */}
@@ -406,10 +399,10 @@ export default function IptvMultiEcranPage() {
                 </div>
                 <div className="space-y-1">
                   <div className="flex items-baseline gap-1">
-                    <span className="text-4xl font-black text-white">74,99 €</span>
+                    <span className="text-4xl font-black text-white">100 €</span>
                     <span className="text-xs text-slate-400">/ an</span>
                   </div>
-                  <span className="block text-xs text-emerald-400 font-extrabold">Seulement ~24,99 € par écran pour 1 an</span>
+                  <span className="block text-xs text-emerald-400 font-extrabold">Seulement ~33,33 € par écran pour 1 an</span>
                 </div>
                 <p className="text-xs text-slate-300 leading-relaxed">
                   Idéal pour toute la famille : les parents, les enfants et les adolescents regardent leurs programmes sans dispute.
@@ -430,14 +423,24 @@ export default function IptvMultiEcranPage() {
                 </div>
               </div>
 
-              <a
-                href="https://wa.me/33600000000?text=Bonjour,%20je%20souhaite%20activer%20le%20Pack%20Trio%203%20Écrans%20(74.99€)"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs uppercase tracking-wider text-center block shadow-lg shadow-blue-600/30 transition-all hover:scale-[1.02]"
-              >
-                Activer le Pack Trio Famille
-              </a>
+              <div className="space-y-2 pt-2">
+                <Link
+                  href="/checkout?plan=Pack3"
+                  className="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs uppercase tracking-wider text-center inline-flex items-center justify-center gap-1.5 shadow-lg shadow-blue-600/30 transition-all hover:scale-[1.02]"
+                >
+                  <span>Commander en ligne</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+                <a
+                  href={buildWhatsappUrl("Bonjour, je souhaite commander le Pack Trio (3 Écrans en simultané) à 100 € / 12 mois. Pouvez-vous m'envoyer le lien de paiement et mes accès 4K ?")}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full py-2.5 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/30 font-bold text-xs uppercase tracking-wider text-center inline-flex items-center justify-center gap-1.5 transition-colors"
+                >
+                  <MessageCircle className="w-3.5 h-3.5" />
+                  <span>Commander via WhatsApp</span>
+                </a>
+              </div>
             </div>
 
             {/* Maxi Pack 4-5 Screens */}
@@ -445,14 +448,14 @@ export default function IptvMultiEcranPage() {
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-bold uppercase tracking-wider text-purple-400">Pack Multi-Room Maxi</span>
-                  <span className="px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-300 text-[10px] font-bold">4 à 5 Écrans</span>
+                  <span className="px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-300 text-[10px] font-bold">4 Écrans</span>
                 </div>
                 <div className="space-y-1">
                   <div className="flex items-baseline gap-1">
-                    <span className="text-4xl font-extrabold text-white">89,99 €</span>
+                    <span className="text-4xl font-extrabold text-white">120 €</span>
                     <span className="text-xs text-slate-400">/ an</span>
                   </div>
-                  <span className="block text-xs text-emerald-400 font-semibold">Moins de 18 € par écran pour l'année</span>
+                  <span className="block text-xs text-emerald-400 font-semibold">30 € par écran pour l'année</span>
                 </div>
                 <p className="text-xs text-slate-400 leading-relaxed">
                   Pour les grandes résidences, colocations ou amateurs de multi-écrans complets (Salon, Chambres, Cuisine, Mobile).
@@ -460,7 +463,7 @@ export default function IptvMultiEcranPage() {
                 <div className="pt-2 border-t border-slate-800/80 space-y-2 text-xs text-slate-300">
                   <div className="flex items-center gap-2">
                     <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                    <span>Jusqu'à 5 Sessions simultanées ultra-haut débit</span>
+                    <span>Jusqu'à 4 Sessions simultanées ultra-haut débit</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
@@ -473,14 +476,24 @@ export default function IptvMultiEcranPage() {
                 </div>
               </div>
 
-              <a
-                href="https://wa.me/33600000000?text=Bonjour,%20je%20souhaite%20activer%20le%20Pack%20Maxi%204-5%20Écrans%20(89.99€)"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs uppercase tracking-wider text-center block transition-colors"
-              >
-                Activer le Pack Maxi
-              </a>
+              <div className="space-y-2 pt-2">
+                <Link
+                  href="/checkout?plan=Pack4"
+                  className="w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs uppercase tracking-wider text-center inline-flex items-center justify-center gap-1.5 transition-colors"
+                >
+                  <span>Commander en ligne</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+                <a
+                  href={buildWhatsappUrl("Bonjour, je souhaite commander le Pack Maxi (4 Écrans en simultané) à 120 € / an. Pouvez-vous m'envoyer le lien de paiement et mes accès 4K ?")}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full py-2.5 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/30 font-bold text-xs uppercase tracking-wider text-center inline-flex items-center justify-center gap-1.5 transition-colors"
+                >
+                  <MessageCircle className="w-3.5 h-3.5" />
+                  <span>Commander via WhatsApp</span>
+                </a>
+              </div>
             </div>
 
           </div>
@@ -638,7 +651,7 @@ export default function IptvMultiEcranPage() {
 
           <div className="flex flex-wrap justify-center gap-4">
             <a
-              href="https://wa.me/33600000000?text=Bonjour,%20je%20souhaite%20activer%20un%20abonnement%20IPTV%20Multi-Écrans"
+              href={buildWhatsappUrl("Bonjour, je souhaite activer un abonnement IPTV Multi-Écrans")}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center px-8 py-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm shadow-xl shadow-emerald-600/30 transition-all hover:scale-105"

@@ -14,20 +14,20 @@ import {
   CheckCircle2,
   AlertTriangle
 } from 'lucide-react';
-import { SITE_CONFIG } from '@/lib/seo';
+import { SITE_CONFIG, constructMetadata } from '@/lib/seo';
+import { buildWhatsappUrl } from '@/lib/contact';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 
 const PAGE_CANONICAL = 'https://smarterspro12.net/support';
 
 export function generateMetadata(): Metadata {
-  const title = "Centre d'Aide & Support Technique IPTV Smarters Pro 7j/7 France";
-  const description = "Besoin d'aide avec votre abonnement IPTV Smarters Pro ? Notre équipe de support francophone vous assiste 7j/7 par WhatsApp, Live Chat et e-mail.";
-
-  return {
-    title,
-    description,
+  return constructMetadata({
+    title: "Support Client IPTV Smarters Pro 7j/7 : Centre d'Aide & Assistance France",
+    description: "Contacter le support client IPTV officiel en France : assistance WhatsApp 7j/7 en moins de 5 minutes, guides de dépannage et suivi de commande.",
+    canonicalUrl: PAGE_CANONICAL,
     keywords: [
+      'support client iptv',
       'support iptv smarters pro',
       'assistance iptv france',
       'contact iptv',
@@ -35,25 +35,7 @@ export function generateMetadata(): Metadata {
       'depannage iptv smarters pro',
       'whatsapp support iptv'
     ],
-    alternates: {
-      canonical: PAGE_CANONICAL,
-      languages: {
-        'fr-FR': `${PAGE_CANONICAL}?lang=fr-fr`,
-        'fr-BE': `${PAGE_CANONICAL}?lang=fr-be`,
-        'fr-CH': `${PAGE_CANONICAL}?lang=fr-ch`,
-        'fr-CA': `${PAGE_CANONICAL}?lang=fr-ca`,
-        'x-default': PAGE_CANONICAL,
-      },
-    },
-    openGraph: {
-      title,
-      description,
-      url: PAGE_CANONICAL,
-      siteName: SITE_CONFIG.name,
-      locale: 'fr_FR',
-      type: 'website',
-    },
-  };
+  });
 }
 
 export default function SupportPage() {
@@ -62,7 +44,7 @@ export default function SupportPage() {
     '@graph': [
       {
         '@type': 'ContactPage',
-        '@id': `${PAGE_CANONICAL}/#contact`,
+        '@id': `${PAGE_CANONICAL}#webpage`,
         name: 'Centre d\'Aide & Assistance Technique IPTV Smarters Pro',
         description: 'Support technique francophone disponible 7 jours sur 7 pour toute question sur la configuration et les abonnements.',
       },
@@ -120,11 +102,11 @@ export default function SupportPage() {
           </div>
 
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-tight">
-            Centre d'Aide & Support Technique IPTV Smarters Pro 7j/7
+            Support Client IPTV &amp; Centre d'Assistance Technique 7j/7
           </h1>
 
           <p className="text-base sm:text-lg text-slate-300 leading-relaxed">
-            Une question avant de commander ? Besoin d'aide pour configurer votre application ou renouveler votre formule ? Notre équipe technique vous répond en direct.
+            Bienvenue sur le service de <strong>support client IPTV</strong> officiel. Une question avant de commander ? Besoin d'aide pour configurer votre application sur Smart TV, Firestick ou renouveler votre formule ? Notre équipe technique vous répond en direct.
           </p>
         </div>
       </header>
@@ -140,7 +122,7 @@ export default function SupportPage() {
               <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
                 <MessageSquare className="w-6 h-6" />
               </div>
-              <h2 className="text-xl font-bold text-white">Assistance WhatsApp Directe</h2>
+              <h2 className="text-xl font-bold text-white">Support Client IPTV sur WhatsApp</h2>
               <p className="text-xs text-slate-400 leading-relaxed">
                 Le moyen le plus rapide d'obtenir une réponse ou de vous faire guider pas à pas lors de l'installation de vos codes.
               </p>
@@ -151,7 +133,7 @@ export default function SupportPage() {
             </div>
 
             <a
-              href="https://wa.me/33600000000?text=Bonjour,%20j'ai%20besoin%20d'aide%20avec%20mon%20abonnement%20IPTV%20Smarters%20Pro"
+              href={buildWhatsappUrl("Bonjour, j'ai besoin d'aide avec mon abonnement IPTV Smarters Pro")}
               target="_blank"
               rel="noopener noreferrer"
               className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-emerald-600/30 transition-all hover:scale-[1.02]"
@@ -184,26 +166,26 @@ export default function SupportPage() {
             </a>
           </div>
 
-          {/* Espace Client Sécurisé */}
+          {/* Guides d'Installation & Dépannage */}
           <div className="p-8 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col justify-between space-y-6">
             <div className="space-y-3">
               <div className="w-12 h-12 rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400">
                 <ShieldCheck className="w-6 h-6" />
               </div>
-              <h2 className="text-xl font-bold text-white">Espace Client Abonné</h2>
+              <h2 className="text-xl font-bold text-white">Guides &amp; Dépannage Réseau</h2>
               <p className="text-xs text-slate-400 leading-relaxed">
-                Retrouvez l'historique de vos abonnements actifs, vos identifiants Xtream Codes et téléchargez vos factures.
+                Consultez nos tutoriels pas-à-pas pour Smart TV, Fire Stick, Android et notre guide de déblocage FAI (DNS Cloudflare &amp; VPN).
               </p>
               <div className="pt-2 text-xs text-purple-300 font-semibold">
-                <span>Accès instantané 24h/24 et 7j/7</span>
+                <span>Accès libre 24h/24 et 7j/7</span>
               </div>
             </div>
 
             <Link
-              href="/dashboard"
+              href="/guide-installation"
               className="w-full flex items-center justify-center py-3.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs uppercase tracking-wider transition-all"
             >
-              Accéder à mon Espace Client
+              Ouvrir les Guides d'Installation
             </Link>
           </div>
 

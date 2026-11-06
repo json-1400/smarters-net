@@ -1,21 +1,25 @@
 import { NextResponse } from 'next/server';
 import { createServerSideClient, createAdminClient } from '@/lib/supabase';
 import { sendChatReplyEmail } from '@/lib/resend';
+import { chatSendSchema } from '@/lib/validations';
 
 export async function POST(request: Request) {
   try {
-    const { roomId, message, guestName, isFromAdmin } = await request.json();
+    const rawPayload: unknown = await request.json();
+    const parsed = chatSendSchema.safeParse(rawPayload);
 
-    if (!roomId || !message?.trim()) {
-      return NextResponse.json({ error: 'Données de message incomplètes.' }, { status: 400 });
+    if (!parsed.success) {
+      const firstIssue = parsed.error.issues[0]?.message || 'Données de message incomplètes.';
+      return NextResponse.json({ error: firstIssue }, { status: 400 });
     }
+
+    const { roomId, message: trimmedMessage, isFromAdmin } = parsed.data;
 
     const adminClient = createAdminClient();
     const serverClient = createServerSideClient();
     const { data: { session } } = await serverClient.auth.getSession();
 
     const senderId = session?.user?.id || null;
-    const trimmedMessage = message.trim();
 
     // 1. Insert message into chat_messages
     const { data: insertedMsg, error: insertError } = await adminClient
@@ -71,8 +75,8 @@ export async function POST(request: Request) {
       success: true,
       message: insertedMsg,
     });
-  } catch (err: any) {
-    console.error('Chat send error:', err);
+  } catch (err: unknown) {
+    console.error('Chat send error:', err instanceof Error ? err.message : err);
     return NextResponse.json({ error: 'Une erreur interne est survenue.' }, { status: 500 });
   }
 }

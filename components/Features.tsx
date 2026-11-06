@@ -5,7 +5,7 @@ const ADVANTAGES = [
   {
     icon: Tv,
     title: 'Abonnement IPTV taillé pour la France',
-    desc: 'TF1, M6, France TV, Canal+, beIN Sports et des milliers de chaînes régionales, européennes et internationales — tout votre IPTV France dans un seul abonnement IPTV Smarters Pro, sans frais cachés.'
+    desc: 'Chaînes TNT françaises, sport en direct, cinéma, séries et des milliers de chaînes régionales, européennes et internationales — tout votre IPTV France dans un seul abonnement IPTV Smarters Pro, sans frais cachés.'
   },
   {
     icon: Zap,

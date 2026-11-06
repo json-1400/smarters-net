@@ -1,46 +1,45 @@
 import { NextResponse } from 'next/server';
 import { createServerSideClient, createAdminClient } from '@/lib/supabase';
-import { sendPaymentInstructionsEmail } from '@/lib/resend';
+import {
+  sendOrderConfirmationEmail,
+  sendAdminOrderNotificationEmail,
+} from '@/lib/resend';
+import { placeOrderSchema } from '@/lib/validations';
+import type { PlanType } from '@/types/database';
 
 // Plan Price Map (in cents) aligned with Pricing cards
-const PLAN_PRICES: Record<string, number> = {
+const PLAN_PRICES: Record<PlanType, number> = {
   Starter: 1999, // 19.99 €
   Confort: 2999, // 29.99 €
-  Premium: 3999, // 39.99 €
-  Pack2: 5999,   // 59.99 €
+  Premium: 4999, // 49.99 €
+  Pack2: 6999,   // 69.99 €
+  Pack3: 10000,  // 100.00 €
+  Pack4: 12000,  // 120.00 €
 };
 
-interface RequestPayload {
-  planType?: string;
-  fullName?: string;
-  email?: string;
-  phone?: string;
-  paymentMethod?: string;
-}
+const PLAN_NAMES: Record<PlanType, string> = {
+  Starter: 'Abonnement IPTV 3 Mois',
+  Confort: 'Abonnement IPTV 6 Mois',
+  Premium: 'Abonnement IPTV 12 Mois VIP',
+  Pack2: 'Abonnement Pack Duo (2 Écrans)',
+  Pack3: 'Abonnement Pack Trio (3 Écrans)',
+  Pack4: 'Abonnement Pack Maxi (4 Écrans)',
+};
 
 export async function POST(request: Request) {
   const supabase = createServerSideClient();
   const adminSupabase = createAdminClient();
 
   try {
-    const payload: unknown = await request.json();
+    const rawPayload: unknown = await request.json();
+    const parsed = placeOrderSchema.safeParse(rawPayload);
 
-    if (!payload || typeof payload !== 'object') {
-      return NextResponse.json({ error: 'Payload de requête invalide.' }, { status: 400 });
+    if (!parsed.success) {
+      const firstIssue = parsed.error.issues[0]?.message || 'Payload de requête invalide.';
+      return NextResponse.json({ error: firstIssue }, { status: 400 });
     }
 
-    const {
-      planType,
-      fullName,
-      email,
-      phone,
-      paymentMethod = 'paypal',
-    } = payload as RequestPayload;
-
-    if (!planType || !PLAN_PRICES[planType]) {
-      return NextResponse.json({ error: 'Formule d\'abonnement invalide sélectionnée.' }, { status: 400 });
-    }
-
+    const { planType, fullName, email, phone } = parsed.data;
     const priceCents = PLAN_PRICES[planType];
 
     // Check if user is currently authenticated
@@ -73,7 +72,7 @@ export async function POST(request: Request) {
       // 2. Guest checkout (No authentication gate)
       if (!email || typeof email !== 'string' || !email.includes('@')) {
         return NextResponse.json(
-          { error: 'Veuillez saisir une adresse email valide pour recevoir vos identifiants.' },
+          { error: 'Veuillez saisir une adresse email valide pour recevoir votre confirmation.' },
           { status: 400 }
         );
       }
@@ -134,7 +133,7 @@ export async function POST(request: Request) {
       }
     }
 
-    // 3. Create pending subscription record using admin client (bypasses RLS)
+    // 3. Create subscription record using admin client (bypasses RLS)
     const { data: newSub, error: insertSubError } = await adminSupabase
       .from('subscriptions')
       .insert({
@@ -150,7 +149,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Échec de la création de la souscription.' }, { status: 500 });
     }
 
-    // 4. Create pending payment record
+    // 4. Create order record (no payment collected at checkout)
     const { data: newPayment, error: insertPayError } = await adminSupabase
       .from('payments')
       .insert({
@@ -159,64 +158,51 @@ export async function POST(request: Request) {
         amount: priceCents,
         currency: 'eur',
         status: 'pending_instruction',
-        payment_method: paymentMethod || 'paypal',
+        payment_method: 'other',
       })
       .select()
       .single();
 
     if (insertPayError || !newPayment) {
-      console.error('Payment insertion error:', insertPayError);
+      console.error('Order insertion error:', insertPayError);
       await adminSupabase.from('subscriptions').delete().eq('id', newSub.id);
-      return NextResponse.json({ error: 'Échec de la création du paiement.' }, { status: 500 });
+      return NextResponse.json({ error: 'Échec de la création de la commande.' }, { status: 500 });
     }
 
-    // 5. Fetch manual payment instructions for specified plan
-    const { data: instructions } = await adminSupabase
-      .from('payment_instructions')
-      .select('*')
-      .eq('plan_type', planType)
-      .maybeSingle();
+    const orderRef = `SP-${String(newPayment.id).slice(0, 8).toUpperCase()}`;
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://smarterspro12.net';
+    const orderDate = new Date().toLocaleDateString('fr-FR', {
+      day: '2-digit',
+      month: 'long',
+      year: 'numeric',
+    });
 
-    const bankDetails = instructions?.bank_details || 'Bank: EuroBank | IBAN: FR76 3000 1234 5678 9012 345';
-    const whatsappNum = instructions?.whatsapp_number || '+33612345678';
+    const emailPayload = {
+      customerName,
+      customerEmail,
+      customerPhone: phone ? phone.trim() : null,
+      planName: PLAN_NAMES[planType] || planType,
+      planType,
+      amountCents: priceCents,
+      orderRef,
+      orderDate,
+      siteUrl,
+    };
 
-    // 6. Fire off automated instruction email via Resend
-    let emailSuccess = false;
-    try {
-      const emailResult = await sendPaymentInstructionsEmail(
-        customerEmail,
-        customerName,
-        planType,
-        priceCents,
-        bankDetails,
-        whatsappNum,
-        instructions?.instruction_text
-      );
-      emailSuccess = emailResult?.success ?? false;
-    } catch (err: unknown) {
-      console.error('Resend email error:', err instanceof Error ? err.message : err);
-    }
-
-    // If successful email, transition payment status to 'pending_confirmation'
-    if (emailSuccess) {
-      await adminSupabase
-        .from('payments')
-        .update({ status: 'pending_confirmation' })
-        .eq('id', newPayment.id);
-    }
+    // 5. Send customer confirmation email & admin notification email in parallel via Resend
+    await Promise.allSettled([
+      sendOrderConfirmationEmail(emailPayload),
+      sendAdminOrderNotificationEmail(emailPayload),
+    ]);
 
     return NextResponse.json({
       success: true,
       subscriptionId: newSub.id,
-      paymentId: newPayment.id,
-      instructions: {
-        bankDetails,
-        whatsappNumber: whatsappNum,
-      },
+      orderRef,
     });
   } catch (error: unknown) {
     const errorMsg = error instanceof Error ? error.message : 'Une erreur interne est survenue.';
-    console.error('Send payment instructions route error:', errorMsg);
+    console.error('Place order route error:', errorMsg);
     return NextResponse.json({ error: errorMsg }, { status: 500 });
   }
 }

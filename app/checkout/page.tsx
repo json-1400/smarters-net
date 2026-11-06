@@ -1,9 +1,8 @@
 'use client';
-// CLIENT: Interactive guest checkout form with client-side validation and payment method selection
+// CLIENT: Interactive guest checkout form with client-side validation
 
-import React, { useState, useEffect, Suspense } from 'react';
+import React, { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import Link from 'next/link';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { 
@@ -56,7 +55,7 @@ const PLAN_INFO: Record<string, PlanDetail> = {
   },
   Premium: {
     name: 'Abonnement IPTV 12 Mois VIP',
-    price: '39.99 €',
+    price: '49.99 €',
     duration: '12 Mois',
     features: [
       '1 Connexion VIP (1 Mois Offert)',
@@ -69,13 +68,37 @@ const PLAN_INFO: Record<string, PlanDetail> = {
   },
   Pack2: {
     name: 'Abonnement Pack Duo (2 Écrans)',
-    price: '59.99 €',
+    price: '69.99 €',
     duration: '12 Mois',
     features: [
       '2 Connexions simultanées indépendantes',
       'Qualité 4K Ultra HD & Full HD',
       '+25 000 Chaînes & VOD Illimitées',
       'Serveurs Ultra-Haute Performance',
+      'Support VIP Prioritaire 24/7',
+    ],
+  },
+  Pack3: {
+    name: 'Abonnement Pack Trio (3 Écrans)',
+    price: '100.00 €',
+    duration: '12 Mois',
+    features: [
+      '3 Connexions simultanées indépendantes',
+      'Qualité 4K Ultra HD & 60 FPS',
+      '+25 000 Chaînes & +90 000 VOD',
+      'Technologie anti-freeze 10 Gbps',
+      'Support VIP Dédié 24/7',
+    ],
+  },
+  Pack4: {
+    name: 'Abonnement Pack Maxi (4 Écrans)',
+    price: '120.00 €',
+    duration: '12 Mois',
+    features: [
+      '4 Connexions simultanées indépendantes',
+      'Qualité 4K Ultra HD & 60 FPS',
+      '+25 000 Chaînes & +90 000 VOD',
+      'Bande passante prioritaire dédiée',
       'Support VIP Prioritaire 24/7',
     ],
   },
@@ -91,31 +114,8 @@ function CheckoutContent() {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const [paymentMethod, setPaymentMethod] = useState<'paypal' | 'carte_bancaire'>('paypal');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-
-  // Optional session prefill: If user is logged in, auto-populate fields
-  useEffect(() => {
-    async function prefillUserSession() {
-      try {
-        const response = await fetch('/api/auth/session');
-        if (response.ok) {
-          const data: { user?: { email?: string; user_metadata?: { full_name?: string; phone?: string } } } = await response.json();
-          if (data?.user) {
-            setIsAuthenticated(true);
-            if (data.user.email) setEmail(data.user.email);
-            if (data.user.user_metadata?.full_name) setFullName(data.user.user_metadata.full_name);
-            if (data.user.user_metadata?.phone) setPhone(data.user.user_metadata.phone);
-          }
-        }
-      } catch {
-        // Guest mode by default — no redirection or interruption
-      }
-    }
-    prefillUserSession();
-  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -136,7 +136,7 @@ function CheckoutContent() {
     }
 
     try {
-      const response = await fetch('/api/send-payment-instructions', {
+      const response = await fetch('/api/place-order', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -146,18 +146,16 @@ function CheckoutContent() {
           fullName: fullName.trim(),
           email: email.trim().toLowerCase(),
           phone: phone.trim(),
-          paymentMethod,
         }),
       });
 
-      const data: { error?: string; paymentId?: string; subscriptionId?: string } = await response.json();
+      const data: { error?: string; orderRef?: string } = await response.json();
 
       if (!response.ok) {
         throw new Error(data.error || 'Une erreur est survenue lors de la création de la commande.');
       }
 
-      // Redirect directly to confirmation page with plan and payment details
-      router.push(`/order/confirmation?plan=${plan}&paymentId=${data.paymentId || ''}&method=${paymentMethod}`);
+      router.push(`/thank-you?ref=${encodeURIComponent(data.orderRef || '')}`);
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'Une erreur inattendue est survenue.';
       setError(message);
@@ -190,18 +188,9 @@ function CheckoutContent() {
               <Lock className="w-4 h-4 text-emerald-400" />
               <span>Coordonnées de Facturation & Réception</span>
             </h2>
-            {isAuthenticated ? (
-              <span className="text-xs bg-emerald-500/10 text-emerald-400 font-bold px-2.5 py-1 rounded-full border border-emerald-500/20">
-                Compte connecté
-              </span>
-            ) : (
-              <span className="text-xs text-slate-400">
-                Déjà client ?{' '}
-                <Link href={`/login?redirect=checkout&plan=${plan}`} className="text-blue-400 font-bold hover:underline">
-                  Connexion
-                </Link>
-              </span>
-            )}
+            <span className="text-xs bg-emerald-500/10 text-emerald-400 font-bold px-2.5 py-1 rounded-full border border-emerald-500/20">
+              Activation Directe
+            </span>
           </div>
 
           {error && (
@@ -240,7 +229,7 @@ function CheckoutContent() {
                 className="w-full border border-slate-700/80 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-slate-950 text-white placeholder-slate-500 transition-all"
               />
               <span className="text-[11px] text-slate-400 mt-1.5 block">
-                Vos codes Xtream et votre lien M3U vous seront expédiés à cette adresse.
+                Votre email de confirmation de commande sera envoyé à cette adresse.
               </span>
             </div>
 
@@ -257,49 +246,14 @@ function CheckoutContent() {
                 className="w-full border border-slate-700/80 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-slate-950 text-white placeholder-slate-500 transition-all"
               />
               <span className="text-[11px] text-slate-400 mt-1.5 block">
-                Permet une activation express en moins de 3 minutes via notre conseiller WhatsApp.
+                Pour vous contacter facilement au sujet de votre commande.
               </span>
             </div>
 
             <div className="pt-2">
-              <span className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2.5">
-                Mode de Paiement Sécurisé
-              </span>
-              <div className="space-y-3">
-                <label className={`flex items-start p-4 border rounded-xl cursor-pointer transition-all ${paymentMethod === 'paypal' ? 'border-blue-500 bg-blue-950/30 ring-1 ring-blue-500/50' : 'border-slate-800 hover:border-slate-700 bg-slate-950'}`}>
-                  <input
-                    type="radio"
-                    name="paymentMethod"
-                    value="paypal"
-                    checked={paymentMethod === 'paypal'}
-                    onChange={() => setPaymentMethod('paypal')}
-                    className="h-4 w-4 text-blue-500 focus:ring-blue-500 border-slate-700 mt-0.5 bg-slate-900"
-                  />
-                  <div className="ml-3">
-                    <span className="block text-sm font-bold text-white">PayPal (Transfert Sécurisé & Protection Acheteur)</span>
-                    <span className="block text-xs text-slate-400 mt-0.5">Instructions de virement direct sans commission ni frais cachés.</span>
-                  </div>
-                </label>
-
-                <label className={`flex items-start p-4 border rounded-xl cursor-pointer transition-all ${paymentMethod === 'carte_bancaire' ? 'border-blue-500 bg-blue-950/30 ring-1 ring-blue-500/50' : 'border-slate-800 hover:border-slate-700 bg-slate-950'}`}>
-                  <input
-                    type="radio"
-                    name="paymentMethod"
-                    value="carte_bancaire"
-                    checked={paymentMethod === 'carte_bancaire'}
-                    onChange={() => setPaymentMethod('carte_bancaire')}
-                    className="h-4 w-4 text-blue-500 focus:ring-blue-500 border-slate-700 mt-0.5 bg-slate-900"
-                  />
-                  <div className="ml-3">
-                    <span className="block text-sm font-bold text-white">Carte Bancaire (CB / Visa / Mastercard)</span>
-                    <span className="block text-xs text-slate-400 mt-0.5">Lien de paiement chiffré 256 bits sans conservation de coordonnées bancaires.</span>
-                  </div>
-                </label>
-              </div>
-
-              <div className="mt-4 p-3.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-slate-400 flex items-center gap-2.5">
+              <div className="p-3.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-slate-400 flex items-center gap-2.5">
                 <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>Zéro prélèvement automatique récurrent. Vous gardez 100% du contrôle.</span>
+                <span>Aucun paiement n'est demandé à cette étape.</span>
               </div>
             </div>
 
@@ -318,7 +272,7 @@ function CheckoutContent() {
                 </span>
               ) : (
                 <span className="flex items-center gap-2">
-                  <span>Valider ma Commande et Recevoir mes Accès</span>
+                  <span>Valider ma Commande</span>
                   <ArrowRight className="w-4 h-4" />
                 </span>
               )}
@@ -363,10 +317,10 @@ function CheckoutContent() {
             <div className="bg-emerald-950/40 border border-emerald-800/50 text-emerald-200 p-4 rounded-xl text-xs space-y-1.5">
               <div className="flex items-center gap-2 font-bold text-emerald-300">
                 <Clock className="w-4 h-4" />
-                <span>Mise en Service Immédiate</span>
+                <span>Confirmation par Email</span>
               </div>
               <p className="text-slate-300">
-                Dès confirmation de votre règlement, vos identifiants Xtream Codes et votre lien M3U sont activés sur nos clusters et expédiés en moins de 3 minutes.
+                Dès validation, vous recevez un email de confirmation avec le récapitulatif de votre commande et nos liens de contact.
               </p>
             </div>
           </div>

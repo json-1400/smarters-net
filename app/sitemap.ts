@@ -5,13 +5,13 @@ import { SITE_CONFIG } from '@/lib/seo';
 export const revalidate = 3600;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = SITE_CONFIG.domain;
+  const baseUrl = SITE_CONFIG.domain.replace(/\/+$/, '');
   const now = new Date().toISOString();
 
   // 1. High-priority Commercial & Strategic Landers (Tier 1)
   const corePages: MetadataRoute.Sitemap = [
     {
-      url: `${baseUrl}/`,
+      url: baseUrl,
       lastModified: now,
       changeFrequency: 'daily',
       priority: 1.0,
@@ -36,6 +36,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
     {
       url: `${baseUrl}/tarifs-abonnement/iptv-multi-ecran`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/test-iptv-gratuit`,
       lastModified: now,
       changeFrequency: 'weekly',
       priority: 0.9,
@@ -81,12 +87,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.9,
     },
     {
-      url: `${baseUrl}/football-streaming`,
-      lastModified: now,
-      changeFrequency: 'daily',
-      priority: 0.8,
-    },
-    {
       url: `${baseUrl}/catalogue-vod`,
       lastModified: now,
       changeFrequency: 'weekly',
@@ -97,6 +97,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: now,
       changeFrequency: 'weekly',
       priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/guide-iptv/meilleur-abonnement-iptv`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.9,
     },
     {
       url: `${baseUrl}/support`,
@@ -112,7 +118,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
-  // 3. Hardware Tutorial Guides (Tier 3)
+  // 3. Hardware & Network Tutorial Guides (Tier 3)
   const tutorialPages: MetadataRoute.Sitemap = [
     {
       url: `${baseUrl}/guide-installation/fire-tv-stick`,
@@ -150,6 +156,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'weekly',
       priority: 0.8,
     },
+    {
+      url: `${baseUrl}/guide-installation/contourner-blocage-fai-iptv-dns-vpn`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
   ];
 
   // 4. Player Applications (Tier 4)
@@ -180,25 +192,55 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
-  // 5. Technical Blog Guides (Tier 5)
+  // 5. Competitor Comparisons & Anti-Scam Blog Articles (Tier 5)
   const blogPosts: MetadataRoute.Sitemap = [
     {
-      url: `${baseUrl}/blog/configurer-smarters-pro-smart-tv`,
-      lastModified: '2026-05-28T12:00:00.000Z',
+      url: `${baseUrl}/blog/alternative-atlas-pro-iptv`,
+      lastModified: '2026-11-02T12:00:00.000Z',
       changeFrequency: 'monthly',
-      priority: 0.7,
+      priority: 0.8,
     },
     {
-      url: `${baseUrl}/blog/eviter-coupures-iptv-conseils`,
-      lastModified: '2026-05-15T12:00:00.000Z',
+      url: `${baseUrl}/blog/alternative-king365-iptv`,
+      lastModified: '2026-10-28T12:00:00.000Z',
       changeFrequency: 'monthly',
-      priority: 0.7,
+      priority: 0.8,
     },
     {
-      url: `${baseUrl}/blog/comparatif-meilleures-applications-iptv`,
-      lastModified: '2026-05-02T12:00:00.000Z',
+      url: `${baseUrl}/blog/alternative-iron-tv-pro`,
+      lastModified: '2026-10-19T12:00:00.000Z',
       changeFrequency: 'monthly',
-      priority: 0.7,
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/blog/pourquoi-eviter-iptv-aliexpress`,
+      lastModified: '2026-10-10T12:00:00.000Z',
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/dmca`,
+      lastModified: now,
+      changeFrequency: 'yearly',
+      priority: 0.5,
+    },
+    {
+      url: `${baseUrl}/terms`,
+      lastModified: now,
+      changeFrequency: 'yearly',
+      priority: 0.5,
+    },
+    {
+      url: `${baseUrl}/privacy`,
+      lastModified: now,
+      changeFrequency: 'yearly',
+      priority: 0.5,
+    },
+    {
+      url: `${baseUrl}/politique-de-remboursement`,
+      lastModified: now,
+      changeFrequency: 'yearly',
+      priority: 0.5,
     },
   ];
 

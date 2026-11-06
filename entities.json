@@ -1,0 +1,56 @@
+{
+  "site_domain": "https://smarterspro12.net",
+  "core_entities": {
+    "organization": {
+      "@type": "Organization",
+      "@id": "https://smarterspro12.net/#organization",
+      "name": "IPTV Smarters Pro Officiel",
+      "legalName": "Smarters Pro France",
+      "url": "https://smarterspro12.net",
+      "logo": {
+        "@type": "ImageObject",
+        "@id": "https://smarterspro12.net/#logo",
+        "url": "https://smarterspro12.net/images/brand-logo.png",
+        "caption": "IPTV Smarters Pro Officiel"
+      },
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "email": "support@smarterspro12.net",
+          "telephone": "+212-715-214-002",
+          "availableLanguage": ["French", "English"]
+        }
+      ]
+    },
+    "website": {
+      "@type": "WebSite",
+      "@id": "https://smarterspro12.net/#website",
+      "url": "https://smarterspro12.net",
+      "name": "IPTV Smarters Pro Officiel",
+      "publisher": {
+        "@id": "https://smarterspro12.net/#organization"
+      },
+      "inLanguage": "fr-FR"
+    },
+    "product": {
+      "@type": "Product",
+      "@id": "https://smarterspro12.net/#product",
+      "name": "Abonnement IPTV Smarters Pro 4K",
+      "brand": {
+        "@type": "Brand",
+        "name": "IPTV Smarters Pro"
+      }
+    }
+  },
+  "page_entity_suffixes": {
+    "webpage": "#webpage",
+    "breadcrumb": "#breadcrumb",
+    "faq": "#faq",
+    "howto": "#howto",
+    "article": "#article",
+    "software": "#software",
+    "product": "#product"
+  }
+}
+

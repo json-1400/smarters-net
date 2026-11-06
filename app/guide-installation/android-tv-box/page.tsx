@@ -16,18 +16,18 @@ import {
   Cpu,
   Download
 } from 'lucide-react';
-import { SITE_CONFIG } from '@/lib/seo';
+import { SITE_CONFIG, constructMetadata } from '@/lib/seo';
 
 const PAGE_CANONICAL = 'https://smarterspro12.net/guide-installation/android-tv-box';
 
 export function generateMetadata(): Metadata {
-  const title = "Installer IPTV sur Android TV Box : Guide Complet Pas-à-Pas 2026";
-  const description = "Comment installer et configurer IPTV Smarters Pro sur Box Android TV, Nvidia Shield, Xiaomi Mi Box et smartphones Android. Guide officiel 4K sans coupure.";
-
-  return {
-    title,
-    description,
+  return constructMetadata({
+    title: "Installer IPTV sur Box Android TV : Guide Complet Pas-à-Pas 2026",
+    description: "Comment configurer IPTV sur Box Android TV, Nvidia Shield et Xiaomi Mi Box via IPTV Smarters Pro et TiviMate. Guide officiel 4K sans coupure.",
+    canonicalUrl: PAGE_CANONICAL,
+    type: 'article',
     keywords: [
+      'iptv sur box android tv',
       'iptv android',
       'installer iptv android box',
       'iptv smarters pro android tv',
@@ -35,25 +35,7 @@ export function generateMetadata(): Metadata {
       'iptv nvidia shield',
       'configuration iptv android'
     ],
-    alternates: {
-      canonical: PAGE_CANONICAL,
-      languages: {
-        'fr-FR': `${PAGE_CANONICAL}?lang=fr-fr`,
-        'fr-BE': `${PAGE_CANONICAL}?lang=fr-be`,
-        'fr-CH': `${PAGE_CANONICAL}?lang=fr-ch`,
-        'fr-CA': `${PAGE_CANONICAL}?lang=fr-ca`,
-        'x-default': PAGE_CANONICAL,
-      },
-    },
-    openGraph: {
-      title,
-      description,
-      url: PAGE_CANONICAL,
-      siteName: SITE_CONFIG.name,
-      locale: 'fr_FR',
-      type: 'article',
-    },
-  };
+  });
 }
 
 export default function AndroidTvBoxTutorialPage() {
@@ -199,11 +181,11 @@ export default function AndroidTvBoxTutorialPage() {
             </div>
 
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-tight">
-              Comment Installer IPTV sur <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-400">Box Android TV</span> & Téléphones
+              Comment Installer <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-400">IPTV sur Box Android TV</span> en 2026
             </h1>
 
             <p className="text-base sm:text-lg text-slate-300 leading-relaxed">
-              Suivez notre guide complet pour configurer votre <strong>abonnement IPTV</strong> sur l'ensemble de l'écosystème Android : Nvidia Shield TV, Xiaomi Mi Box, Google TV (Chromecast), Box Android générique, tablette ou smartphone.
+              Découvrez notre guide complet pour configurer votre <strong>IPTV sur Box Android TV</strong> (Nvidia Shield TV, Xiaomi Mi Box S, Google TV Chromecast et Formuler) en moins de 3 minutes via <strong>IPTV Smarters Pro</strong> ou <strong>TiviMate</strong> avec vos identifiants Xtream Codes.
             </p>
 
             <div className="flex flex-wrap gap-4 pt-2">
@@ -338,7 +320,7 @@ export default function AndroidTvBoxTutorialPage() {
         <section id="tutoriel-android" className="space-y-8">
           <div className="max-w-3xl space-y-3">
             <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
-              Tutoriel d'Installation Étape par Étape sur Android TV
+              Tutoriel d'Installation Pas-à-Pas : IPTV sur Box Android TV
             </h2>
             <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
               Voici la procédure exacte pour installer votre lecteur et renseigner vos identifiants en moins de 3 minutes :

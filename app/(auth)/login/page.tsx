@@ -8,8 +8,7 @@ import { Tv, ArrowLeft, Lock, Mail } from 'lucide-react';
 function LoginContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirect = searchParams.get('redirect') || 'dashboard';
-  const plan = searchParams.get('plan') || '';
+  const redirect = searchParams.get('redirect') || 'admin';
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -30,20 +29,15 @@ function LoginContent() {
         body: JSON.stringify({ email, password }),
       });
 
-      const data = await response.json();
+      const data: { error?: string } = await response.json();
 
       if (!response.ok) {
         throw new Error(data.error || 'Identifiants incorrects.');
       }
 
-      // Check if redirecting to checkout
-      if (redirect === 'checkout') {
-        router.push(`/checkout?plan=${plan}`);
-      } else {
-        router.push('/dashboard');
-      }
-    } catch (err: any) {
-      setError(err.message || 'Une erreur est survenue.');
+      router.push(redirect.startsWith('/admin') ? redirect : '/admin/dashboard');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Une erreur est survenue.');
     } finally {
       setLoading(false);
     }
@@ -61,10 +55,10 @@ function LoginContent() {
           </span>
         </Link>
         <h1 className="text-2xl font-bold text-white mt-2">
-          Espace Client IPTV
+          Administration IPTV
         </h1>
         <p className="text-xs text-slate-400 mt-1">
-          Connectez-vous pour gérer vos abonnements et vos codes Xtream.
+          Accès réservé aux administrateurs du portail.
         </p>
       </div>
 
@@ -131,13 +125,7 @@ function LoginContent() {
         </button>
       </form>
 
-      <div className="mt-6 border-t border-slate-800 pt-4 text-center text-xs text-slate-400 space-y-2">
-        <p>
-          Nouveau client ?{' '}
-          <Link href="/register" className="text-blue-400 hover:text-blue-300 hover:underline font-semibold">
-            Créer un compte
-          </Link>
-        </p>
+      <div className="mt-6 border-t border-slate-800 pt-4 text-center text-xs text-slate-400">
         <p>
           <Link href="/" className="inline-flex items-center gap-1.5 text-slate-400 hover:text-white transition-colors">
             <ArrowLeft className="w-3.5 h-3.5" />

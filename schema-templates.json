@@ -1,0 +1,97 @@
+{
+  "templates": {
+    "commercial_page": {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebPage",
+          "@id": "{{PAGE_CANONICAL}}#webpage",
+          "url": "{{PAGE_CANONICAL}}",
+          "name": "{{PAGE_TITLE}}",
+          "description": "{{PAGE_DESCRIPTION}}",
+          "isPartOf": { "@id": "https://smarterspro12.net/#website" },
+          "about": { "@id": "https://smarterspro12.net/#product" },
+          "breadcrumb": { "@id": "{{PAGE_CANONICAL}}#breadcrumb" },
+          "inLanguage": "fr-FR"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "{{PAGE_CANONICAL}}#breadcrumb",
+          "itemListElement": "{{BREADCRUMB_ITEMS}}"
+        },
+        {
+          "@type": "Product",
+          "@id": "{{PAGE_CANONICAL}}#product",
+          "name": "{{PRODUCT_NAME}}",
+          "description": "{{PAGE_DESCRIPTION}}",
+          "brand": { "@type": "Brand", "name": "IPTV Smarters Pro" },
+          "offers": "{{OFFERS_ARRAY}}"
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "{{PAGE_CANONICAL}}#faq",
+          "mainEntity": "{{FAQ_ENTITIES}}"
+        }
+      ]
+    },
+    "tutorial_howto_page": {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "TechArticle",
+          "@id": "{{PAGE_CANONICAL}}#article",
+          "headline": "{{PAGE_TITLE}}",
+          "description": "{{PAGE_DESCRIPTION}}",
+          "author": { "@id": "https://smarterspro12.net/#organization" },
+          "publisher": { "@id": "https://smarterspro12.net/#organization" },
+          "mainEntityOfPage": "{{PAGE_CANONICAL}}",
+          "inLanguage": "fr-FR"
+        },
+        {
+          "@type": "HowTo",
+          "@id": "{{PAGE_CANONICAL}}#howto",
+          "name": "{{HOWTO_NAME}}",
+          "description": "{{PAGE_DESCRIPTION}}",
+          "totalTime": "PT5M",
+          "step": "{{HOWTO_STEPS}}"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "{{PAGE_CANONICAL}}#breadcrumb",
+          "itemListElement": "{{BREADCRUMB_ITEMS}}"
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "{{PAGE_CANONICAL}}#faq",
+          "mainEntity": "{{FAQ_ENTITIES}}"
+        }
+      ]
+    },
+    "article_comparison_page": {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Article",
+          "@id": "{{PAGE_CANONICAL}}#article",
+          "headline": "{{PAGE_TITLE}}",
+          "description": "{{PAGE_DESCRIPTION}}",
+          "author": { "@id": "https://smarterspro12.net/#organization" },
+          "publisher": { "@id": "https://smarterspro12.net/#organization" },
+          "mainEntityOfPage": "{{PAGE_CANONICAL}}",
+          "inLanguage": "fr-FR"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "{{PAGE_CANONICAL}}#breadcrumb",
+          "itemListElement": "{{BREADCRUMB_ITEMS}}"
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "{{PAGE_CANONICAL}}#faq",
+          "mainEntity": "{{FAQ_ENTITIES}}"
+        }
+      ]
+    }
+  }
+}
+

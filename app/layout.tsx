@@ -3,7 +3,6 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { constructMetadata, generateStructuredDataGraph } from "@/lib/seo";
 import { ChatWidget } from "@/components/chat/ChatWidget";
-import { createServerSideClient } from "@/lib/supabase";
 
 const inter = Inter({ 
   subsets: ["latin"],
@@ -20,13 +19,11 @@ export const viewport: Viewport = {
   themeColor: '#020617',
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const supabase = createServerSideClient();
-  const { data: { session } } = await supabase.auth.getSession();
   const jsonLd = generateStructuredDataGraph();
 
   return (
@@ -39,7 +36,7 @@ export default async function RootLayout({
       </head>
       <body className="font-sans antialiased text-slate-100 bg-slate-950 min-h-screen flex flex-col selection:bg-blue-600 selection:text-white">
         {children}
-        <ChatWidget user={session?.user || null} />
+        <ChatWidget user={null} />
       </body>
     </html>
   );

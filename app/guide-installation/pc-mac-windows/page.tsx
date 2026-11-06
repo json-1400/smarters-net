@@ -16,18 +16,18 @@ import {
   Flame,
   Radio
 } from 'lucide-react';
-import { SITE_CONFIG } from '@/lib/seo';
+import { SITE_CONFIG, constructMetadata } from '@/lib/seo';
 
 const PAGE_CANONICAL = 'https://smarterspro12.net/guide-installation/pc-mac-windows';
 
 export function generateMetadata(): Metadata {
-  const title = "Installer IPTV sur PC Windows & Mac : Tutoriel Pas-à-Pas 2026";
-  const description = "Guide officiel pour regarder l'IPTV sur PC Windows 10/11 et Apple Mac. Téléchargement d'IPTV Smarters Pro desktop et lecture via VLC Media Player.";
-
-  return {
-    title,
-    description,
+  return constructMetadata({
+    title: "Installer IPTV sur PC Windows et Mac : Tutoriel Pas-à-Pas 2026",
+    description: "Guide officiel 2026 pour regarder l'IPTV sur PC Windows et Mac. Téléchargement d'IPTV Smarters Pro desktop et lecture 4K sans coupure via VLC.",
+    canonicalUrl: PAGE_CANONICAL,
+    type: 'article',
     keywords: [
+      'iptv sur pc windows et mac',
       'iptv pc',
       'iptv windows 11',
       'iptv mac',
@@ -35,25 +35,7 @@ export function generateMetadata(): Metadata {
       'iptv vlc',
       'regarder iptv sur ordinateur'
     ],
-    alternates: {
-      canonical: PAGE_CANONICAL,
-      languages: {
-        'fr-FR': `${PAGE_CANONICAL}?lang=fr-fr`,
-        'fr-BE': `${PAGE_CANONICAL}?lang=fr-be`,
-        'fr-CH': `${PAGE_CANONICAL}?lang=fr-ch`,
-        'fr-CA': `${PAGE_CANONICAL}?lang=fr-ca`,
-        'x-default': PAGE_CANONICAL,
-      },
-    },
-    openGraph: {
-      title,
-      description,
-      url: PAGE_CANONICAL,
-      siteName: SITE_CONFIG.name,
-      locale: 'fr_FR',
-      type: 'article',
-    },
-  };
+  });
 }
 
 export default function PcMacWindowsTutorialPage() {
@@ -199,11 +181,11 @@ export default function PcMacWindowsTutorialPage() {
             </div>
 
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-tight">
-              Comment Regarder l'IPTV sur <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400">PC Windows 11 & Apple Mac</span>
+              Comment Configurer <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400">IPTV sur PC Windows et Mac</span> en 2026
             </h1>
 
             <p className="text-base sm:text-lg text-slate-300 leading-relaxed">
-              Transformez votre ordinateur en téléviseur 4K de salon. Découvrez le tutoriel officiel pour installer <strong>IPTV Smarters Pro Desktop</strong> sur Windows ou macOS, ainsi que la méthode alternative avec le lecteur universel <strong>VLC Media Player</strong>.
+              Transformez votre ordinateur en écran TV 4K de salon. Découvrez notre guide complet pour installer et configurer <strong>IPTV sur PC Windows et Mac</strong> via le client officiel <strong>IPTV Smarters Pro Desktop</strong> ou le lecteur universel <strong>VLC Media Player</strong>.
             </p>
 
             <div className="flex flex-wrap gap-4 pt-2">
@@ -338,7 +320,7 @@ export default function PcMacWindowsTutorialPage() {
         <section id="tutoriel-desktop" className="space-y-8">
           <div className="max-w-3xl space-y-3">
             <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
-              Tutoriel d'Installation Étape par Étape sur Windows & Mac
+              Tutoriel d'Installation : IPTV sur PC Windows et Mac Pas-à-Pas
             </h2>
             <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
               Suivez ces 4 étapes simples pour installer le client officiel et vous connecter :

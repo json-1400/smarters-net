@@ -12,19 +12,21 @@ import {
   ChevronRight,
   Clock,
   Tv,
-  Award
+  Award,
+  MessageCircle
 } from 'lucide-react';
-import { SITE_CONFIG } from '@/lib/seo';
+import { SITE_CONFIG, constructMetadata } from '@/lib/seo';
+import { buildWhatsappUrl } from '@/lib/contact';
+import { Header } from '@/components/Header';
+import { Footer } from '@/components/Footer';
 
 const PAGE_CANONICAL = 'https://smarterspro12.net/tarifs-abonnement';
 
 export function generateMetadata(): Metadata {
-  const title = "Tarifs Abonnement IPTV 2026 : Comparatif des Formules & Prix France";
-  const description = "Découvrez la grille tarifaire officielle de nos abonnements IPTV en France. Formules 3, 6 et 12 mois 4K Ultra HD sans coupure dès 3,33€/mois. Activation immédiate.";
-
-  return {
-    title,
-    description,
+  return constructMetadata({
+    title: "Tarifs Abonnement IPTV 2026 : Comparatif des Formules & Prix France",
+    description: "Découvrez les tarifs abonnement IPTV en France (2026) : formules 3, 6 et 12 mois 4K Ultra HD sans coupure dès 4,16€/mois avec activation WhatsApp en 15 min.",
+    canonicalUrl: PAGE_CANONICAL,
     keywords: [
       'tarif abonnement iptv',
       'iptv prix',
@@ -34,25 +36,7 @@ export function generateMetadata(): Metadata {
       'abonnement iptv 12 mois prix',
       'meilleur tarif iptv 4k'
     ],
-    alternates: {
-      canonical: PAGE_CANONICAL,
-      languages: {
-        'fr-FR': `${PAGE_CANONICAL}?lang=fr-fr`,
-        'fr-BE': `${PAGE_CANONICAL}?lang=fr-be`,
-        'fr-CH': `${PAGE_CANONICAL}?lang=fr-ch`,
-        'fr-CA': `${PAGE_CANONICAL}?lang=fr-ca`,
-        'x-default': PAGE_CANONICAL,
-      },
-    },
-    openGraph: {
-      title,
-      description,
-      url: PAGE_CANONICAL,
-      siteName: SITE_CONFIG.name,
-      locale: 'fr_FR',
-      type: 'website',
-    },
-  };
+  });
 }
 
 export default function TarifsAbonnementPage() {
@@ -61,7 +45,7 @@ export default function TarifsAbonnementPage() {
     '@graph': [
       {
         '@type': 'Product',
-        '@id': `${PAGE_CANONICAL}/#product-catalog`,
+        '@id': `${PAGE_CANONICAL}#product`,
         name: 'Abonnements IPTV Smarters Pro 4K France',
         description: 'Gamme complète d\'abonnements IPTV haute performance 4K avec technologie anti-freeze, +25 000 chaînes et +90 000 VOD.',
         brand: {
@@ -72,8 +56,8 @@ export default function TarifsAbonnementPage() {
           '@type': 'AggregateOffer',
           priceCurrency: 'EUR',
           lowPrice: '19.99',
-          highPrice: '59.99',
-          offerCount: '4',
+          highPrice: '120.00',
+          offerCount: '6',
         },
         aggregateRating: {
           '@type': 'AggregateRating',
@@ -135,12 +119,13 @@ export default function TarifsAbonnementPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 antialiased">
+    <div className="min-h-screen flex flex-col bg-slate-950 text-slate-100 antialiased">
       {/* Schema Injection */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaGraph) }}
       />
+      <Header />
 
       {/* Breadcrumb Navigation */}
       <nav aria-label="Fil d'Ariane" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
@@ -217,12 +202,24 @@ export default function TarifsAbonnementPage() {
               </ul>
             </div>
 
-            <Link
-              href="/checkout?plan=Starter"
-              className="w-full flex items-center justify-center py-3.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs uppercase tracking-wider transition-all"
-            >
-              Commander 3 Mois
-            </Link>
+            <div className="space-y-2 pt-2">
+              <Link
+                href="/checkout?plan=Starter"
+                className="w-full flex items-center justify-center gap-1.5 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs uppercase tracking-wider transition-all"
+              >
+                <span>Commander 3 Mois</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+              <a
+                href={buildWhatsappUrl("Bonjour, je souhaite commander la Formule Découverte 3 Mois à 19,99 €. Pouvez-vous m'envoyer le lien de paiement et mes accès 4K ?")}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full py-2.5 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/30 font-bold text-xs uppercase tracking-wider text-center inline-flex items-center justify-center gap-1.5 transition-colors"
+              >
+                <MessageCircle className="w-3.5 h-3.5" />
+                <span>Commander via WhatsApp</span>
+              </a>
+            </div>
           </div>
 
           {/* Card 2: 12 Mois VIP (Highlight) */}
@@ -242,17 +239,17 @@ export default function TarifsAbonnementPage() {
               </div>
               <h2 className="text-2xl font-bold text-white">Abonnement IPTV 12 Mois VIP</h2>
               <div className="flex items-baseline gap-1">
-                <span className="text-4xl font-extrabold text-white">39.99 €</span>
-                <span className="text-xs text-slate-400">/ an (soit 3,33 €/m)</span>
+                <span className="text-4xl font-extrabold text-white">49.99 €</span>
+                <span className="text-xs text-slate-400">/ an (soit 4,16 €/m)</span>
               </div>
               <p className="text-xs text-slate-300 leading-relaxed">
-                Notre offre la plus plébiscitée. Bande passante maximale prioritaire, 2 connexions incluses et zéro freeze garanti.
+                Notre offre la plus plébiscitée. Bande passante maximale prioritaire, 1 connexion dédiée et zéro freeze garanti. Besoin de plusieurs écrans ? Consultez nos <Link href="/tarifs-abonnement/iptv-multi-ecran" className="text-blue-400 underline">packs IPTV multi-écrans</Link>.
               </p>
               
               <ul className="space-y-3 pt-4 border-t border-slate-800 text-xs sm:text-sm text-slate-300">
                 <li className="flex items-center gap-2 font-semibold text-white">
                   <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
-                  <span>2 Connexions simultanées indépendantes</span>
+                  <span>1 Connexion simultanée (1 écran)</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
@@ -276,10 +273,20 @@ export default function TarifsAbonnementPage() {
             <div className="space-y-2 pt-2">
               <Link
                 href="/checkout?plan=Premium"
-                className="w-full flex items-center justify-center py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-extrabold text-xs uppercase tracking-wider shadow-lg shadow-blue-600/30 transition-all hover:scale-[1.02]"
+                className="w-full flex items-center justify-center gap-1.5 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-extrabold text-xs uppercase tracking-wider shadow-lg shadow-blue-600/30 transition-all hover:scale-[1.02]"
               >
-                Commander 12 Mois VIP
+                <span>Commander 12 Mois VIP</span>
+                <ArrowRight className="w-3.5 h-3.5" />
               </Link>
+              <a
+                href={buildWhatsappUrl("Bonjour, je souhaite commander l'Abonnement 12 Mois VIP (1 Écran + 1 Mois Offert) à 49,99 €. Pouvez-vous m'envoyer le lien de paiement et mes accès 4K ?")}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full py-2.5 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/30 font-bold text-xs uppercase tracking-wider text-center inline-flex items-center justify-center gap-1.5 transition-colors"
+              >
+                <MessageCircle className="w-3.5 h-3.5" />
+                <span>Commander via WhatsApp</span>
+              </a>
               <Link
                 href="/abonnement-iptv-12-mois"
                 className="w-full block text-center text-xs text-blue-400 hover:text-blue-300 underline pt-1"
@@ -328,14 +335,204 @@ export default function TarifsAbonnementPage() {
               </ul>
             </div>
 
-            <Link
-              href="/checkout?plan=Confort"
-              className="w-full flex items-center justify-center py-3.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs uppercase tracking-wider transition-all"
-            >
-              Commander 6 Mois
-            </Link>
+            <div className="space-y-2 pt-2">
+              <Link
+                href="/checkout?plan=Confort"
+                className="w-full flex items-center justify-center gap-1.5 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs uppercase tracking-wider transition-all"
+              >
+                <span>Commander 6 Mois</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+              <a
+                href={buildWhatsappUrl("Bonjour, je souhaite commander la Formule Confort 6 Mois à 29,99 €. Pouvez-vous m'envoyer le lien de paiement et mes accès 4K ?")}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full py-2.5 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/30 font-bold text-xs uppercase tracking-wider text-center inline-flex items-center justify-center gap-1.5 transition-colors"
+              >
+                <MessageCircle className="w-3.5 h-3.5" />
+                <span>Commander via WhatsApp</span>
+              </a>
+            </div>
           </div>
         </div>
+
+        {/* Section Packs Multi-Écrans */}
+        <section className="space-y-6">
+          <div className="max-w-3xl space-y-2">
+            <h2 className="text-2xl font-bold text-white">
+              Packs IPTV Multi-Écrans : 2 à 5 Connexions Simultanées pour Toute la Famille
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              Les formules ci-dessus incluent <strong>1 écran</strong>. Pour regarder un match au salon pendant qu&apos;un film tourne dans une chambre, passez à un <Link href="/tarifs-abonnement/iptv-multi-ecran" className="text-blue-400 hover:underline">abonnement IPTV multi-écrans</Link> : chaque appareil diffuse son propre programme, sans coupure.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="rounded-2xl bg-slate-900 border border-slate-800 p-6 flex flex-col justify-between space-y-5">
+              <div className="space-y-3">
+                <span className="text-xs font-bold text-blue-400 uppercase tracking-widest">2 Écrans</span>
+                <h3 className="text-lg font-bold text-white">Pack Duo</h3>
+                <div className="flex items-baseline gap-1">
+                  <span className="text-3xl font-extrabold text-white">69,99 €</span>
+                  <span className="text-xs text-slate-400">/ 12 mois</span>
+                </div>
+                <p className="text-xs text-slate-400 leading-relaxed">Idéal pour un couple : 2 flux 4K indépendants, soit environ 35 € par écran.</p>
+                <div className="pt-2 border-t border-slate-800/80 space-y-2 text-xs text-slate-300">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                    <span>2 Connexions 4K actives indépendantes</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                    <span>+25 000 Chaînes &amp; +90 000 VOD</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                    <span>Serveurs CDN 10 Gbps Anti-Coupure</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                    <span>Guide EPG 7 jours &amp; Replay inclus</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                    <span>Assistance prioritaire WhatsApp 7j/7</span>
+                  </div>
+                </div>
+              </div>
+              <div className="space-y-2 pt-2">
+                <Link
+                  href="/checkout?plan=Pack2"
+                  className="w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs uppercase tracking-wider text-center inline-flex items-center justify-center gap-1.5 transition-colors"
+                >
+                  <span>Commander en ligne</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+                <a
+                  href={buildWhatsappUrl("Bonjour, je souhaite commander le Pack Duo (2 Écrans en simultané) à 69,99 € / 12 mois. Pouvez-vous m'envoyer le lien de paiement et mes accès 4K ?")}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full py-2.5 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/30 font-bold text-xs uppercase tracking-wider text-center inline-flex items-center justify-center gap-1.5 transition-colors"
+                >
+                  <MessageCircle className="w-3.5 h-3.5" />
+                  <span>Commander via WhatsApp</span>
+                </a>
+              </div>
+            </div>
+
+            <div className="rounded-2xl bg-slate-900 border-2 border-blue-500/60 p-6 flex flex-col justify-between space-y-5 shadow-xl shadow-blue-500/10">
+              <div className="space-y-3">
+                <span className="text-xs font-bold text-blue-400 uppercase tracking-widest">3 Écrans &middot; Populaire</span>
+                <h3 className="text-lg font-bold text-white">Pack Trio Famille</h3>
+                <div className="flex items-baseline gap-1">
+                  <span className="text-3xl font-extrabold text-white">100 €</span>
+                  <span className="text-xs text-slate-400">/ 12 mois</span>
+                </div>
+                <p className="text-xs text-slate-400 leading-relaxed">Salon, chambre et mobile en parallèle, soit environ 33,33 € par écran.</p>
+                <div className="pt-2 border-t border-slate-800/80 space-y-2 text-xs text-slate-300">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                    <span>3 Connexions 4K actives simultanées</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                    <span>Salon, chambre et mobile en parallèle</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                    <span>+25 000 Chaînes &amp; +90 000 VOD</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                    <span>Serveurs Ultra-Haute Performance</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                    <span>Support VIP Dédié 24h/24 &amp; 7j/7</span>
+                  </div>
+                </div>
+              </div>
+              <div className="space-y-2 pt-2">
+                <Link
+                  href="/checkout?plan=Pack3"
+                  className="w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs uppercase tracking-wider text-center inline-flex items-center justify-center gap-1.5 transition-colors"
+                >
+                  <span>Commander en ligne</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+                <a
+                  href={buildWhatsappUrl("Bonjour, je souhaite commander le Pack Trio (3 Écrans en simultané) à 100 € / 12 mois. Pouvez-vous m'envoyer le lien de paiement et mes accès 4K ?")}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full py-2.5 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/30 font-bold text-xs uppercase tracking-wider text-center inline-flex items-center justify-center gap-1.5 transition-colors"
+                >
+                  <MessageCircle className="w-3.5 h-3.5" />
+                  <span>Commander via WhatsApp</span>
+                </a>
+              </div>
+            </div>
+
+            <div className="rounded-2xl bg-slate-900 border border-slate-800 p-6 flex flex-col justify-between space-y-5">
+              <div className="space-y-3">
+                <span className="text-xs font-bold text-purple-400 uppercase tracking-widest">4 Écrans</span>
+                <h3 className="text-lg font-bold text-white">Pack Maxi Multi-Room</h3>
+                <div className="flex items-baseline gap-1">
+                  <span className="text-3xl font-extrabold text-white">120 €</span>
+                  <span className="text-xs text-slate-400">/ 12 mois</span>
+                </div>
+                <p className="text-xs text-slate-400 leading-relaxed">Pour grandes familles et colocations : 30 € par écran sur l&apos;année.</p>
+                <div className="pt-2 border-t border-slate-800/80 space-y-2 text-xs text-slate-300">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                    <span>4 Connexions 4K indépendantes</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                    <span>Seulement 30 € par écran pour 1 an</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                    <span>Tout le bouquet Sport 4K, Cinéma &amp; TNT</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                    <span>Bande passante dédiée prioritaire</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                    <span>Support VIP Prioritaire 24/7</span>
+                  </div>
+                </div>
+              </div>
+              <div className="space-y-2 pt-2">
+                <Link
+                  href="/checkout?plan=Pack4"
+                  className="w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs uppercase tracking-wider text-center inline-flex items-center justify-center gap-1.5 transition-colors"
+                >
+                  <span>Commander en ligne</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+                <a
+                  href={buildWhatsappUrl("Bonjour, je souhaite commander le Pack Maxi (4 Écrans en simultané) à 120 € / an. Pouvez-vous m'envoyer le lien de paiement et mes accès 4K ?")}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full py-2.5 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/30 font-bold text-xs uppercase tracking-wider text-center inline-flex items-center justify-center gap-1.5 transition-colors"
+                >
+                  <MessageCircle className="w-3.5 h-3.5" />
+                  <span>Commander via WhatsApp</span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <Link
+            href="/tarifs-abonnement/iptv-multi-ecran"
+            className="inline-flex items-center gap-2 text-xs font-bold text-blue-400 hover:text-blue-300"
+          >
+            <span>Comparer tous les packs IPTV multi-écrans</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
+        </section>
 
         {/* Section Comparatif Marché & Rassurance */}
         <section className="rounded-2xl bg-slate-900/60 border border-slate-800 p-8 space-y-6">
@@ -370,10 +567,79 @@ export default function TarifsAbonnementPage() {
               <Tv className="w-5 h-5 text-purple-400" />
               <h3 className="text-sm font-bold text-white">Multi-Appareils 100% Compatible</h3>
               <p className="text-xs text-slate-400">
-                Fonctionne sur Fire Stick, Smart TV Samsung/LG, Box Android, Apple TV, iPhone, iPad, PC et Mac.
+                Fonctionne sur <strong>Smart TV Samsung &amp; LG</strong>, <strong>Firestick</strong>, <strong>Box Android</strong>, <strong>Windows</strong>, Mac, <strong>iOS, iPhone</strong>, iPad et <strong>Android</strong>.
               </p>
             </div>
           </div>
+        </section>
+
+        {/* Tableau Récapitulatif des Formules & Compatibilité */}
+        <section className="rounded-2xl bg-slate-900 border border-slate-800 p-8 space-y-6">
+          <div className="max-w-3xl space-y-2">
+            <h2 className="text-2xl font-bold text-white">
+              Tableau Récapitulatif des Tarifs Abonnement IPTV &amp; Prestations Incluses
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              Quel que soit le forfait choisi dans notre grille de <strong>tarifs abonnement IPTV</strong>, vous accédez à la même qualité de flux <strong>HEVC H.265 en 4K 60 FPS</strong>, au guide EPG 7 jours et au <Link href="/catalogue-vod" className="text-blue-400 hover:underline">catalogue VOD de +90 000 titres</Link>. Seule la durée et le nombre d&apos;écrans simultanés varient :
+            </p>
+          </div>
+
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse text-xs sm:text-sm">
+              <thead>
+                <tr className="border-b border-slate-800 text-slate-400 uppercase">
+                  <th className="py-3 pr-4">Formule</th>
+                  <th className="py-3 px-4">Prix Total</th>
+                  <th className="py-3 px-4">Coût Mensuel</th>
+                  <th className="py-3 px-4">Connexions</th>
+                  <th className="py-3 pl-4">Compatibilité &amp; Protocoles</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-800/70 text-slate-300">
+                <tr>
+                  <td className="py-3 pr-4 font-bold text-white">Découverte 3 Mois</td>
+                  <td className="py-3 px-4">19,99 €</td>
+                  <td className="py-3 px-4">6,66 € / mois</td>
+                  <td className="py-3 px-4">1 Écran</td>
+                  <td className="py-3 pl-4">API Xtream Codes &amp; M3U (Tous appareils)</td>
+                </tr>
+                <tr>
+                  <td className="py-3 pr-4 font-bold text-white">Confort 6 Mois</td>
+                  <td className="py-3 px-4">29,99 €</td>
+                  <td className="py-3 px-4">5,00 € / mois</td>
+                  <td className="py-3 px-4">1 Écran</td>
+                  <td className="py-3 pl-4">API Xtream Codes &amp; M3U + Replay 7j</td>
+                </tr>
+                <tr>
+                  <td className="py-3 pr-4 font-bold text-emerald-400">VIP 12 Mois (+1 Mois Offert)</td>
+                  <td className="py-3 px-4 font-bold text-emerald-400">49,99 €</td>
+                  <td className="py-3 px-4 font-bold text-emerald-400">4,16 € / mois</td>
+                  <td className="py-3 px-4 font-bold text-emerald-400">1 Écran</td>
+                  <td className="py-3 pl-4 font-semibold text-emerald-400">Priorité CDN 10 Gbps + Support VIP 7j/7</td>
+                </tr>
+                <tr>
+                  <td className="py-3 pr-4 font-bold text-white"><Link href="/tarifs-abonnement/iptv-multi-ecran" className="text-blue-400 hover:underline">Packs Famille Multi-Écrans</Link></td>
+                  <td className="py-3 px-4">69,99 € à 120 €</td>
+                  <td className="py-3 px-4">Dès 5,83 € / mois</td>
+                  <td className="py-3 px-4">2 à 4 Écrans</td>
+                  <td className="py-3 pl-4">Flux parallèles multi-room &amp; mobilité 4G/5G</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        {/* Section Applications, Matériels & Anti-Coupure */}
+        <section className="rounded-2xl bg-slate-900/60 border border-slate-800 p-8 space-y-4">
+          <h2 className="text-2xl font-bold text-white">
+            Quels Lecteurs et Appareils Utiliser avec Votre Abonnement IPTV ?
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+            Dès validation de votre commande, vous recevez vos <strong>identifiants Xtream Codes</strong> (Server URL, Username, Password) et votre <strong>playlist M3U</strong> sur WhatsApp et par e-mail. Vous pouvez les installer immédiatement sur <Link href="/guide-installation/smart-tv-samsung-lg" className="text-blue-400 hover:underline">Smart TV Samsung (Tizen) et LG (webOS)</Link>, <Link href="/guide-installation/fire-tv-stick" className="text-blue-400 hover:underline">Amazon Fire TV Stick 4K</Link>, <Link href="/guide-installation/android-tv-box" className="text-blue-400 hover:underline">Box Android TV</Link> (Nvidia Shield, Xiaomi Mi Box), <Link href="/guide-installation/pc-mac-windows" className="text-blue-400 hover:underline">PC Windows et Mac</Link>, ainsi que sur <Link href="/guide-installation/apple-tv-ios" className="text-blue-400 hover:underline">iOS (iPhone, iPad, Apple TV)</Link> et smartphones <strong>Android</strong>.
+          </p>
+          <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+            Nos serveurs sont 100 % certifiés pour les meilleures applications du marché : <Link href="/applications/iptv-smarters-pro" className="text-blue-400 hover:underline">IPTV Smarters Pro</Link>, <Link href="/applications/tivimate" className="text-blue-400 hover:underline">TiviMate</Link>, <Link href="/applications/ibo-player" className="text-blue-400 hover:underline">IBO Player Pro</Link>, <Link href="/applications/smart-iptv" className="text-blue-400 hover:underline">Smart IPTV</Link> et <Link href="/applications/xciptv" className="text-blue-400 hover:underline">XCIPTV Player</Link>. En cas de bridage par votre opérateur internet (Orange, Free, SFR, Bouygues), notre guide <Link href="/guide-installation/contourner-blocage-fai-iptv-dns-vpn" className="text-blue-400 hover:underline">DNS Cloudflare 1.1.1.1 &amp; VPN</Link> garantit une réception fluide sans écran noir, que vous soyez connecté en câble Ethernet RJ45, en Wi-Fi 5 GHz à la maison ou en partage de connexion 4G/5G lors de vos déplacements en France et en Europe.
+          </p>
         </section>
 
         {/* Section FAQ Tarifs */}
@@ -411,26 +677,37 @@ export default function TarifsAbonnementPage() {
             <div className="p-6 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
               <h3 className="text-sm font-bold text-white flex items-center gap-2">
                 <HelpCircle className="w-4 h-4 text-blue-400 flex-shrink-0" />
-                <span>Comment fonctionne l'offre 2 Écrans (Multi-connexions) ?</span>
+                <span>Comment regarder sur 2 écrans ou plus (Multi-connexions) ?</span>
               </h3>
               <p className="text-xs text-slate-400 leading-relaxed pl-6">
-                Notre formule 12 Mois VIP inclut 2 connexions indépendantes simultanées. Deux personnes peuvent regarder des chaînes ou des films différents sur deux téléviseurs en même temps sans coupure.
+                Chaque formule 3, 6 et 12 mois inclut 1 connexion simultanée. Pour regarder sur 2 à 4 écrans en même temps, choisissez un pack <Link href="/tarifs-abonnement/iptv-multi-ecran" className="text-blue-400 underline">IPTV multi-écrans</Link> : Duo 2 écrans à 69,99 €, Trio 3 écrans à 100 € ou Maxi 4 écrans à 120 € pour 12 mois.
               </p>
             </div>
 
             <div className="p-6 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
               <h3 className="text-sm font-bold text-white flex items-center gap-2">
                 <HelpCircle className="w-4 h-4 text-blue-400 flex-shrink-0" />
-                <span>Existe-t-il une période d'essai ?</span>
+                <span>Existe-t-il une période d'essai ou un test IPTV gratuit ?</span>
               </h3>
               <p className="text-xs text-slate-400 leading-relaxed pl-6">
-                Nous proposons la formule Découverte 3 Mois à 19.99€, idéale pour tester en conditions réelles sans engagement annuel. Si vous avez une question préalable, notre support WhatsApp vous répond immédiatement.
+                Nous proposons la formule Découverte 3 Mois à 19.99€ ainsi qu'un diagnostic de compatibilité direct sur WhatsApp. Consultez notre page dédiée au <Link href="/test-iptv-gratuit" className="text-blue-400 underline">test IPTV gratuit 24h et essai 4K</Link> pour plus de détails.
+              </p>
+            </div>
+
+            <div className="p-6 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
+              <h3 className="text-sm font-bold text-white flex items-center gap-2">
+                <HelpCircle className="w-4 h-4 text-blue-400 flex-shrink-0" />
+                <span>Y a-t-il des frais cachés ou un engagement de reconduction ?</span>
+              </h3>
+              <p className="text-xs text-slate-400 leading-relaxed pl-6">
+                Absolument aucun. Tous nos tarifs correspondent à un paiement unique forfaitaire sans prélèvement automatique récurrent. Vous êtes libre de renouveler ou non votre accès à échéance.
               </p>
             </div>
           </div>
         </section>
 
       </main>
+      <Footer />
     </div>
   );
 }

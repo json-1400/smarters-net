@@ -18,19 +18,19 @@ import {
   Lock,
   Headphones
 } from 'lucide-react';
-import { SITE_CONFIG } from '@/lib/seo';
+import { SITE_CONFIG, constructMetadata } from '@/lib/seo';
+import { buildWhatsappUrl } from '@/lib/contact';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 
 const PAGE_CANONICAL = 'https://smarterspro12.net/tarifs-abonnement/iptv-pas-cher';
 
 export function generateMetadata(): Metadata {
-  const title = "IPTV Pas Cher et Fiable en France (2026) : Comparatif, Prix & Anti-Arnaque";
-  const description = "Guide complet 2026 de l'IPTV pas cher et stable en France : comparez les tarifs, évitez les arnaques à 15€ et accédez à nos formules 4K fiables dès 19,99€.";
-
-  return {
-    title,
-    description,
+  return constructMetadata({
+    title: "Abonnement IPTV Pas Cher et Fiable (2026) : Comparatif & Prix France",
+    description: "Guide 2026 de l'abonnement IPTV pas cher et fiable en France : comparez les tarifs, évitez les arnaques à 15€ et accédez à nos formules 4K dès 19,99€.",
+    canonicalUrl: PAGE_CANONICAL,
+    type: 'article',
     keywords: [
       'iptv pas cher',
       'iptv pas cher et fiable',
@@ -41,25 +41,7 @@ export function generateMetadata(): Metadata {
       'iptv smarters pro pas cher',
       'arnaque iptv pas cher'
     ],
-    alternates: {
-      canonical: PAGE_CANONICAL,
-      languages: {
-        'fr-FR': `${PAGE_CANONICAL}?lang=fr-fr`,
-        'fr-BE': `${PAGE_CANONICAL}?lang=fr-be`,
-        'fr-CH': `${PAGE_CANONICAL}?lang=fr-ch`,
-        'fr-CA': `${PAGE_CANONICAL}?lang=fr-ca`,
-        'x-default': PAGE_CANONICAL,
-      },
-    },
-    openGraph: {
-      title,
-      description,
-      url: PAGE_CANONICAL,
-      siteName: SITE_CONFIG.name,
-      locale: 'fr_FR',
-      type: 'article',
-    },
-  };
+  });
 }
 
 export default function IptvPasCherPage() {
@@ -79,7 +61,7 @@ export default function IptvPasCherPage() {
           '@type': 'AggregateOffer',
           priceCurrency: 'EUR',
           lowPrice: '19.99',
-          highPrice: '39.99',
+          highPrice: '49.99',
           offerCount: '3',
           offers: [
             {
@@ -101,7 +83,7 @@ export default function IptvPasCherPage() {
             {
               '@type': 'Offer',
               name: 'Formule VIP 12 Mois',
-              price: '39.99',
+              price: '49.99',
               priceCurrency: 'EUR',
               availability: 'https://schema.org/InStock',
               url: 'https://smarterspro12.net/abonnement-iptv-12-mois',
@@ -224,17 +206,17 @@ export default function IptvPasCherPage() {
           <div className="lg:col-span-7 space-y-6">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold uppercase tracking-wider">
               <TrendingDown className="w-4 h-4" />
-              <span>Guide Tarifaire & Comparatif 2026 &middot; Dès 3,33 € / Mois</span>
+              <span>Guide Tarifaire & Comparatif 2026 &middot; Dès 4,16 € / Mois</span>
             </div>
 
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-tight">
-              IPTV Pas Cher et Fiable en France : Comparatif, Prix Réels & Anti-Arnaque
+              Abonnement IPTV Pas Cher et Fiable en France : Comparatif, Prix Réels & Anti-Arnaque
             </h1>
 
             {/* AEO Direct Snippet Answer Box */}
             <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 text-sm leading-relaxed text-slate-300 space-y-2">
               <p>
-                <strong>Réponse directe :</strong> Un abonnement <strong>IPTV pas cher et fiable</strong> désigne un service de streaming multimédia dont le coût se situe entre <strong>20 € et 40 € par an</strong> (soit 1,65 € à 3,33 € par mois). Contrairement aux arnaques à 10 € qui coupent lors des soirs de match, un fournisseur fiable garantit une infrastructure de serveurs dédiés avec technologie anti-freeze, une diffusion en 4K/FHD 60 FPS, une compatibilité avec l'application IPTV Smarters Pro et une assistance francophone 7j/7.
+                <strong>Réponse directe :</strong> Un <strong>abonnement IPTV pas cher</strong> et fiable désigne un service de streaming multimédia dont le coût se situe entre <strong>20 € et 50 € par an</strong> (soit 1,65 € à 4,16 € par mois). Contrairement aux arnaques à 10 € qui coupent lors des soirs de match, un fournisseur fiable garantit des <strong>serveurs CDN anti-freeze</strong>, une diffusion en <strong>4K UHD 60 FPS</strong> sur <strong>Smart TV, Firestick et Box Android</strong> ainsi que sur <strong>Windows, iOS, iPhone et Android</strong> via <strong>IPTV Smarters Pro</strong> et une assistance 7j/7.
               </p>
             </div>
 
@@ -243,7 +225,7 @@ export default function IptvPasCherPage() {
                 href="/abonnement-iptv-12-mois"
                 className="inline-flex items-center justify-center px-6 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm shadow-lg shadow-blue-600/30 transition-all hover:scale-[1.02]"
               >
-                <span>Abonnement 12 Mois VIP (39,99 €)</span>
+                <span>Abonnement 12 Mois VIP (49,99 €)</span>
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Link>
               <Link
@@ -278,11 +260,11 @@ export default function IptvPasCherPage() {
               <div className="flex justify-between items-center border-b border-slate-800 pb-4">
                 <div>
                   <span className="text-xs uppercase font-extrabold text-blue-400 tracking-wider">Top Vente France</span>
-                  <h3 className="text-xl font-bold text-white mt-0.5">Formule VIP 12 Mois</h3>
+                  <h2 className="text-xl font-bold text-white mt-0.5">Formule VIP 12 Mois</h2>
                 </div>
                 <div className="text-right">
-                  <span className="text-2xl font-black text-white">39,99 €</span>
-                  <span className="block text-[10px] text-emerald-400 font-bold">Soit 3,33 € / mois</span>
+                  <span className="text-2xl font-black text-white">49,99 €</span>
+                  <span className="block text-[10px] text-emerald-400 font-bold">Soit 4,16 € / mois</span>
                 </div>
               </div>
 
@@ -525,10 +507,10 @@ export default function IptvPasCherPage() {
                 </div>
                 <div className="space-y-1">
                   <div className="flex items-baseline gap-1">
-                    <span className="text-4xl font-black text-white">39,99 €</span>
+                    <span className="text-4xl font-black text-white">49,99 €</span>
                     <span className="text-xs text-slate-400">/ 12 mois</span>
                   </div>
-                  <span className="block text-xs text-emerald-400 font-extrabold">Seulement 3,33 € / mois</span>
+                  <span className="block text-xs text-emerald-400 font-extrabold">Seulement 4,16 € / mois</span>
                 </div>
                 <p className="text-xs text-slate-300 leading-relaxed">
                   La formule la plus économique et complète : 1 an entier d'accès VIP à tous les canaux sans coupure.
@@ -692,11 +674,11 @@ export default function IptvPasCherPage() {
               href="/abonnement-iptv-12-mois"
               className="inline-flex items-center justify-center px-8 py-4 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm shadow-xl shadow-blue-600/30 transition-all hover:scale-105"
             >
-              <span>Prendre l'Abonnement 12 Mois (39,99 €)</span>
+              <span>Prendre l'Abonnement 12 Mois (49,99 €)</span>
               <ArrowRight className="w-4 h-4 ml-2" />
             </Link>
             <a
-              href="https://wa.me/33600000000?text=Bonjour,%20je%20souhaite%20des%20renseignements%20sur%20l'IPTV%20pas%20cher"
+              href={buildWhatsappUrl("Bonjour, je souhaite des renseignements sur l'IPTV pas cher")}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center px-6 py-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm shadow-xl shadow-emerald-600/30 transition-all"

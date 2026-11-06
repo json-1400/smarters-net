@@ -1,6 +1,8 @@
 'use client';
+// CLIENT: Modal dialog with Escape key listener for VOD preview
 
 import React, { useEffect } from 'react';
+import Image from 'next/image';
 import { X, Play, Star, Calendar, Film, CheckCircle2 } from 'lucide-react';
 
 export interface VodItem {
@@ -44,7 +46,7 @@ export function VodModal({ item, onClose, onSelectPlan }: VodModalProps) {
 
   return (
     <div 
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/90 animate-in fade-in duration-200"
       onClick={onClose}
     >
       <div 
@@ -72,10 +74,12 @@ export function VodModal({ item, onClose, onSelectPlan }: VodModalProps) {
             />
           ) : (
             <div className="relative w-full h-full">
-              <img
+              <Image
                 src={item.backdrop || item.poster}
                 alt={item.title}
-                className="w-full h-full object-cover opacity-80"
+                fill
+                sizes="(max-width: 896px) 100vw, 896px"
+                className="object-cover opacity-80"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-black/40" />
               <div className="absolute inset-0 flex items-center justify-center">

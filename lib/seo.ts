@@ -3,9 +3,9 @@ import type { Metadata } from 'next';
 export const SITE_CONFIG = {
   name: 'IPTV Smarters Pro Officiel',
   legalName: 'Smarters Pro France',
-  domain: process.env.NEXT_PUBLIC_SITE_URL && !process.env.NEXT_PUBLIC_SITE_URL.includes('localhost') 
+  domain: (process.env.NEXT_PUBLIC_SITE_URL && !process.env.NEXT_PUBLIC_SITE_URL.includes('localhost') 
     ? process.env.NEXT_PUBLIC_SITE_URL 
-    : 'https://smarterspro12.net',
+    : 'https://smarterspro12.net').replace(/\/+$/, ''),
   description:
     'Profitez du meilleur abonnement IPTV Smarters Pro en France. +25 000 chaînes directes et +90 000 VOD en qualité 4K Ultra HD sans coupure. Activation immédiate 7j/7.',
   defaultKeywords: [
@@ -30,50 +30,67 @@ export const SITE_CONFIG = {
   ],
 };
 
+export function buildAlternates(canonical: string) {
+  return {
+    canonical,
+    languages: {
+      'fr': canonical,
+      'fr-FR': canonical,
+      'fr-BE': canonical,
+      'fr-CH': canonical,
+      'fr-CA': canonical,
+      'x-default': canonical,
+    },
+  };
+}
+
 export function constructMetadata({
   title,
   description = SITE_CONFIG.description,
-  image = '/images/og-banner.jpg',
+  image = '/images/hero-family-bg.jpg',
   canonicalUrl,
+  keywords = SITE_CONFIG.defaultKeywords,
+  type = 'website',
   noIndex = false,
 }: {
   title?: string;
   description?: string;
   image?: string;
   canonicalUrl?: string;
+  keywords?: string[];
+  type?: 'website' | 'article';
   noIndex?: boolean;
 } = {}): Metadata {
-  const fullTitle = title 
-    ? `${title} | ${SITE_CONFIG.name}` 
+  const fullTitle = title
+    ? title.length >= 45 || title.toLowerCase().includes('iptv')
+      ? title
+      : `${title} | ${SITE_CONFIG.name}`
     : `IPTV Smarters Pro : N°1 Abonnement IPTV 4K en France | Serveur Stable`;
 
-  const canonical = canonicalUrl ? `${SITE_CONFIG.domain}${canonicalUrl}` : SITE_CONFIG.domain;
+  const canonical = canonicalUrl
+    ? canonicalUrl.startsWith('http')
+      ? canonicalUrl
+      : `${SITE_CONFIG.domain}${canonicalUrl}`
+    : SITE_CONFIG.domain;
+
+  const imageUrl = image.startsWith('http') ? image : `${SITE_CONFIG.domain}${image}`;
 
   return {
     title: fullTitle,
     description,
-    keywords: SITE_CONFIG.defaultKeywords,
+    keywords,
     metadataBase: new URL(SITE_CONFIG.domain),
-    alternates: {
-      canonical,
-      languages: {
-        'fr-FR': `${canonical}?lang=fr-fr`,
-        'fr-BE': `${canonical}?lang=fr-be`,
-        'fr-CH': `${canonical}?lang=fr-ch`,
-        'fr-CA': `${canonical}?lang=fr-ca`,
-        'x-default': canonical,
-      },
-    },
+    alternates: buildAlternates(canonical),
     openGraph: {
       title: fullTitle,
       description,
       url: canonical,
       siteName: SITE_CONFIG.name,
       locale: 'fr_FR',
-      type: 'website',
+      type,
       images: [
         {
-          url: image.startsWith('http') ? image : `${SITE_CONFIG.domain}${image}`,
+          url: imageUrl,
           width: 1200,
           height: 630,
           alt: fullTitle,
@@ -84,7 +101,7 @@ export function constructMetadata({
       card: 'summary_large_image',
       title: fullTitle,
       description,
-      images: [image.startsWith('http') ? image : `${SITE_CONFIG.domain}${image}`],
+      images: [imageUrl],
     },
     icons: {
       icon: [
@@ -115,10 +132,12 @@ export function generateStructuredDataGraph() {
         '@type': 'Organization',
         '@id': `${SITE_CONFIG.domain}/#organization`,
         name: SITE_CONFIG.name,
+        legalName: SITE_CONFIG.legalName,
         url: SITE_CONFIG.domain,
         logo: {
           '@type': 'ImageObject',
-          url: `${SITE_CONFIG.domain}/logo.png`,
+          '@id': `${SITE_CONFIG.domain}/#logo`,
+          url: `${SITE_CONFIG.domain}/images/brand-logo.png`,
           caption: SITE_CONFIG.name,
         },
         contactPoint: [
@@ -126,6 +145,7 @@ export function generateStructuredDataGraph() {
             '@type': 'ContactPoint',
             contactType: 'customer support',
             email: SITE_CONFIG.supportEmail,
+            telephone: '+212-715-214-002',
             availableLanguage: ['French', 'English'],
           },
           {
@@ -156,6 +176,13 @@ export function generateStructuredDataGraph() {
           '@type': 'Brand',
           name: 'IPTV Smarters Pro',
         },
+        aggregateRating: {
+          '@type': 'AggregateRating',
+          ratingValue: '4.9',
+          reviewCount: '1420',
+          bestRating: '5',
+          worstRating: '1',
+        },
         offers: [
           {
             '@type': 'Offer',
@@ -175,12 +202,34 @@ export function generateStructuredDataGraph() {
           },
           {
             '@type': 'Offer',
-            name: 'Formule VIP 12 Mois',
-            price: '39.99',
+            name: 'Formule VIP 12 Mois (1 Connexion)',
+            price: '49.99',
             priceCurrency: 'EUR',
             availability: 'https://schema.org/InStock',
-            url: `${SITE_CONFIG.domain}/#pricing`,
+            url: `${SITE_CONFIG.domain}/abonnement-iptv-12-mois`,
           },
+          {
+            '@type': 'Offer',
+            name: 'Abonnement Pack Duo (2 Écrans)',
+            price: '69.99',
+            priceCurrency: 'EUR',
+            availability: 'https://schema.org/InStock',
+            url: `${SITE_CONFIG.domain}/tarifs-abonnement/iptv-multi-ecran`,
+          },
+        ],
+      },
+      {
+        '@type': 'ItemList',
+        '@id': `${SITE_CONFIG.domain}/#navigation`,
+        name: 'Navigation Principale IPTV Smarters Pro',
+        itemListElement: [
+          { '@type': 'SiteNavigationElement', position: 1, name: 'Tarifs & Abonnements', url: `${SITE_CONFIG.domain}/tarifs-abonnement` },
+          { '@type': 'SiteNavigationElement', position: 2, name: 'Abonnement 12 Mois VIP', url: `${SITE_CONFIG.domain}/abonnement-iptv-12-mois` },
+          { '@type': 'SiteNavigationElement', position: 3, name: 'Applications IPTV', url: `${SITE_CONFIG.domain}/applications` },
+          { '@type': 'SiteNavigationElement', position: 4, name: "Guide d'Installation", url: `${SITE_CONFIG.domain}/guide-installation` },
+          { '@type': 'SiteNavigationElement', position: 5, name: 'Chaînes & Direct', url: `${SITE_CONFIG.domain}/chaine` },
+          { '@type': 'SiteNavigationElement', position: 6, name: 'Blog & Comparatifs', url: `${SITE_CONFIG.domain}/blog` },
+          { '@type': 'SiteNavigationElement', position: 7, name: 'Support Client 7j/7', url: `${SITE_CONFIG.domain}/support` },
         ],
       },
     ],

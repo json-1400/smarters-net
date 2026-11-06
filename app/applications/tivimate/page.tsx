@@ -12,19 +12,22 @@ import {
   ShieldCheck, 
   HelpCircle,
   SlidersHorizontal,
-  Clock
+  Clock,
+  Download,
+  Settings,
+  Sliders,
+  Layers
 } from 'lucide-react';
-import { SITE_CONFIG } from '@/lib/seo';
+import { SITE_CONFIG, constructMetadata } from '@/lib/seo';
 
 const PAGE_CANONICAL = 'https://smarterspro12.net/applications/tivimate';
 
 export function generateMetadata(): Metadata {
-  const title = "TiviMate IPTV Player : Téléchargement, Configuration & Abonnement France";
-  const description = "Guide complet TiviMate IPTV Player en France : Téléchargement sur Firestick et Android TV, configuration Xtream Codes et serveur 4K sans coupure.";
-
-  return {
-    title,
-    description,
+  return constructMetadata({
+    title: "TiviMate IPTV Player : Téléchargement, Configuration & Abonnement France",
+    description: "Guide complet TiviMate IPTV Player en France : Téléchargement sur Firestick et Android TV, configuration Xtream Codes et serveur 4K sans coupure.",
+    canonicalUrl: PAGE_CANONICAL,
+    type: 'article',
     keywords: [
       'tivimate',
       'iptv tivimate',
@@ -34,25 +37,7 @@ export function generateMetadata(): Metadata {
       'tivimate iptv france',
       'tivimate vs smarters pro'
     ],
-    alternates: {
-      canonical: PAGE_CANONICAL,
-      languages: {
-        'fr-FR': `${PAGE_CANONICAL}?lang=fr-fr`,
-        'fr-BE': `${PAGE_CANONICAL}?lang=fr-be`,
-        'fr-CH': `${PAGE_CANONICAL}?lang=fr-ch`,
-        'fr-CA': `${PAGE_CANONICAL}?lang=fr-ca`,
-        'x-default': PAGE_CANONICAL,
-      },
-    },
-    openGraph: {
-      title,
-      description,
-      url: PAGE_CANONICAL,
-      siteName: SITE_CONFIG.name,
-      locale: 'fr_FR',
-      type: 'article',
-    },
-  };
+  });
 }
 
 export default function TiviMatePage() {
@@ -129,6 +114,36 @@ export default function TiviMatePage() {
           },
         ],
       },
+      {
+        '@type': 'FAQPage',
+        '@id': `${PAGE_CANONICAL}#faq`,
+        mainEntity: [
+          {
+            '@type': 'Question',
+            name: 'Comment installer TiviMate sur Amazon Fire TV Stick ?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'Ouvrez l’application Downloader sur votre Fire TV Stick, saisissez le code officiel TiviMate ou téléchargez l’APK certifié, puis connectez votre abonnement via les identifiants Xtream Codes.',
+            },
+          },
+          {
+            '@type': 'Question',
+            name: 'Quelle est la différence entre TiviMate gratuit et TiviMate Premium ?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'La version gratuite permet de regarder les chaînes en direct d’une playlist. TiviMate Premium débloque le catalogue VOD (films et séries), le multi-écrans, la programmation d’enregistrements et la personnalisation avancée de l’EPG.',
+            },
+          },
+          {
+            '@type': 'Question',
+            name: 'TiviMate fonctionne-t-il sur Smart TV Samsung ou LG ?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'TiviMate est conçu exclusivement pour Android TV, Google TV et Fire OS. Sur un téléviseur Samsung (Tizen) ou LG (webOS) sans boîtier Android, utilisez IPTV Smarters Pro ou IBO Player.',
+            },
+          },
+        ],
+      },
     ],
   };
 
@@ -152,7 +167,7 @@ export default function TiviMatePage() {
           </li>
           <ChevronRight className="w-3.5 h-3.5 text-slate-600" />
           <li>
-            <span className="text-slate-200 font-medium" aria-current="page">TiviMate</span>
+            <span className="text-slate-200 font-medium" aria-current="page">TiviMate IPTV</span>
           </li>
         </ol>
       </nav>
@@ -170,7 +185,7 @@ export default function TiviMatePage() {
           </h1>
 
           <p className="text-base sm:text-lg text-slate-300 leading-relaxed">
-            Considéré par les passionnés comme le lecteur IPTV le plus abouti du marché, <strong>TiviMate IPTV Player</strong> transforme votre téléviseur en véritable décodeur de salon ultra-rapide. Découvrez comment l'installer et le synchroniser avec nos serveurs 4K.
+            Considéré par les passionnés comme le lecteur le plus abouti du marché, <strong>TiviMate IPTV Player</strong> transforme votre téléviseur en véritable décodeur de salon ultra-rapide. Découvrez comment l'installer et le synchroniser avec nos serveurs 4K pour bénéficier d'une fluidité irréprochable sans aucune coupure.
           </p>
         </div>
       </header>
@@ -181,41 +196,165 @@ export default function TiviMatePage() {
           
           <div className="lg:col-span-8 space-y-10">
             
-            {/* Features */}
+            {/* Section 1: Features */}
             <section className="p-6 sm:p-8 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
-              <h2 className="text-xl font-bold text-white">Pourquoi Choisir TiviMate ?</h2>
+              <h2 className="text-xl sm:text-2xl font-bold text-white">
+                Pourquoi Choisir TiviMate IPTV Player pour Votre Téléviseur ?
+              </h2>
               <p className="text-sm text-slate-300 leading-relaxed">
-                TiviMate a été conçu exclusivement pour les écrans de télévision pilotés à la télécommande (Android TV, Nvidia Shield, Firestick, Chromecast Google TV). Ses atouts majeurs :
+                Développé spécifiquement pour les appareils pilotés à la télécommande comme l'<strong>Amazon Fire TV Stick</strong>, la <strong>Nvidia Shield TV Pro</strong> et les téléviseurs sous <strong>Google TV</strong>, TiviMate reproduit fidèlement l'expérience des meilleurs décodeurs câble et satellite.
               </p>
               <ul className="space-y-3 text-xs sm:text-sm text-slate-300">
                 <li className="flex items-start gap-2.5">
                   <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" />
-                  <span><strong>Zapping instantané :</strong> Changement de canal en moins de 0.3 seconde sans écran noir.</span>
+                  <span><strong>Zapping instantané :</strong> Changement de chaîne en moins de 0,3 seconde sans écran noir grâce au moteur ExoPlayer optimisé.</span>
                 </li>
                 <li className="flex items-start gap-2.5">
                   <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" />
-                  <span><strong>Guide TV (EPG) avancé :</strong> Grille des programmes fluide avec recherche rapide et favoris personnalisables.</span>
+                  <span><strong>Guide TV EPG 7 jours :</strong> Grille de programmes complète avec recherche en direct, logos de chaînes et rattrapage Replay.</span>
                 </li>
                 <li className="flex items-start gap-2.5">
                   <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" />
-                  <span><strong>Multi-écrans :</strong> Regardez jusqu'à 9 chaînes simultanément sur un seul écran (formule TiviMate Premium).</span>
+                  <span><strong>Mode Multi-Écrans :</strong> Regardez jusqu'à 4 à 9 canaux sportifs en direct simultanément sur un seul écran de télévision.</span>
                 </li>
               </ul>
             </section>
 
-            {/* Setup Walkthrough */}
-            <section className="p-6 sm:p-8 rounded-2xl bg-slate-900 border-2 border-emerald-500/30 space-y-4">
-              <h2 className="text-xl font-bold text-white flex items-center gap-2">
-                <Zap className="w-5 h-5 text-emerald-400" />
-                <span>Configuration Xtream Codes sur TiviMate (2 Minutes)</span>
+            {/* Section 2: Comparison Matrix Gratuit vs Premium */}
+            <section className="p-6 sm:p-8 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
+              <h2 className="text-xl sm:text-2xl font-bold text-white">
+                Comparatif Fonctionnel : TiviMate Gratuit vs TiviMate Premium
               </h2>
-              <ol className="space-y-3 text-xs sm:text-sm text-slate-300 list-decimal list-inside">
-                <li>Ouvrez TiviMate et cliquez sur <strong>Ajouter une liste de lecture</strong>.</li>
-                <li>Choisissez le protocole <strong>Identifiants Xtream Codes</strong>.</li>
-                <li>Renseignez le nom de votre serveur (ex: <em>Serveur 4K France</em>).</li>
-                <li>Entrez votre <strong>Nom d'utilisateur</strong>, <strong>Mot de passe</strong> et l'<strong>URL Serveur</strong> reçus après votre commande.</li>
-                <li>Cochez <strong>Inclure les chaînes TV et la VOD</strong> puis appuyez sur <strong>Terminé</strong>.</li>
-              </ol>
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                TiviMate est téléchargeable gratuitement avec les fonctionnalités de base. Pour débloquer toute la puissance du lecteur, la licence Premium via l'application TiviMate Companion est recommandée.
+              </p>
+              
+              <div className="overflow-x-auto rounded-xl border border-slate-800">
+                <table className="w-full text-left text-xs sm:text-sm text-slate-300 border-collapse">
+                  <thead className="bg-slate-950 text-slate-200 text-[11px] sm:text-xs uppercase font-bold">
+                    <tr>
+                      <th className="p-3 sm:p-3.5">Fonctionnalité</th>
+                      <th className="p-3 sm:p-3.5">Version Gratuite</th>
+                      <th className="p-3 sm:p-3.5">Version Premium</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-800">
+                    <tr className="hover:bg-slate-800/40">
+                      <td className="p-3 sm:p-3.5 font-medium text-white">Nombre de listes IPTV</td>
+                      <td className="p-3 sm:p-3.5">1 seule playlist</td>
+                      <td className="p-3 sm:p-3.5 text-emerald-400 font-semibold">Multi-playlists illimitées</td>
+                    </tr>
+                    <tr className="hover:bg-slate-800/40">
+                      <td className="p-3 sm:p-3.5 font-medium text-white">Catalogue VOD (Films & Séries)</td>
+                      <td className="p-3 sm:p-3.5 text-slate-400">Non (Direct TV seul)</td>
+                      <td className="p-3 sm:p-3.5 text-emerald-400 font-semibold">Oui (Fiches & résumés complets)</td>
+                    </tr>
+                    <tr className="hover:bg-slate-800/40">
+                      <td className="p-3 sm:p-3.5 font-medium text-white">Affichage Multi-Vues (Split Screen)</td>
+                      <td className="p-3 sm:p-3.5 text-slate-400">Non</td>
+                      <td className="p-3 sm:p-3.5 text-emerald-400 font-semibold">Oui (2 à 9 fenêtres en direct)</td>
+                    </tr>
+                    <tr className="hover:bg-slate-800/40">
+                      <td className="p-3 sm:p-3.5 font-medium text-white">Enregistrement PVR programmable</td>
+                      <td className="p-3 sm:p-3.5 text-slate-400">Non</td>
+                      <td className="p-3 sm:p-3.5 text-emerald-400 font-semibold">Oui (Stockage USB ou réseau NAS)</td>
+                    </tr>
+                    <tr className="hover:bg-slate-800/40">
+                      <td className="p-3 sm:p-3.5 font-medium text-white">Sources EPG personnalisées</td>
+                      <td className="p-3 sm:p-3.5 text-slate-400">1 source standard</td>
+                      <td className="p-3 sm:p-3.5 text-emerald-400 font-semibold">Oui (Multi-sources XMLTV avec décalage)</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+
+            {/* Section 3: Downloader Installation Guide */}
+            <section className="p-6 sm:p-8 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
+              <h2 className="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+                <Download className="w-5 h-5 text-emerald-400" />
+                <span>Guide d'Installation sur Fire TV Stick via Downloader</span>
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                TiviMate n'étant pas présent sur le store Amazon officiel, son installation sur <strong>Fire TV Stick 4K</strong> s'effectue en quelques clics via l'application certifiée <strong>Downloader</strong> :
+              </p>
+              
+              <div className="space-y-4 pt-2">
+                <div className="space-y-1">
+                  <h3 className="text-sm font-bold text-white">Étape 1 : Autoriser l'installation d'applications inconnues</h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    Sur votre Fire TV Stick, rendez-vous dans <strong>Paramètres</strong> &gt; <strong>Ma Fire TV</strong> &gt; <strong>Options pour les développeurs</strong>, puis activez l'option pour l'application Downloader.
+                  </p>
+                </div>
+                
+                <div className="space-y-1">
+                  <h3 className="text-sm font-bold text-white">Étape 2 : Télécharger et installer l'APK officiel TiviMate</h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    Ouvrez Downloader, tapez l'adresse URL officielle de TiviMate (ou le code court Downloader certifié), lancez le téléchargement du fichier APK puis appuyez sur <strong>Installer</strong>.
+                  </p>
+                </div>
+
+                <div className="space-y-1">
+                  <h3 className="text-sm font-bold text-white">Étape 3 : Connexion via vos identifiants API Xtream Codes</h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    Lancez TiviMate, sélectionnez <strong>Ajouter une playlist</strong>, choisissez <strong>Xtream Codes</strong> et renseignez l'URL du serveur, votre identifiant et votre mot de passe reçus après commande.
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            {/* Section 4: Buffer and EPG Configuration */}
+            <section className="p-6 sm:p-8 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
+              <h2 className="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+                <Sliders className="w-5 h-5 text-emerald-400" />
+                <span>Réglages Avancés du Buffer Cache et Anti-Coupure</span>
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                Pour assurer une lecture continue en <strong>4K UHD à 60 FPS</strong> lors des rencontres sportives à fort trafic, configurez les paramètres de lecture internes de TiviMate :
+              </p>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+                <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-1.5">
+                  <h3 className="text-sm font-bold text-white">Taille du Buffer Tampon</h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    Dans <strong>Paramètres</strong> &gt; <strong>Lecture</strong> &gt; <strong>Taille du tampon</strong>, choisissez <strong>Grand (Large)</strong> si votre connexion Wi-Fi présente de légères fluctuations. Cela permet d'absorber les variations réseau.
+                  </p>
+                </div>
+
+                <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-1.5">
+                  <h3 className="text-sm font-bold text-white">Sortie Audio Passthrough</h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    Activez le <strong>Passthrough audio</strong> dans les réglages audio pour transmettre directement les pistes Dolby Digital et 5.1 à votre barre de son ou amplificateur home cinéma.
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            {/* FAQ TiviMate */}
+            <section className="p-6 sm:p-8 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
+              <h2 className="text-xl sm:text-2xl font-bold text-white">
+                Questions Fréquentes sur TiviMate IPTV Player
+              </h2>
+              <div className="space-y-4">
+                <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-1.5">
+                  <h3 className="text-sm font-bold text-white">Comment installer TiviMate sur Amazon Fire TV Stick ?</h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    Suivez notre <Link href="/guide-installation/fire-tv-stick" className="text-emerald-400 hover:underline">guide d’installation Fire TV Stick</Link> via l’application Downloader pour installer l’APK officiel en moins de 2 minutes.
+                  </p>
+                </div>
+                <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-1.5">
+                  <h3 className="text-sm font-bold text-white">Quelle est la différence entre TiviMate gratuit et TiviMate Premium ?</h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    La version gratuite affiche les chaînes en direct. La licence TiviMate Companion débloque le <Link href="/catalogue-vod" className="text-emerald-400 hover:underline">catalogue VOD 4K</Link>, le multi-écrans et la gestion des favoris personnalisés.
+                  </p>
+                </div>
+                <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-1.5">
+                  <h3 className="text-sm font-bold text-white">TiviMate fonctionne-t-il sur Smart TV Samsung ou LG ?</h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    TiviMate nécessite Android TV ou Fire OS. Sur une <Link href="/guide-installation/smart-tv-samsung-lg" className="text-emerald-400 hover:underline">Smart TV Samsung ou LG</Link> sans boîtier externe, utilisez plutôt <Link href="/applications/iptv-smarters-pro" className="text-emerald-400 hover:underline">IPTV Smarters Pro</Link> ou <Link href="/applications/ibo-player" className="text-emerald-400 hover:underline">IBO Player</Link>.
+                  </p>
+                </div>
+              </div>
             </section>
 
           </div>
@@ -228,28 +367,46 @@ export default function TiviMatePage() {
               </span>
               <h3 className="text-lg font-bold text-white">Besoin d'un abonnement 4K stable pour TiviMate ?</h3>
               <p className="text-xs text-slate-300 leading-relaxed">
-                Activez votre accès VIP avec plus de 25 000 chaînes directes sans freeze et profitez de la pleine puissance de TiviMate.
+                Activez votre formule <strong>Abonnement IPTV 12 Mois VIP</strong> avec plus de 25 000 chaînes directes sans freeze et 2 écrans simultanés inclus pour exploiter le mode multi-vues de TiviMate.
               </p>
               <Link
-                href="/tarifs-abonnement"
+                href="/abonnement-iptv-12-mois"
                 className="w-full flex items-center justify-center py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider transition-all"
               >
-                Voir les Formules &rarr;
+                Formule VIP 12 Mois &rarr;
               </Link>
             </div>
 
             <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
-              <h3 className="text-xs font-bold text-white uppercase tracking-wider">Autres Applications</h3>
+              <h3 className="text-xs font-bold text-white uppercase tracking-wider">Autres Applications Recommandées</h3>
               <ul className="space-y-2 text-xs">
                 <li>
-                  <Link href="/applications/iptv-smarters-pro" className="text-slate-300 hover:text-blue-400 flex items-center justify-between">
+                  <Link href="/applications/iptv-smarters-pro" className="text-slate-300 hover:text-emerald-400 flex items-center justify-between">
                     <span>IPTV Smarters Pro Officiel</span>
                     <ChevronRight className="w-3.5 h-3.5 text-slate-600" />
                   </Link>
                 </li>
                 <li>
-                  <Link href="/applications/ibo-player" className="text-slate-300 hover:text-blue-400 flex items-center justify-between">
+                  <Link href="/applications/ibo-player" className="text-slate-300 hover:text-emerald-400 flex items-center justify-between">
                     <span>IBO Player Pro (Smart TV)</span>
+                    <ChevronRight className="w-3.5 h-3.5 text-slate-600" />
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/applications/smart-iptv" className="text-slate-300 hover:text-emerald-400 flex items-center justify-between">
+                    <span>Smart IPTV (SIPTV)</span>
+                    <ChevronRight className="w-3.5 h-3.5 text-slate-600" />
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/applications/xciptv" className="text-slate-300 hover:text-emerald-400 flex items-center justify-between">
+                    <span>XCIPTV Player</span>
+                    <ChevronRight className="w-3.5 h-3.5 text-slate-600" />
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/guide-iptv/meilleur-abonnement-iptv" className="text-slate-300 hover:text-emerald-400 flex items-center justify-between">
+                    <span>Guide Meilleur IPTV 2026</span>
                     <ChevronRight className="w-3.5 h-3.5 text-slate-600" />
                   </Link>
                 </li>

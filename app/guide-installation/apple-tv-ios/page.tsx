@@ -13,20 +13,22 @@ import {
   Layers,
   Flame,
   Radio,
-  Apple
+  Apple,
+  Sliders,
+  Wifi
 } from 'lucide-react';
-import { SITE_CONFIG } from '@/lib/seo';
+import { SITE_CONFIG, constructMetadata } from '@/lib/seo';
 
 const PAGE_CANONICAL = 'https://smarterspro12.net/guide-installation/apple-tv-ios';
 
 export function generateMetadata(): Metadata {
-  const title = "Installer IPTV sur Apple TV, iPhone & iPad : Tutoriel Pas-à-Pas 2026";
-  const description = "Guide complet pour configurer un abonnement IPTV sur Apple TV 4K (tvOS), iPhone et iPad (iOS). Téléchargement de Smarters Player Lite et réglages 4K.";
-
-  return {
-    title,
-    description,
+  return constructMetadata({
+    title: "Installer IPTV sur Apple TV, iPhone et iPad : Tutoriel Pas-à-Pas 2026",
+    description: "Guide officiel 2026 pour configurer votre abonnement IPTV sur Apple TV, iPhone et iPad via Smarters Player Lite. Identifiants Xtream Codes et flux 4K sans coupure.",
+    canonicalUrl: PAGE_CANONICAL,
+    type: 'article',
     keywords: [
+      'iptv sur apple tv, iphone et ipad',
       'iptv apple tv',
       'installer iptv iphone',
       'iptv ipad',
@@ -34,25 +36,7 @@ export function generateMetadata(): Metadata {
       'iptv smarters pro ios',
       'configuration iptv apple tv 4k'
     ],
-    alternates: {
-      canonical: PAGE_CANONICAL,
-      languages: {
-        'fr-FR': `${PAGE_CANONICAL}?lang=fr-fr`,
-        'fr-BE': `${PAGE_CANONICAL}?lang=fr-be`,
-        'fr-CH': `${PAGE_CANONICAL}?lang=fr-ch`,
-        'fr-CA': `${PAGE_CANONICAL}?lang=fr-ca`,
-        'x-default': PAGE_CANONICAL,
-      },
-    },
-    openGraph: {
-      title,
-      description,
-      url: PAGE_CANONICAL,
-      siteName: SITE_CONFIG.name,
-      locale: 'fr_FR',
-      type: 'article',
-    },
-  };
+  });
 }
 
 export default function AppleTvIosTutorialPage() {
@@ -62,7 +46,7 @@ export default function AppleTvIosTutorialPage() {
       {
         '@type': 'HowTo',
         '@id': `${PAGE_CANONICAL}/#howto`,
-        name: 'Comment Installer IPTV sur Apple TV 4K, iPhone et iPad',
+        name: 'Comment Installer IPTV sur Apple TV, iPhone et iPad',
         description: 'Tutoriel officiel pour installer Smarters Player Lite sur l\'écosystème Apple (iOS et tvOS) avec identifiants Xtream Codes.',
         totalTime: 'PT3M',
         step: [
@@ -155,7 +139,7 @@ export default function AppleTvIosTutorialPage() {
           {
             '@type': 'ListItem',
             position: 3,
-            name: 'Apple TV & iOS',
+            name: 'Apple TV, iPhone & iPad',
             item: PAGE_CANONICAL,
           },
         ],
@@ -198,17 +182,17 @@ export default function AppleTvIosTutorialPage() {
             </div>
 
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-tight">
-              Comment Installer IPTV sur <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-blue-400">Apple TV 4K, iPhone & iPad</span>
+              Comment Configurer <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-blue-400">IPTV sur Apple TV, iPhone et iPad</span> en 2026
             </h1>
 
             <p className="text-base sm:text-lg text-slate-300 leading-relaxed">
-              Profitez de la puissance de décodage de la puce Apple avec <strong>Smarters Player Lite</strong> sur tvOS et iOS. Guide pas-à-pas pour configurer votre abonnement IPTV et streamer en 4K Ultra HD avec son Dolby Surround.
+              Découvrez notre guide complet pour configurer <strong>IPTV sur Apple TV, iPhone et iPad</strong> en moins de 3 minutes via l'application officielle <strong>Smarters Player Lite</strong>. Profitez de la puissance de décodage de la puce Apple Bionic pour streamer vos chaînes TV en direct et vos films VOD en <strong>4K Ultra HD à 60 FPS</strong> avec un son <strong>Dolby Surround</strong> sans coupure.
             </p>
 
             <div className="flex flex-wrap gap-4 pt-2">
               <Link
                 href="/abonnement-iptv-12-mois"
-                className="inline-flex items-center justify-center px-6 py-3.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-slate-950 font-bold text-sm shadow-lg shadow-sky-600/30 transition-all hover:scale-[1.02]"
+                className="inline-flex items-center justify-center px-6 py-3.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-sm shadow-lg shadow-sky-600/30 transition-all hover:scale-[1.02]"
               >
                 <span>Découvrir nos Abonnements 4K</span>
                 <ArrowRight className="w-4 h-4 ml-2" />
@@ -241,7 +225,7 @@ export default function AppleTvIosTutorialPage() {
             <div className="rounded-2xl bg-slate-900 border border-slate-800 p-6 sm:p-8 space-y-6 shadow-xl">
               <div className="flex items-center justify-between pb-4 border-b border-slate-800">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-sky-600 flex items-center justify-center text-slate-950 font-black text-lg">
+                  <div className="w-10 h-10 rounded-xl bg-sky-600 flex items-center justify-center text-white font-black text-lg">
                     <Apple className="w-6 h-6 text-white" />
                   </div>
                   <div>
@@ -265,7 +249,7 @@ export default function AppleTvIosTutorialPage() {
                 </div>
                 <div className="flex justify-between py-1.5 border-b border-slate-800/50">
                   <dt className="text-slate-400">Protocole de Connexion</dt>
-                  <dd className="font-semibold text-sky-400">Xtream Codes API & M3U</dd>
+                  <dd className="font-semibold text-sky-400">API Xtream Codes & M3U</dd>
                 </div>
                 <div className="flex justify-between py-1.5 border-b border-slate-800/50">
                   <dt className="text-slate-400">Résolution Maximale</dt>
@@ -279,7 +263,7 @@ export default function AppleTvIosTutorialPage() {
 
               <div className="pt-2">
                 <Link
-                  href="/checkout?plan=Premium"
+                  href="/tarifs-abonnement"
                   className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-sky-600 to-blue-600 text-white font-bold text-xs uppercase tracking-wider hover:brightness-110 transition-all"
                 >
                   <span>Activer mon Accès Serveur 4K</span>
@@ -298,13 +282,13 @@ export default function AppleTvIosTutorialPage() {
         <section className="rounded-2xl bg-slate-900/60 border border-slate-800 p-8 space-y-6">
           <div className="max-w-3xl space-y-4">
             <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
-              L'Expérience IPTV Ultime sur Apple TV 4K
+              L'Expérience IPTV Ultime sur Apple TV 4K, iPhone & iPad
             </h2>
             <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
               Grâce à la puce surpuissante Apple Bionic (A15), l'<strong>Apple TV 4K</strong> offre un confort de visionnage sans égal : aucun temps de chargement, zapping ultra-nerveux et une fluidité parfaite à 60 images par seconde sans aucune surchauffe matérielle.
             </p>
             <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-              En déplacement, vous profitez de vos bouquets en direct sur <strong>iPhone</strong> ou <strong>iPad</strong> via le réseau 4G/5G, avec la possibilité de basculer la diffusion sur le téléviseur du salon en un clic grâce à <strong>AirPlay 2</strong>.
+              En déplacement, vous profitez de vos bouquets en direct sur <strong>iPhone</strong> ou <strong>iPad</strong> via le réseau 4G/5G, avec la possibilité de basculer la diffusion sur le téléviseur du salon en un clic grâce au protocole <strong>Apple AirPlay 2</strong>.
             </p>
           </div>
 
@@ -337,10 +321,10 @@ export default function AppleTvIosTutorialPage() {
         <section id="tutoriel-apple" className="space-y-8">
           <div className="max-w-3xl space-y-3">
             <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
-              Tutoriel d'Installation Étape par Étape sur Apple TV & iOS
+              Tutoriel d'Installation : IPTV sur Apple TV, iPhone et iPad Pas-à-Pas
             </h2>
             <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-              L'application officielle est disponible directement sur l'App Store Apple. Suivez ces étapes simples :
+              L'application officielle est disponible directement sur l'App Store Apple. Suivez ces 4 étapes simples :
             </p>
           </div>
 
@@ -367,7 +351,7 @@ export default function AppleTvIosTutorialPage() {
                 <h3 className="text-lg font-bold text-white">Télécharger l'Application Gratuite</h3>
               </div>
               <p className="text-xs sm:text-sm text-slate-300 leading-relaxed pl-11">
-                Cliquez sur <strong className="text-white">Obtenir</strong>. L'application officielle éditée par WHMCS Smarters est entièrement gratuite et s'installe automatiquement.
+                Cliquez sur <strong>Obtenir</strong>. L'application officielle éditée par WHMCS Smarters est entièrement gratuite et s'installe automatiquement sur votre appareil.
               </p>
             </div>
 
@@ -377,10 +361,10 @@ export default function AppleTvIosTutorialPage() {
                 <span className="w-8 h-8 rounded-xl bg-sky-600 text-white font-black text-sm flex items-center justify-center">
                   3
                 </span>
-                <h3 className="text-lg font-bold text-white">Sélectionner "Xtream Codes API"</h3>
+                <h3 className="text-lg font-bold text-white">Sélectionner Xtream Codes API</h3>
               </div>
               <p className="text-xs sm:text-sm text-slate-300 leading-relaxed pl-11">
-                Lancez l'application, acceptez la licence utilisateur puis cliquez sur <strong className="text-white">Login with Xtream Codes API</strong> (protocole le plus stable sur tvOS).
+                Lancez l'application, acceptez la licence utilisateur puis cliquez sur <strong>Login with Xtream Codes API</strong> (protocole le plus stable et rapide sur iOS et tvOS).
               </p>
             </div>
 
@@ -393,7 +377,7 @@ export default function AppleTvIosTutorialPage() {
                 <h3 className="text-lg font-bold text-white">Entrer vos identifiants VIP</h3>
               </div>
               <div className="text-xs text-slate-300 leading-relaxed pl-11 space-y-2">
-                <p>Complétez les champs de connexion avec vos accès :</p>
+                <p>Complétez les 4 champs de connexion avec vos accès reçus par email :</p>
                 <div className="p-3 rounded-lg bg-slate-950 border border-slate-800 font-mono text-[11px] text-slate-300 space-y-1">
                   <div>Any Name : Smarters Apple TV</div>
                   <div>Username : VotreIdentifiant</div>
@@ -419,7 +403,7 @@ export default function AppleTvIosTutorialPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
               <span className="px-2.5 py-1 rounded bg-sky-500/10 border border-sky-500/20 text-sky-400 text-xs font-bold uppercase">
-                Style Netflix
+                Style SVOD
               </span>
               <h3 className="text-lg font-bold text-white">IPTVX (tvOS)</h3>
               <p className="text-xs text-slate-400 leading-relaxed">
@@ -446,7 +430,7 @@ export default function AppleTvIosTutorialPage() {
               Activez la Puissance 4K sur votre Écosystème Apple
             </h2>
             <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
-              Profitez d'un accès instantané à +25 000 chaînes en direct et +90 000 films et séries en 4K Ultra HD sans aucune interruption.
+              Profitez d'un accès instantané à +25 000 chaînes en direct et +90 000 films et séries en 4K Ultra HD sans aucune interruption sur tous vos appareils Apple.
             </p>
           </div>
           <div className="pt-2">
@@ -454,7 +438,7 @@ export default function AppleTvIosTutorialPage() {
               href="/abonnement-iptv-12-mois"
               className="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-black text-sm uppercase tracking-wider shadow-xl shadow-sky-500/20 transition-all hover:scale-105"
             >
-              <span>Découvrir l'Abonnement 12 Mois VIP (1 Mois Offert)</span>
+              <span>Découvrir l'Abonnement 12 Mois VIP (2 Écrans Inclus)</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
@@ -508,7 +492,7 @@ export default function AppleTvIosTutorialPage() {
                 <span>La télécommande Siri Remote permet-elle de zapper vite ?</span>
               </h3>
               <p className="text-xs text-slate-400 leading-relaxed pl-6">
-                Oui, la surface tactile (clickpad) de la télécommande Siri Remote est entièrement prise en charge dans Smarters Player Lite pour naviguer instantanément dans les catégories, le guide EPG et les flux 4K.
+                Oui, la surface tactile de la télécommande Siri Remote est entièrement prise en charge dans Smarters Player Lite pour naviguer instantanément dans les catégories, le guide EPG et les flux 4K.
               </p>
             </div>
           </div>
