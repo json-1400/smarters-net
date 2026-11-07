@@ -119,7 +119,7 @@ export default function TarifsAbonnementPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-950 text-slate-100 antialiased">
+    <div className="min-h-screen flex flex-col bg-slate-950 text-slate-100 antialiased w-full overflow-x-hidden">
       {/* Schema Injection */}
       <script
         type="application/ld+json"
@@ -128,8 +128,8 @@ export default function TarifsAbonnementPage() {
       <Header />
 
       {/* Breadcrumb Navigation */}
-      <nav aria-label="Fil d'Ariane" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
-        <ol className="flex items-center space-x-2 text-xs text-slate-400">
+      <nav aria-label="Fil d'Ariane" className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+        <ol className="flex items-center flex-wrap gap-2 text-xs text-slate-400">
           <li>
             <Link href="/" className="hover:text-blue-400 transition-colors">Accueil</Link>
           </li>
@@ -141,10 +141,10 @@ export default function TarifsAbonnementPage() {
       </nav>
 
       {/* Hero Header */}
-      <header className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14 text-center">
+      <header className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14 text-center">
         <div className="max-w-3xl mx-auto space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold">
-            <Award className="w-3.5 h-3.5" />
+          <div className="inline-flex items-center justify-center gap-2 px-3.5 py-1.5 rounded-xl sm:rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-[11px] sm:text-xs font-semibold max-w-full text-center">
+            <Award className="w-3.5 h-3.5 shrink-0" />
             <span>Tarifs Transparents &middot; Sans Engagement &middot; Zéro Frais Cachés</span>
           </div>
 
@@ -159,12 +159,12 @@ export default function TarifsAbonnementPage() {
       </header>
 
       {/* Main Pricing Grid */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 space-y-16">
+      <main className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 space-y-16">
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
           
           {/* Card 1: 3 Mois */}
-          <div className="rounded-2xl bg-slate-900 border border-slate-800 p-8 flex flex-col justify-between space-y-6">
+          <div className="rounded-2xl bg-slate-900 border border-slate-800 p-5 sm:p-8 flex flex-col justify-between space-y-6">
             <div className="space-y-4">
               <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">
                 Formule Découverte
@@ -223,8 +223,8 @@ export default function TarifsAbonnementPage() {
           </div>
 
           {/* Card 2: 12 Mois VIP (Highlight) */}
-          <div className="rounded-2xl bg-slate-900 border-2 border-blue-500 p-8 flex flex-col justify-between space-y-6 relative shadow-2xl shadow-blue-950/50">
-            <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-extrabold text-[11px] uppercase tracking-wider shadow-md">
+          <div className="rounded-2xl bg-slate-900 border-2 border-blue-500 p-5 sm:p-8 flex flex-col justify-between space-y-6 relative shadow-2xl shadow-blue-950/50">
+            <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-3 sm:px-4 py-1 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-extrabold text-[10px] sm:text-[11px] uppercase tracking-wider shadow-md whitespace-nowrap max-w-[92%] text-center">
               Meilleur Rapport Qualité / Prix
             </div>
 
@@ -297,7 +297,7 @@ export default function TarifsAbonnementPage() {
           </div>
 
           {/* Card 3: 6 Mois */}
-          <div className="rounded-2xl bg-slate-900 border border-slate-800 p-8 flex flex-col justify-between space-y-6">
+          <div className="rounded-2xl bg-slate-900 border border-slate-800 p-5 sm:p-8 flex flex-col justify-between space-y-6">
             <div className="space-y-4">
               <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">
                 Formule Confort
@@ -359,7 +359,7 @@ export default function TarifsAbonnementPage() {
         {/* Section Packs Multi-Écrans */}
         <section className="space-y-6">
           <div className="max-w-3xl space-y-2">
-            <h2 className="text-2xl font-bold text-white">
+            <h2 className="text-xl sm:text-2xl font-bold text-white">
               Packs IPTV Multi-Écrans : 2 à 5 Connexions Simultanées pour Toute la Famille
             </h2>
             <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
@@ -368,7 +368,7 @@ export default function TarifsAbonnementPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="rounded-2xl bg-slate-900 border border-slate-800 p-6 flex flex-col justify-between space-y-5">
+            <div className="rounded-2xl bg-slate-900 border border-slate-800 p-5 sm:p-6 flex flex-col justify-between space-y-5">
               <div className="space-y-3">
                 <span className="text-xs font-bold text-blue-400 uppercase tracking-widest">2 Écrans</span>
                 <h3 className="text-lg font-bold text-white">Pack Duo</h3>
@@ -420,7 +420,7 @@ export default function TarifsAbonnementPage() {
               </div>
             </div>
 
-            <div className="rounded-2xl bg-slate-900 border-2 border-blue-500/60 p-6 flex flex-col justify-between space-y-5 shadow-xl shadow-blue-500/10">
+            <div className="rounded-2xl bg-slate-900 border-2 border-blue-500/60 p-5 sm:p-6 flex flex-col justify-between space-y-5 shadow-xl shadow-blue-500/10">
               <div className="space-y-3">
                 <span className="text-xs font-bold text-blue-400 uppercase tracking-widest">3 Écrans &middot; Populaire</span>
                 <h3 className="text-lg font-bold text-white">Pack Trio Famille</h3>
@@ -472,7 +472,7 @@ export default function TarifsAbonnementPage() {
               </div>
             </div>
 
-            <div className="rounded-2xl bg-slate-900 border border-slate-800 p-6 flex flex-col justify-between space-y-5">
+            <div className="rounded-2xl bg-slate-900 border border-slate-800 p-5 sm:p-6 flex flex-col justify-between space-y-5">
               <div className="space-y-3">
                 <span className="text-xs font-bold text-purple-400 uppercase tracking-widest">4 Écrans</span>
                 <h3 className="text-lg font-bold text-white">Pack Maxi Multi-Room</h3>
@@ -535,9 +535,9 @@ export default function TarifsAbonnementPage() {
         </section>
 
         {/* Section Comparatif Marché & Rassurance */}
-        <section className="rounded-2xl bg-slate-900/60 border border-slate-800 p-8 space-y-6">
+        <section className="rounded-2xl bg-slate-900/60 border border-slate-800 p-5 sm:p-8 space-y-6">
           <div className="max-w-3xl space-y-3">
-            <h2 className="text-2xl font-bold text-white">
+            <h2 className="text-xl sm:text-2xl font-bold text-white">
               Analyse des Prix IPTV en France : Pourquoi les Offres Pas Chères Coupent ?
             </h2>
             <p className="text-slate-300 text-sm leading-relaxed">
@@ -574,9 +574,9 @@ export default function TarifsAbonnementPage() {
         </section>
 
         {/* Tableau Récapitulatif des Formules & Compatibilité */}
-        <section className="rounded-2xl bg-slate-900 border border-slate-800 p-8 space-y-6">
+        <section className="rounded-2xl bg-slate-900 border border-slate-800 p-5 sm:p-8 space-y-6">
           <div className="max-w-3xl space-y-2">
-            <h2 className="text-2xl font-bold text-white">
+            <h2 className="text-xl sm:text-2xl font-bold text-white">
               Tableau Récapitulatif des Tarifs Abonnement IPTV &amp; Prestations Incluses
             </h2>
             <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
@@ -584,8 +584,8 @@ export default function TarifsAbonnementPage() {
             </p>
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse text-xs sm:text-sm">
+          <div className="overflow-x-auto -mx-5 px-5 sm:mx-0 sm:px-0">
+            <table className="w-full min-w-[560px] text-left border-collapse text-xs sm:text-sm">
               <thead>
                 <tr className="border-b border-slate-800 text-slate-400 uppercase">
                   <th className="py-3 pr-4">Formule</th>
@@ -630,8 +630,8 @@ export default function TarifsAbonnementPage() {
         </section>
 
         {/* Section Applications, Matériels & Anti-Coupure */}
-        <section className="rounded-2xl bg-slate-900/60 border border-slate-800 p-8 space-y-4">
-          <h2 className="text-2xl font-bold text-white">
+        <section className="rounded-2xl bg-slate-900/60 border border-slate-800 p-5 sm:p-8 space-y-4">
+          <h2 className="text-xl sm:text-2xl font-bold text-white">
             Quels Lecteurs et Appareils Utiliser avec Votre Abonnement IPTV ?
           </h2>
           <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
@@ -645,7 +645,7 @@ export default function TarifsAbonnementPage() {
         {/* Section FAQ Tarifs */}
         <section className="space-y-6">
           <div className="max-w-3xl space-y-2">
-            <h2 className="text-2xl font-bold text-white">
+            <h2 className="text-xl sm:text-2xl font-bold text-white">
               Questions Fréquentes sur nos Tarifs & Abonnements
             </h2>
             <p className="text-xs sm:text-sm text-slate-400">
@@ -654,7 +654,7 @@ export default function TarifsAbonnementPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="p-6 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
+            <div className="p-5 sm:p-6 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
               <h3 className="text-sm font-bold text-white flex items-center gap-2">
                 <HelpCircle className="w-4 h-4 text-blue-400 flex-shrink-0" />
                 <span>Quels moyens de paiement sont acceptés ?</span>
@@ -664,7 +664,7 @@ export default function TarifsAbonnementPage() {
               </p>
             </div>
 
-            <div className="p-6 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
+            <div className="p-5 sm:p-6 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
               <h3 className="text-sm font-bold text-white flex items-center gap-2">
                 <HelpCircle className="w-4 h-4 text-blue-400 flex-shrink-0" />
                 <span>Puis-je changer d'appareil en cours d'abonnement ?</span>
@@ -674,7 +674,7 @@ export default function TarifsAbonnementPage() {
               </p>
             </div>
 
-            <div className="p-6 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
+            <div className="p-5 sm:p-6 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
               <h3 className="text-sm font-bold text-white flex items-center gap-2">
                 <HelpCircle className="w-4 h-4 text-blue-400 flex-shrink-0" />
                 <span>Comment regarder sur 2 écrans ou plus (Multi-connexions) ?</span>
@@ -684,7 +684,7 @@ export default function TarifsAbonnementPage() {
               </p>
             </div>
 
-            <div className="p-6 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
+            <div className="p-5 sm:p-6 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
               <h3 className="text-sm font-bold text-white flex items-center gap-2">
                 <HelpCircle className="w-4 h-4 text-blue-400 flex-shrink-0" />
                 <span>Existe-t-il une période d'essai ou un test IPTV gratuit ?</span>
@@ -694,7 +694,7 @@ export default function TarifsAbonnementPage() {
               </p>
             </div>
 
-            <div className="p-6 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
+            <div className="p-5 sm:p-6 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
               <h3 className="text-sm font-bold text-white flex items-center gap-2">
                 <HelpCircle className="w-4 h-4 text-blue-400 flex-shrink-0" />
                 <span>Y a-t-il des frais cachés ou un engagement de reconduction ?</span>

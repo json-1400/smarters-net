@@ -173,7 +173,7 @@ export default function IptvMultiEcranPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 antialiased flex flex-col selection:bg-blue-600 selection:text-white">
+    <div className="min-h-screen bg-slate-950 text-slate-100 antialiased flex flex-col selection:bg-blue-600 selection:text-white w-full overflow-x-hidden">
       {/* Header */}
       <Header />
 
@@ -185,7 +185,7 @@ export default function IptvMultiEcranPage() {
 
       {/* Breadcrumb Navigation */}
       <nav aria-label="Fil d'Ariane" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 w-full">
-        <ol className="flex items-center space-x-2 text-xs text-slate-400">
+        <ol className="flex items-center flex-wrap gap-2 text-xs text-slate-400">
           <li>
             <Link href="/" className="hover:text-blue-400 transition-colors">Accueil</Link>
           </li>
@@ -205,8 +205,8 @@ export default function IptvMultiEcranPage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
           
           <div className="lg:col-span-7 space-y-6">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-bold uppercase tracking-wider">
-              <Users className="w-4 h-4" />
+            <div className="inline-flex items-center justify-center gap-2 px-3.5 py-1.5 rounded-xl sm:rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-[11px] sm:text-xs font-bold uppercase tracking-wider max-w-full text-center">
+              <Users className="w-4 h-4 shrink-0" />
               <span>Solution Famille & Multi-Room &middot; 2 à 5 Écrans en Simultané</span>
             </div>
 

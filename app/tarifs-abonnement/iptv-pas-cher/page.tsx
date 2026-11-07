@@ -172,7 +172,7 @@ export default function IptvPasCherPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 antialiased flex flex-col selection:bg-blue-600 selection:text-white">
+    <div className="min-h-screen bg-slate-950 text-slate-100 antialiased flex flex-col selection:bg-blue-600 selection:text-white w-full overflow-x-hidden">
       {/* Header */}
       <Header />
 
@@ -184,7 +184,7 @@ export default function IptvPasCherPage() {
 
       {/* Breadcrumb Navigation */}
       <nav aria-label="Fil d'Ariane" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 w-full">
-        <ol className="flex items-center space-x-2 text-xs text-slate-400">
+        <ol className="flex items-center flex-wrap gap-2 text-xs text-slate-400">
           <li>
             <Link href="/" className="hover:text-blue-400 transition-colors">Accueil</Link>
           </li>
@@ -204,8 +204,8 @@ export default function IptvPasCherPage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
           
           <div className="lg:col-span-7 space-y-6">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold uppercase tracking-wider">
-              <TrendingDown className="w-4 h-4" />
+            <div className="inline-flex items-center justify-center gap-2 px-3.5 py-1.5 rounded-xl sm:rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[11px] sm:text-xs font-bold uppercase tracking-wider max-w-full text-center">
+              <TrendingDown className="w-4 h-4 shrink-0" />
               <span>Guide Tarifaire & Comparatif 2026 &middot; Dès 4,16 € / Mois</span>
             </div>
 
@@ -362,7 +362,7 @@ export default function IptvPasCherPage() {
           </div>
 
           <div className="overflow-x-auto rounded-2xl border border-slate-800 bg-slate-900">
-            <table className="min-w-full divide-y divide-slate-800 text-sm">
+            <table className="w-full min-w-[560px] divide-y divide-slate-800 text-sm">
               <thead className="bg-slate-950/60 text-xs font-bold uppercase tracking-wider text-slate-400">
                 <tr>
                   <th className="py-4 px-6 text-left">Critères Essentiels</th>
