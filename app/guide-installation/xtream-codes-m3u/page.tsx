@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { 
   KeyRound, 
   FileCode, 
@@ -262,7 +263,7 @@ export default function XtreamCodesM3uTutorialPage() {
 
               <div className="pt-2">
                 <Link
-                  href="/tarifs-abonnement"
+                  href="/tarifs"
                   className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-amber-600 to-orange-600 text-slate-950 font-black text-xs uppercase tracking-wider hover:brightness-110 transition-all"
                 >
                   <span>Recevoir mes Accès Serveur 4K</span>
@@ -286,6 +287,23 @@ export default function XtreamCodesM3uTutorialPage() {
             <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
               Comprendre la différence fondamentale entre ces deux technologies vous permet de configurer votre application de manière optimale pour éviter les ralentissements :
             </p>
+
+            {/* SEO Visual Showcase */}
+            <figure className="my-6 space-y-2">
+              <div className="relative overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/40 shadow-2xl">
+                <Image
+                  src="/images/placeholders/guide-xtream-m3u.svg"
+                  alt="Comparatif technique entre API Xtream Codes et playlist M3U Plus pour abonnement IPTV"
+                  width={1200}
+                  height={675}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
+                  className="w-full h-auto object-cover"
+                />
+              </div>
+              <figcaption className="text-center text-xs text-slate-400">
+                Comparatif des protocoles IPTV : l'API Xtream Codes garantit une synchronisation dynamique EPG sans saturer la RAM.
+              </figcaption>
+            </figure>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -458,12 +476,12 @@ export default function XtreamCodesM3uTutorialPage() {
         </section>
 
         {/* Section 4: Banner CTA pour l'abonnement */}
-        <section className="rounded-3xl bg-gradient-to-r from-amber-950/60 via-slate-900 to-orange-950/60 border border-amber-500/30 p-8 sm:p-12 text-center space-y-6">
+        <section className="rounded-3xl bg-white dark:bg-gradient-to-r dark:from-amber-950/60 dark:via-slate-900 dark:to-orange-950/60 border border-amber-200 dark:border-amber-500/30 p-8 sm:p-12 text-center space-y-6 shadow-xl dark:shadow-2xl">
           <div className="max-w-2xl mx-auto space-y-3">
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
               Recevez vos Identifiants Xtream Codes Sécurisés en 3 Minutes
             </h2>
-            <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
+            <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
               Accédez immédiatement à vos accès VIP par e-mail et WhatsApp avec lien M3U haute vitesse et guide pas-à-pas personnalisé pour tous vos écrans.
             </p>
           </div>

@@ -39,8 +39,14 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: firstIssue }, { status: 400 });
     }
 
-    const { planType, fullName, email, phone } = parsed.data;
+    const { planType, fullName, email, phone, deviceType, deviceApp } = parsed.data;
     const priceCents = PLAN_PRICES[planType];
+    const configNotes = [
+      deviceType ? `Appareil: ${deviceType}` : null,
+      deviceApp ? `Application: ${deviceApp}` : null,
+    ]
+      .filter(Boolean)
+      .join(' | ');
 
     // Check if user is currently authenticated
     const { data: { session } } = await supabase.auth.getSession();
@@ -133,43 +139,57 @@ export async function POST(request: Request) {
       }
     }
 
-    // 3. Create subscription record using admin client (bypasses RLS)
-    const { data: newSub, error: insertSubError } = await adminSupabase
-      .from('subscriptions')
-      .insert({
-        user_id: userId,
-        plan_type: planType,
-        status: 'pending_payment',
-      })
-      .select()
-      .single();
+    // 3. Generate clean unique order reference
+    const orderRef = `SP-${Math.random().toString(36).substring(2, 7).toUpperCase()}${Date.now().toString().slice(-3)}`;
 
-    if (insertSubError || !newSub) {
-      console.error('Subscription insertion error:', insertSubError);
-      return NextResponse.json({ error: 'Échec de la création de la souscription.' }, { status: 500 });
+    // 4. Create order record in `orders` (no subscription created yet!)
+    const orderPayload = {
+      order_ref: orderRef,
+      user_id: userId,
+      customer_name: customerName,
+      customer_email: customerEmail,
+      customer_phone: phone ? phone.trim() : null,
+      device_type: deviceType || null,
+      device_app: deviceApp || null,
+      plan_type: planType,
+      amount: priceCents,
+      currency: 'eur',
+      status: 'pending',
+      payment_method: 'other',
+      notes: configNotes || null,
+    };
+
+    let createdOrderId: string = orderRef;
+
+    const { data: newOrder, error: insertOrderError } = await adminSupabase
+      .from('orders')
+      .insert(orderPayload)
+      .select('id, order_ref')
+      .maybeSingle();
+
+    if (!insertOrderError && newOrder) {
+      createdOrderId = newOrder.id;
+    } else {
+      // Graceful fallback to `payments` if `orders` table is not yet migrated in Supabase
+      console.warn('Orders table insert notice (fallback to payments):', insertOrderError?.message);
+      const { data: fallbackPayment } = await adminSupabase
+        .from('payments')
+        .insert({
+          user_id: userId,
+          amount: priceCents,
+          currency: 'eur',
+          status: 'pending_instruction',
+          payment_method: 'other',
+          notes: configNotes || null,
+        })
+        .select('id')
+        .maybeSingle();
+
+      if (fallbackPayment?.id) {
+        createdOrderId = fallbackPayment.id;
+      }
     }
 
-    // 4. Create order record (no payment collected at checkout)
-    const { data: newPayment, error: insertPayError } = await adminSupabase
-      .from('payments')
-      .insert({
-        user_id: userId,
-        subscription_id: newSub.id,
-        amount: priceCents,
-        currency: 'eur',
-        status: 'pending_instruction',
-        payment_method: 'other',
-      })
-      .select()
-      .single();
-
-    if (insertPayError || !newPayment) {
-      console.error('Order insertion error:', insertPayError);
-      await adminSupabase.from('subscriptions').delete().eq('id', newSub.id);
-      return NextResponse.json({ error: 'Échec de la création de la commande.' }, { status: 500 });
-    }
-
-    const orderRef = `SP-${String(newPayment.id).slice(0, 8).toUpperCase()}`;
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://smarterspro12.net';
     const orderDate = new Date().toLocaleDateString('fr-FR', {
       day: '2-digit',
@@ -181,6 +201,8 @@ export async function POST(request: Request) {
       customerName,
       customerEmail,
       customerPhone: phone ? phone.trim() : null,
+      deviceType: deviceType || null,
+      deviceApp: deviceApp || null,
       planName: PLAN_NAMES[planType] || planType,
       planType,
       amountCents: priceCents,
@@ -197,7 +219,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       success: true,
-      subscriptionId: newSub.id,
+      orderId: createdOrderId,
       orderRef,
     });
   } catch (error: unknown) {

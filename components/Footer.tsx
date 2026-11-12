@@ -87,12 +87,12 @@ export function Footer() {
           <div className="space-y-3">
             <h4 className="text-white text-xs font-bold tracking-wider uppercase">Abonnements &amp; Tarifs</h4>
             <ul className="space-y-2 text-xs">
-              <li><FooterLink href="/tarifs-abonnement">Grille Tarifaire Complète</FooterLink></li>
+              <li><FooterLink href="/tarifs">Grille Tarifaire Complète</FooterLink></li>
               <li><FooterLink href="/abonnement-iptv-12-mois" className="hover:text-blue-400 transition-colors font-medium text-slate-200">Abonnement 12 Mois VIP</FooterLink></li>
-              <li><FooterLink href="/tarifs-abonnement/iptv-multi-ecran">IPTV Multi-Écran (2-4 Écrans)</FooterLink></li>
-              <li><FooterLink href="/tarifs-abonnement/iptv-pas-cher">IPTV Pas Cher &amp; Fiable</FooterLink></li>
+              <li><FooterLink href="/tarifs/iptv-multi-ecran">IPTV Multi-Écran (2-4 Écrans)</FooterLink></li>
+              <li><FooterLink href="/tarifs/iptv-pas-cher">IPTV Pas Cher &amp; Fiable</FooterLink></li>
               <li><FooterLink href="/test-iptv-gratuit">Test IPTV 24h Gratuit</FooterLink></li>
-              <li><FooterLink href="/guide-iptv/meilleur-abonnement-iptv">Comparatif Meilleur IPTV 2026</FooterLink></li>
+              <li><FooterLink href="/blog/meilleur-abonnement-iptv">Comparatif Meilleur IPTV 2026</FooterLink></li>
             </ul>
           </div>
 
@@ -122,16 +122,15 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Silo 4: Contenus & Comparatifs Spécifiques */}
+          {/* Silo 4: Catalogue, Chaînes & VOD */}
           <div className="space-y-3">
-            <h4 className="text-white text-xs font-bold tracking-wider uppercase">Comparatifs &amp; Guides</h4>
+            <h4 className="text-white text-xs font-bold tracking-wider uppercase">Catalogue &amp; Contenus</h4>
             <ul className="space-y-2 text-xs">
-              <li><FooterLink href="/guide-iptv">Guide Débutant IPTV</FooterLink></li>
-              <li><FooterLink href="/catalogue-vod/iptv-adulte">Contrôle Parental VOD</FooterLink></li>
-              <li><FooterLink href="/blog/alternative-atlas-pro-iptv">Alternative Atlas Pro IPTV</FooterLink></li>
-              <li><FooterLink href="/blog/alternative-king365-iptv">Alternative King365 IPTV</FooterLink></li>
-              <li><FooterLink href="/blog/alternative-iron-tv-pro">Alternative Iron TV Pro</FooterLink></li>
-              <li><FooterLink href="/blog/avis-iptv-aliexpress-danger">Enquête Arnaques AliExpress</FooterLink></li>
+              <li><FooterLink href="/catalogue">Hub Catalogue Global</FooterLink></li>
+              <li><FooterLink href="/catalogue/chaines">+25 000 Chaînes TV</FooterLink></li>
+              <li><FooterLink href="/catalogue/vod">Catalogue VOD 4K</FooterLink></li>
+              <li><FooterLink href="/guide-depannage">Guide Dépannage IPTV</FooterLink></li>
+              <li><FooterLink href="/blog">Blog &amp; Comparatifs</FooterLink></li>
             </ul>
           </div>
 

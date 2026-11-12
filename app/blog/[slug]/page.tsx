@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
@@ -50,6 +51,7 @@ function buildSchemaGraph(post: BlogPost, pageCanonical: string) {
         inLanguage: 'fr-FR',
         datePublished: post.datePublished,
         dateModified: post.dateModified,
+        image: post.image ? `${SITE_CONFIG.domain}${post.image.src}` : undefined,
         mainEntityOfPage: pageCanonical,
         author: { '@type': 'Organization', name: 'Équipe Éditoriale Smarters Pro 12', url: SITE_CONFIG.domain },
         publisher: { '@id': `${SITE_CONFIG.domain}/#organization` },
@@ -133,6 +135,25 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
                   ))}
                 </ul>
               </div>
+
+              {post.image && (
+                <figure className="my-6 space-y-2">
+                  <div className="relative overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/40 shadow-2xl">
+                    <Image
+                      src={post.image.src}
+                      alt={post.image.alt}
+                      width={1200}
+                      height={675}
+                      priority
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 70vw, 800px"
+                      className="w-full h-auto object-cover"
+                    />
+                  </div>
+                  <figcaption className="text-center text-xs text-slate-400">
+                    {post.image.caption}
+                  </figcaption>
+                </figure>
+              )}
             </header>
 
             <BlogArticleBody post={post} />

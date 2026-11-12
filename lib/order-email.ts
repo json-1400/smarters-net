@@ -4,6 +4,8 @@ export interface OrderEmailData {
   customerName: string;
   customerEmail: string;
   customerPhone?: string | null;
+  deviceType?: string | null;
+  deviceApp?: string | null;
   planName: string;
   planType: string;
   amountCents: number;
@@ -97,6 +99,8 @@ export function buildOrderConfirmationHtml(data: OrderEmailData): string {
                 ${row('Nom', name)}
                 ${row('Email', email)}
                 ${phone ? row('Téléphone', phone) : ''}
+                ${data.deviceType ? row('Appareil', escapeHtml(data.deviceType)) : ''}
+                ${data.deviceApp ? row('Application', escapeHtml(data.deviceApp)) : ''}
                 <tr>
                   <td class="stack" style="padding:14px 0 10px 0;font-size:14px;color:#0f172a;font-weight:700;">Total</td>
                   <td class="stack" style="padding:14px 0 10px 0;font-size:20px;color:#2563eb;font-weight:800;">${amount}</td>
@@ -137,10 +141,11 @@ export function buildAdminOrderNotificationHtml(data: OrderEmailData): string {
   const phone = data.customerPhone ? escapeHtml(data.customerPhone) : 'Non renseigné';
   const amount = `${(data.amountCents / 100).toFixed(2)} €`;
   const cleanSiteUrl = data.siteUrl.replace(/\/$/, '');
+  const deviceAppInfo = [data.deviceType, data.deviceApp].filter(Boolean).join(' / ');
 
   const customerWaUrl = buildCustomerWhatsappUrl(
     data.customerPhone,
-    `Bonjour ${data.customerName}, nous avons bien reçu votre commande ${data.orderRef} (${data.planName} - ${amount}) sur IPTV Smarters Pro. Voici les instructions pour activer votre accès :`
+    `Bonjour ${data.customerName}, nous avons bien reçu votre commande ${data.orderRef} (${data.planName} - ${amount}${deviceAppInfo ? ` - ${deviceAppInfo}` : ''}) sur IPTV Smarters Pro. Voici les instructions pour activer votre accès :`
   );
 
   return `<!DOCTYPE html>
@@ -171,6 +176,8 @@ export function buildAdminOrderNotificationHtml(data: OrderEmailData): string {
                 ${row('Client', name)}
                 ${row('Email client', `<a href="mailto:${email}" style="color:#2563eb;text-decoration:none;">${email}</a>`)}
                 ${row('WhatsApp / Téléphone', phone)}
+                ${row('Appareil client', data.deviceType ? escapeHtml(data.deviceType) : 'Non spécifié')}
+                ${row('Application IPTV', data.deviceApp ? escapeHtml(data.deviceApp) : 'Non spécifiée / Conseil requis')}
               </table>
             </td></tr>
           </table>
@@ -184,6 +191,61 @@ export function buildAdminOrderNotificationHtml(data: OrderEmailData): string {
             }
             <td align="left">${button(`${cleanSiteUrl}/admin/subscriptions`, 'Ouvrir Admin', '#0f172a')}</td>
           </tr></table>
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`;
+}
+
+export interface RenewalReminderData {
+  customerName: string;
+  planName: string;
+  expiryDate: string;
+  daysRemaining: number;
+  renewalUrl: string;
+}
+
+export function buildRenewalReminderHtml(data: RenewalReminderData): string {
+  const name = escapeHtml(data.customerName);
+  const plan = escapeHtml(data.planName);
+  const expiry = escapeHtml(data.expiryDate);
+  const days = data.daysRemaining;
+
+  return `<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rappel de renouvellement IPTV Smarters Pro</title>
+</head>
+<body style="margin:0;padding:0;background:#f1f5f9;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f1f5f9;">
+    <tr><td align="center" style="padding:24px 12px;">
+      <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:600px;max-width:600px;background:#ffffff;border-radius:16px;overflow:hidden;">
+        <tr><td style="background:#0f172a;padding:28px 36px;" align="center">
+          <div style="font-size:13px;letter-spacing:2px;text-transform:uppercase;color:#60a5fa;font-weight:700;">IPTV Smarters Pro</div>
+          <div style="font-size:24px;line-height:1.3;color:#ffffff;font-weight:800;margin-top:10px;">Votre abonnement arrive à échéance ⏳</div>
+        </td></tr>
+        <tr><td style="padding:32px 36px 8px 36px;">
+          <p style="margin:0 0 12px 0;font-size:16px;color:#0f172a;">Bonjour <strong>${name}</strong>,</p>
+          <p style="margin:0;font-size:15px;line-height:1.6;color:#334155;">
+            Votre formule <strong>${plan}</strong> arrive à expiration dans <strong>${days > 1 ? `${days} jours` : 'moins de 24 heures'}</strong> (le ${expiry}).
+          </p>
+          <p style="margin:12px 0 0 0;font-size:15px;line-height:1.6;color:#334155;">
+            Pour continuer à profiter de vos flux 4K, de vos chaînes en direct et de la VOD sans coupure, vous pouvez renouveler votre formule en un clic :
+          </p>
+        </td></tr>
+        <tr><td style="padding:24px 36px 12px 36px;" align="center">
+          ${button(data.renewalUrl, 'Renouveler mon abonnement maintenant →', '#2563eb')}
+        </td></tr>
+        <tr><td style="padding:12px 36px 24px 36px;" align="center">
+          <p style="margin:0;font-size:13px;color:#64748b;">
+            Besoin d'aide ou d'une autre formule ? Notre équipe reste à votre écoute sur WhatsApp :
+            <br>
+            <a href="${CONTACT.whatsappUrl}" style="color:#16a34a;font-weight:bold;text-decoration:none;">${CONTACT.whatsappDisplay}</a>
+          </p>
         </td></tr>
       </table>
     </td></tr>

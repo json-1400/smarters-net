@@ -50,7 +50,7 @@ export function VodModal({ item, onClose, onSelectPlan }: VodModalProps) {
       onClick={onClose}
     >
       <div 
-        className="relative w-full max-w-4xl bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl text-slate-100 flex flex-col max-h-[90vh]"
+        className="relative w-full max-w-4xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-2xl text-slate-900 dark:text-slate-100 flex flex-col max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close Button */}
@@ -99,20 +99,20 @@ export function VodModal({ item, onClose, onSelectPlan }: VodModalProps) {
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
               <div className="flex items-center gap-2 flex-wrap mb-1">
-                <span className="bg-blue-500/20 text-blue-400 border border-blue-500/30 text-[11px] font-bold px-2 py-0.5 rounded">
+                <span className="bg-blue-50 text-blue-700 border border-blue-200 dark:bg-blue-500/20 dark:text-blue-400 dark:border-blue-500/30 text-[11px] font-bold px-2 py-0.5 rounded">
                   {item.quality}
                 </span>
-                <span className="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[11px] font-bold px-2 py-0.5 rounded">
+                <span className="bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-500/20 dark:text-emerald-400 dark:border-emerald-500/30 text-[11px] font-bold px-2 py-0.5 rounded">
                   {item.audio}
                 </span>
-                <span className="bg-slate-800 text-slate-300 text-[11px] font-semibold px-2 py-0.5 rounded flex items-center gap-1">
-                  <Star className="w-3 h-3 text-yellow-400 fill-current" /> {item.rating} / 10
+                <span className="bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-300 text-[11px] font-semibold px-2 py-0.5 rounded flex items-center gap-1 border border-slate-200 dark:border-transparent">
+                  <Star className="w-3 h-3 text-amber-500 fill-current" /> {item.rating} / 10
                 </span>
-                <span className="text-slate-400 text-xs flex items-center gap-1">
+                <span className="text-slate-500 dark:text-slate-400 text-xs flex items-center gap-1">
                   <Calendar className="w-3 h-3" /> {item.year}
                 </span>
               </div>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
                 {item.title}
               </h2>
             </div>
@@ -132,19 +132,19 @@ export function VodModal({ item, onClose, onSelectPlan }: VodModalProps) {
           {/* Genres */}
           <div className="flex flex-wrap gap-1.5">
             {item.genre.map((g) => (
-              <span key={g} className="text-xs bg-slate-800/80 text-slate-300 px-2.5 py-1 rounded-full border border-slate-700/50">
+              <span key={g} className="text-xs bg-slate-100 text-slate-700 border border-slate-200 dark:bg-slate-800/80 dark:text-slate-300 dark:border-slate-700/50 px-2.5 py-1 rounded-full">
                 {g}
               </span>
             ))}
           </div>
 
           {/* Synopsis */}
-          <p className="text-sm sm:text-base text-slate-300 leading-relaxed pt-2">
+          <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed pt-2">
             {item.synopsis}
           </p>
 
           {/* Value highlights */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-4 border-t border-slate-800 text-xs text-slate-400">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-4 border-t border-slate-200 dark:border-slate-800 text-xs text-slate-500 dark:text-slate-400">
             <div className="flex items-center gap-2">
               <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
               <span>Disponible en direct & VOD illimitée</span>

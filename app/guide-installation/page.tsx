@@ -18,7 +18,8 @@ import {
   Settings,
   Wifi,
   Sliders,
-  ShieldCheck
+  ShieldCheck,
+  Box
 } from 'lucide-react';
 import { SITE_CONFIG, constructMetadata } from '@/lib/seo';
 
@@ -310,6 +311,28 @@ export default function GuideInstallationPage() {
               </span>
             </Link>
 
+            {/* Boîtier MAG & Formuler */}
+            <Link
+              href="/guide-installation/mag-box"
+              className="p-6 rounded-2xl bg-slate-900 border border-slate-800 hover:border-purple-500/50 transition-all flex flex-col justify-between space-y-4 group"
+            >
+              <div className="space-y-3">
+                <div className="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400">
+                  <Box className="w-5 h-5" />
+                </div>
+                <h3 className="text-lg font-bold text-white group-hover:text-purple-400 transition-colors">
+                  Boîtiers MAG &amp; Formuler
+                </h3>
+                <p className="text-xs text-slate-400 leading-relaxed">
+                  Configuration Stalker par adresse MAC sur décodeurs Infomir MAG (254, 322, 520, 540) et application MyTVOnline.
+                </p>
+              </div>
+              <span className="text-xs font-bold text-purple-400 flex items-center gap-1 pt-2">
+                <span>Voir le guide Boîtier MAG complet</span>
+                <ChevronRight className="w-3.5 h-3.5" />
+              </span>
+            </Link>
+
           </div>
         </section>
 
@@ -374,6 +397,13 @@ export default function GuideInstallationPage() {
                   <td className="p-3.5 sm:p-4 text-indigo-400">IPTV Smarters Pro Desktop / VLC</td>
                   <td className="p-3.5 sm:p-4">Installateur EXE / DMG officiel</td>
                   <td className="p-3.5 sm:p-4 text-emerald-400 font-mono">Xtream Codes / M3U</td>
+                  <td className="p-3.5 sm:p-4 text-slate-200 font-semibold">&lt; 3 min</td>
+                </tr>
+                <tr className="hover:bg-slate-800/40">
+                  <td className="p-3.5 sm:p-4 font-bold text-white">Boîtiers MAG & Formuler</td>
+                  <td className="p-3.5 sm:p-4 text-purple-400">Stalker Portal / MyTVOnline</td>
+                  <td className="p-3.5 sm:p-4">Middleware intégré / Natif</td>
+                  <td className="p-3.5 sm:p-4 text-emerald-400 font-mono">Adresse MAC / Stalker</td>
                   <td className="p-3.5 sm:p-4 text-slate-200 font-semibold">&lt; 3 min</td>
                 </tr>
               </tbody>

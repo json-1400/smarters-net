@@ -36,8 +36,8 @@ const COMPATIBLE_DEVICES = [
   { 
     icon: Box,
     name: 'Boîtiers MAG & Formuler', 
-    desc: 'Compatibilité totale avec les boîtiers MAG et les modèles Formuler Z via portail Xtream Codes ou M3U.',
-    href: '/guide-installation/xtream-codes-m3u'
+    desc: 'Compatibilité totale avec les boîtiers MAG et les modèles Formuler Z via portail Stalker ou adresse MAC.',
+    href: '/guide-installation/mag-box'
   }
 ];
 

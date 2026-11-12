@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { 
   Tv, 
   Download, 
@@ -258,7 +259,7 @@ export default function FireStickTutorialPage() {
 
               <div className="pt-2">
                 <Link
-                  href="/tarifs-abonnement"
+                  href="/tarifs"
                   className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-orange-600 to-amber-600 text-white font-bold text-xs uppercase tracking-wider hover:brightness-110 transition-all"
                 >
                   <span>Activer mon Accès Serveur 4K</span>
@@ -285,6 +286,23 @@ export default function FireStickTutorialPage() {
             <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
               Grâce à l'application <strong>Downloader</strong> certifiée par Amazon, vous contournez les limitations géographiques des stores pour installer la version officielle et la plus stable d'IPTV Smarters Pro ou de TiviMate en moins de 4 minutes.
             </p>
+
+            {/* SEO Visual Showcase */}
+            <figure className="my-6 space-y-2">
+              <div className="relative overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/40 shadow-2xl">
+                <Image
+                  src="/images/placeholders/guide-firestick.svg"
+                  alt="Tutoriel installation IPTV sur Amazon Fire TV Stick 4K avec Downloader et codes Xtream"
+                  width={1200}
+                  height={675}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
+                  className="w-full h-auto object-cover"
+                />
+              </div>
+              <figcaption className="text-center text-xs text-slate-400">
+                Installation pas-à-pas sur Amazon Fire TV Stick : configuration de Downloader et streaming 4K Ultra HD.
+              </figcaption>
+            </figure>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
@@ -385,42 +403,42 @@ export default function FireStickTutorialPage() {
         </section>
 
         {/* Section 3: Astuce Anti-Surchauffe & Buffering */}
-        <section className="rounded-2xl bg-amber-500/10 border border-amber-500/20 p-8 space-y-4">
+        <section className="rounded-2xl bg-amber-50 dark:bg-amber-500/10 border border-amber-200 dark:border-amber-500/20 p-6 sm:p-8 space-y-4 shadow-sm dark:shadow-none">
           <div className="flex items-center gap-3">
-            <AlertTriangle className="w-6 h-6 text-amber-400 shrink-0" />
-            <h2 className="text-xl font-bold text-white">
+            <AlertTriangle className="w-6 h-6 text-amber-600 dark:text-amber-400 shrink-0" />
+            <h2 className="text-xl font-bold text-slate-900 dark:text-white">
               Conseils d'Optimisation Pro pour Amazon Fire TV Stick
             </h2>
           </div>
-          <p className="text-xs sm:text-sm text-amber-200 leading-relaxed">
+          <p className="text-xs sm:text-sm text-slate-700 dark:text-amber-200 leading-relaxed font-medium">
             Pour maintenir une fluidité 4K à 60 FPS sans buffering lors des matchs à forte affluence, appliquez ces recommandations :
           </p>
-          <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-amber-100/90 pt-2">
+          <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-slate-700 dark:text-amber-100/90 pt-2">
             <li className="flex items-start gap-2">
-              <CheckCircle2 className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-              <span><strong>Privilégiez le Wi-Fi 5 GHz :</strong> Connectez votre Fire TV sur la bande 5 GHz de votre box internet plutôt que 2,4 GHz pour multiplier votre débit par 3.</span>
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-amber-400 shrink-0 mt-0.5" />
+              <span><strong className="text-slate-900 dark:text-white font-semibold">Privilégiez le Wi-Fi 5 GHz :</strong> Connectez votre Fire TV sur la bande 5 GHz de votre box internet plutôt que 2,4 GHz pour multiplier votre débit par 3.</span>
             </li>
             <li className="flex items-start gap-2">
-              <CheckCircle2 className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-              <span><strong>Videz le cache régulièrement :</strong> Dans Paramètres &gt; Applications &gt; Gérer les applications &gt; IPTV Smarters Pro &gt; Vider le cache.</span>
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-amber-400 shrink-0 mt-0.5" />
+              <span><strong className="text-slate-900 dark:text-white font-semibold">Videz le cache régulièrement :</strong> Dans Paramètres &gt; Applications &gt; Gérer les applications &gt; IPTV Smarters Pro &gt; Vider le cache.</span>
             </li>
           </ul>
         </section>
 
         {/* Section 4: Banner CTA pour l'abonnement */}
-        <section className="rounded-3xl bg-gradient-to-r from-orange-950/60 via-slate-900 to-amber-950/60 border border-orange-500/30 p-8 sm:p-12 text-center space-y-6">
+        <section className="rounded-3xl bg-white dark:bg-gradient-to-r dark:from-orange-950 dark:via-slate-900 dark:to-amber-950 border border-orange-200 dark:border-orange-500/30 p-8 sm:p-12 text-center space-y-6 shadow-xl dark:shadow-2xl">
           <div className="max-w-2xl mx-auto space-y-3">
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
               Activez la 4K Ultra HD sur votre Amazon Fire TV Stick
             </h2>
-            <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
+            <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
               Débloquez +25 000 chaînes directes et +90 000 VOD avec serveurs anti-freeze 60 FPS et support WhatsApp réactif 7j/7.
             </p>
           </div>
           <div className="pt-2">
             <Link
               href="/abonnement-iptv-12-mois"
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-orange-500 hover:bg-orange-400 text-white font-black text-sm uppercase tracking-wider shadow-xl shadow-orange-500/20 transition-all hover:scale-105"
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-black text-sm uppercase tracking-wider shadow-xl shadow-orange-500/20 transition-all hover:scale-105"
             >
               <span>Découvrir l'Abonnement 12 Mois VIP (2 Écrans Inclus)</span>
               <ArrowRight className="w-4 h-4" />

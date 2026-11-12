@@ -31,12 +31,49 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: firstIssue }, { status: 400 });
     }
 
-    const { paymentId } = parsed.data;
+    const targetId = parsed.data.orderId || parsed.data.paymentId;
+    if (!targetId) return NextResponse.json({ error: 'Identifiant requis.' }, { status: 400 });
 
-    const { data: rawPayment, error: paymentError } = await supabase
+    const adminSupabase = createAdminClient();
+
+    // 1. Check orders table
+    const { data: order } = await adminSupabase
+      .from('orders')
+      .select('*')
+      .eq('id', targetId)
+      .maybeSingle();
+
+    if (order) {
+      const emailResult = await sendOrderConfirmationEmail({
+        customerName: order.customer_name,
+        customerEmail: order.customer_email,
+        customerPhone: order.customer_phone,
+        deviceType: order.device_type,
+        deviceApp: order.device_app,
+        planName: order.plan_type,
+        planType: order.plan_type as PlanType,
+        amountCents: order.amount,
+        orderRef: order.order_ref,
+        orderDate: new Date(order.created_at).toLocaleDateString('fr-FR', {
+          day: '2-digit',
+          month: 'long',
+          year: 'numeric',
+        }),
+        siteUrl: process.env.NEXT_PUBLIC_SITE_URL || 'https://smarterspro12.net',
+      });
+
+      if (!emailResult.success) {
+        return NextResponse.json({ error: "Erreur lors de l'envoi de l'email." }, { status: 500 });
+      }
+
+      return NextResponse.json({ success: true, message: 'Email de confirmation renvoyé avec succès.' });
+    }
+
+    // 2. Fallback to payments
+    const { data: rawPayment, error: paymentError } = await adminSupabase
       .from('payments')
       .select('*, subscription:subscriptions(*), user:profiles(*)')
-      .eq('id', paymentId)
+      .eq('id', targetId)
       .single();
 
     if (paymentError || !rawPayment) return NextResponse.json({ error: 'Paiement introuvable.' }, { status: 404 });
@@ -47,8 +84,7 @@ export async function POST(request: Request) {
     const planType: PlanType = payment.subscription?.plan_type || 'Starter';
 
     // Email resend
-    const adminClient = createAdminClient();
-    const { data: userData } = await adminClient.auth.admin.getUserById(payment.user_id);
+    const { data: userData } = await adminSupabase.auth.admin.getUserById(payment.user_id);
     const targetEmail = userData?.user?.email;
 
     if (targetEmail) {

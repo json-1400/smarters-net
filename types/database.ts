@@ -1,4 +1,5 @@
 export type PlanType = 'Starter' | 'Confort' | 'Premium' | 'Pack2' | 'Pack3' | 'Pack4';
+export type OrderStatus = 'pending' | 'paid' | 'cancelled';
 export type SubscriptionStatus = 'pending_payment' | 'active' | 'canceled' | 'expired';
 export type PaymentStatus = 'pending_instruction' | 'pending_confirmation' | 'confirmed' | 'failed';
 export type PaymentMethod = 'bank_transfer' | 'whatsapp' | 'other';
@@ -17,16 +18,39 @@ export interface Profile {
   updated_at: string;
 }
 
+export interface Order {
+  id: string;
+  order_ref: string;
+  user_id: string | null;
+  customer_name: string;
+  customer_email: string;
+  customer_phone: string | null;
+  device_type: string | null;
+  device_app: string | null;
+  plan_type: PlanType;
+  amount: number;
+  currency: string;
+  status: OrderStatus;
+  payment_method: PaymentMethod;
+  notes: string | null;
+  confirmed_at: string | null;
+  created_at: string;
+  profile?: Profile;
+}
+
 export interface Subscription {
   id: string;
+  order_id?: string | null;
   user_id: string;
   plan_type: PlanType;
   status: SubscriptionStatus;
   current_period_start: string | null;
   current_period_end: string | null;
+  renewal_reminder_sent_at?: string | null;
   created_at: string;
   updated_at: string;
   profile?: Profile;
+  order?: Order | null;
 }
 
 export interface PaymentInstruction {
@@ -49,6 +73,8 @@ export interface Payment {
   confirmed_by_admin_id: string | null;
   confirmed_at: string | null;
   notes: string | null;
+  device_type?: string | null;
+  device_app?: string | null;
   created_at: string;
   profile?: Profile;
   subscription?: Subscription;

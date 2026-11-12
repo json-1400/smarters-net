@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { 
   Tv, 
   Monitor, 
@@ -290,6 +291,23 @@ export default function SmartTvSamsungLgTutorialPage() {
             <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
               Vous pilotez l'intégralité de vos 25 000 chaînes, du guide des programmes et du catalogue VOD avec la seule télécommande d'origine de votre téléviseur (Samsung One Remote ou LG Magic Remote).
             </p>
+
+            {/* SEO Visual Showcase */}
+            <figure className="my-6 space-y-2">
+              <div className="relative overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/40 shadow-2xl">
+                <Image
+                  src="/images/placeholders/guide-smart-tv.svg"
+                  alt="Tutoriel installation IPTV sur Smart TV Samsung Tizen et LG webOS sans boîtier externe"
+                  width={1200}
+                  height={675}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
+                  className="w-full h-auto object-cover"
+                />
+              </div>
+              <figcaption className="text-center text-xs text-slate-400">
+                Installation directe sur Smart TV : sélection des lecteurs compatibles et streaming 4K 60 FPS sans boîtier externe.
+              </figcaption>
+            </figure>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
@@ -438,12 +456,12 @@ export default function SmartTvSamsungLgTutorialPage() {
         </section>
 
         {/* Section 4: Banner CTA pour l'abonnement */}
-        <section className="rounded-3xl bg-gradient-to-r from-blue-950/60 via-slate-900 to-cyan-950/60 border border-blue-500/30 p-8 sm:p-12 text-center space-y-6">
+        <section className="rounded-3xl bg-white dark:bg-gradient-to-r dark:from-blue-950 dark:via-slate-900 dark:to-cyan-950 border border-blue-200 dark:border-blue-500/30 p-8 sm:p-12 text-center space-y-6 shadow-xl dark:shadow-2xl">
           <div className="max-w-2xl mx-auto space-y-3">
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
               Débloquez la Qualité 4K Optimale sur votre Smart TV
             </h2>
-            <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
+            <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
               Profitez d'un accès instantané à +25 000 chaînes en direct et +90 000 films et séries en 4K Ultra HD sans aucune interruption.
             </p>
           </div>
@@ -476,7 +494,7 @@ export default function SmartTvSamsungLgTutorialPage() {
                 <span>Que faire si l'app n'apparaît pas ou si les chaînes bloquent ?</span>
               </h3>
               <p className="text-xs text-slate-400 leading-relaxed pl-6">
-                Si l'application est absente de votre région, installez IBO Player ou Smart IPTV. En cas d'écran noir lié à votre opérateur internet, suivez notre guide pour <Link href="/guide-installation/contourner-blocage-fai-iptv-dns-vpn" className="text-blue-400 underline">changer le DNS (1.1.1.1) sur Smart TV Samsung et LG</Link> et consultez notre <Link href="/guide-iptv/meilleur-abonnement-iptv" className="text-blue-400 underline">comparatif du meilleur abonnement IPTV 2026</Link>.
+                Si l'application est absente de votre région, installez IBO Player ou Smart IPTV. En cas d'écran noir lié à votre opérateur internet, suivez notre guide pour <Link href="/guide-installation/contourner-blocage-fai-iptv-dns-vpn" className="text-blue-400 underline">changer le DNS (1.1.1.1) sur Smart TV Samsung et LG</Link> et consultez notre <Link href="/blog/meilleur-abonnement-iptv" className="text-blue-400 underline">comparatif du meilleur abonnement IPTV 2026</Link>.
               </p>
             </div>
 

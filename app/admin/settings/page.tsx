@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { createClientSideClient } from '@/lib/supabase-client';
 
 export default function AdminSettingsPage() {
@@ -20,7 +20,7 @@ export default function AdminSettingsPage() {
   const [premiumBank, setPremiumBank] = useState('');
   const [premiumWa, setPremiumWa] = useState('');
 
-  async function fetchSettings() {
+  const fetchSettings = useCallback(async () => {
     setLoading(true);
     try {
       const { data, error } = await supabase
@@ -55,11 +55,11 @@ export default function AdminSettingsPage() {
     } finally {
       setLoading(false);
     }
-  }
+  }, [supabase]);
 
   useEffect(() => {
     fetchSettings();
-  }, []);
+  }, [fetchSettings]);
 
   const handleSave = async (plan: 'Starter' | 'Confort' | 'Premium', bank: string, wa: string) => {
     setSuccessMsg(null);

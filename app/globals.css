@@ -3,6 +3,34 @@
 @tailwind utilities;
 
 :root {
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+  
+  --primary: #2563eb;
+  --primary-foreground: #ffffff;
+  
+  --secondary: #f1f5f9;
+  --secondary-foreground: #0f172a;
+  
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+  
+  --accent: #e2e8f0;
+  --accent-foreground: #0f172a;
+  
+  --border: #e2e8f0;
+  --input: #e2e8f0;
+  --ring: #3b82f6;
+  
+  --success: #10b981;
+  --warning: #f59e0b;
+  --destructive: #ef4444;
+}
+
+.dark {
   --background: #020617;
   --foreground: #f8fafc;
   
@@ -24,10 +52,6 @@
   --border: #1e293b;
   --input: #1e293b;
   --ring: #3b82f6;
-  
-  --success: #10b981;
-  --warning: #f59e0b;
-  --destructive: #ef4444;
 }
 
 @layer base {
@@ -47,4 +71,263 @@
     border: 1px solid var(--border);
     border-radius: 0.375rem;
   }
+}
+
+/* Global Light Mode Adaptations when html is not .dark */
+html:not(.dark) {
+  color-scheme: light;
+}
+
+html:not(.dark) body:not(footer):not(footer *) {
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+}
+
+html:not(.dark) .bg-slate-950:not(footer):not(footer *) {
+  background-color: #f8fafc !important;
+}
+
+/* 100% Solid & Opaque Cards in Light Mode (No Legacy Opacity / No Dark Bleed) */
+html:not(.dark) .bg-slate-900:not(footer):not(footer *),
+html:not(.dark) [class*="bg-slate-900/"]:not(footer):not(footer *),
+html:not(.dark) .bg-blue-950:not(footer):not(footer *),
+html:not(.dark) [class*="bg-blue-950/"]:not(footer):not(footer *),
+html:not(.dark) article,
+html:not(.dark) .flat-card {
+  background-color: #ffffff !important;
+  opacity: 1 !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.03) !important;
+}
+
+/* Inner elements / Secondary sub-surfaces inside cards */
+html:not(.dark) .bg-slate-800:not(footer):not(footer *):not(button):not(a),
+html:not(.dark) [class*="bg-slate-950/"]:not(footer):not(footer *),
+html:not(.dark) article .bg-slate-950 {
+  background-color: #f8fafc !important;
+  opacity: 1 !important;
+  border-color: #e2e8f0 !important;
+}
+
+/* Light Mode Secondary Action Buttons (Cards, Guides, Tarifs) */
+html:not(.dark) a.bg-slate-800:not(footer *),
+html:not(.dark) button.bg-slate-800:not(footer *),
+html:not(.dark) [class*="bg-slate-800"]:is(a, button):not(footer *):not([class*="bg-blue"]):not([class*="bg-emerald"]) {
+  background-color: #f1f5f9 !important;
+  color: #0f172a !important;
+  border: 1px solid #cbd5e1 !important;
+}
+html:not(.dark) a.bg-slate-800:hover:not(footer *),
+html:not(.dark) button.bg-slate-800:hover:not(footer *),
+html:not(.dark) [class*="bg-slate-800"]:is(a, button):hover:not(footer *):not([class*="bg-blue"]):not([class*="bg-emerald"]) {
+  background-color: #e2e8f0 !important;
+  color: #0f172a !important;
+}
+
+/* Light Mode Emerald WhatsApp CTAs - WCAG AAA Contrast */
+html:not(.dark) a[class*="bg-emerald-600/"]:not(footer *),
+html:not(.dark) button[class*="bg-emerald-600/"]:not(footer *) {
+  background-color: #ecfdf5 !important;
+  border-color: #a7f3d0 !important;
+  color: #065f46 !important;
+}
+html:not(.dark) a[class*="bg-emerald-600/"]:hover:not(footer *),
+html:not(.dark) button[class*="bg-emerald-600/"]:hover:not(footer *) {
+  background-color: #d1fae5 !important;
+  color: #047857 !important;
+}
+html:not(.dark) [class*="text-emerald-300"]:not(footer *) {
+  color: #065f46 !important;
+}
+html:not(.dark) [class*="border-emerald-500/"]:not(footer *) {
+  border-color: #a7f3d0 !important;
+}
+
+html:not(.dark) [class*="divide-slate-800"] > * + *,
+html:not(.dark) [class*="divide-slate-900"] > * + * {
+  border-color: #e2e8f0 !important;
+}
+
+html:not(.dark) .border-slate-800:not(footer):not(footer *),
+html:not(.dark) .border-slate-800\/80:not(footer):not(footer *),
+html:not(.dark) .border-slate-800\/50:not(footer):not(footer *),
+html:not(.dark) .border-slate-800\/60:not(footer):not(footer *),
+html:not(.dark) .border-slate-800\/40:not(footer):not(footer *) {
+  border-color: #e2e8f0 !important;
+}
+
+html:not(.dark) .border-slate-700:not(footer):not(footer *),
+html:not(.dark) .border-slate-700\/80:not(footer):not(footer *) {
+  border-color: #cbd5e1 !important;
+}
+
+/* Light Mode Headings (H1, H2, H3, H4) - High Contrast & High Impact */
+html:not(.dark) h1:not(footer *),
+html:not(.dark) h2:not(footer *),
+html:not(.dark) h3:not(footer *),
+html:not(.dark) h4:not(footer *) {
+  color: #0f172a !important;
+}
+
+html:not(.dark) h1 .bg-clip-text:not(footer *),
+html:not(.dark) h2 .bg-clip-text:not(footer *),
+html:not(.dark) h3 .bg-clip-text:not(footer *) {
+  background-image: linear-gradient(to right, #1d4ed8, #2563eb, #3b82f6) !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+/* Category Badges & Accent Pills in Light Mode */
+html:not(.dark) .text-blue-400:not(footer):not(footer *) {
+  color: #1d4ed8 !important;
+}
+html:not(.dark) .bg-blue-500\/10:not(footer):not(footer *) {
+  background-color: #eff6ff !important;
+  border-color: #bfdbfe !important;
+}
+html:not(.dark) .text-emerald-400:not(footer):not(footer *) {
+  color: #047857 !important;
+}
+html:not(.dark) .bg-emerald-500\/10:not(footer):not(footer *) {
+  background-color: #ecfdf5 !important;
+  border-color: #a7f3d0 !important;
+}
+html:not(.dark) .text-amber-400:not(footer):not(footer *) {
+  color: #b45309 !important;
+}
+html:not(.dark) .bg-amber-500\/10:not(footer):not(footer *) {
+  background-color: #fffbeb !important;
+  border-color: #fde68a !important;
+}
+html:not(.dark) .text-rose-400:not(footer):not(footer *) {
+  color: #be123c !important;
+}
+html:not(.dark) .bg-rose-500\/10:not(footer):not(footer *) {
+  background-color: #fff1f2 !important;
+  border-color: #fecdd3 !important;
+}
+
+/* Light Mode Typography */
+html:not(.dark) .text-white:not(footer):not(footer *):not([class*="bg-blue"]):not([class*="bg-emerald"]):not([class*="bg-rose"]):not([class*="bg-indigo"]):not([class*="bg-amber"]):not([class*="bg-red"]):not(.badge):not(button):not([role="button"]):not(.keep-white) {
+  color: #0f172a !important;
+}
+
+html:not(.dark) .text-slate-100:not(footer):not(footer *):not([class*="bg-blue"]):not([class*="bg-emerald"]):not(button) {
+  color: #0f172a !important;
+}
+
+html:not(.dark) .text-slate-200:not(footer):not(footer *):not([class*="bg-blue"]):not([class*="bg-emerald"]):not(button) {
+  color: #1e293b !important;
+}
+
+html:not(.dark) .text-slate-300:not(footer):not(footer *):not([class*="bg-blue"]):not([class*="bg-emerald"]):not(button) {
+  color: #334155 !important;
+}
+
+html:not(.dark) .text-slate-400:not(footer):not(footer *):not([class*="bg-blue"]):not([class*="bg-emerald"]):not(button) {
+  color: #64748b !important;
+}
+
+/* Light Mode Header Overrides */
+html:not(.dark) header {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  border-bottom-color: #e2e8f0 !important;
+  color: #0f172a !important;
+}
+
+/* Footer: ALWAYS Deep Dark and High Contrast in BOTH Themes */
+footer,
+footer.bg-slate-950 {
+  background-color: #020617 !important;
+  color: #94a3b8 !important;
+  border-top-color: #0f172a !important;
+}
+
+footer h4 {
+  color: #ffffff !important;
+}
+
+footer a {
+  color: #94a3b8 !important;
+}
+
+footer a:hover {
+  color: #60a5fa !important;
+}
+
+footer .bg-slate-900 {
+  background-color: #0f172a !important;
+  border-color: #1e293b !important;
+  box-shadow: none !important;
+}
+
+footer .border-slate-900,
+footer .border-slate-800 {
+  border-color: #1e293b !important;
+}
+
+footer .text-white {
+  color: #ffffff !important;
+}
+
+footer .text-slate-200 {
+  color: #e2e8f0 !important;
+}
+
+footer .text-slate-300 {
+  color: #cbd5e1 !important;
+}
+
+footer .text-slate-400 {
+  color: #94a3b8 !important;
+}
+
+footer .text-slate-500 {
+  color: #64748b !important;
+}
+
+/* Light Mode Tables & Editorial Articles */
+html:not(.dark) table {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+}
+html:not(.dark) thead tr {
+  background-color: #f1f5f9 !important;
+  border-bottom-color: #cbd5e1 !important;
+}
+html:not(.dark) th {
+  color: #0f172a !important;
+}
+html:not(.dark) td {
+  color: #334155 !important;
+  border-bottom-color: #e2e8f0 !important;
+}
+html:not(.dark) tr:hover {
+  background-color: #f8fafc !important;
+}
+
+/* Light Mode Code & Syntax Blocks */
+html:not(.dark) code:not(pre code) {
+  background-color: #f1f5f9 !important;
+  color: #0f172a !important;
+  border: 1px solid #e2e8f0 !important;
+}
+
+/* Light Mode Forms & Inputs */
+html:not(.dark) input:not([type="submit"]):not([type="button"]),
+html:not(.dark) select,
+html:not(.dark) textarea {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border-color: #cbd5e1 !important;
+}
+html:not(.dark) input::placeholder,
+html:not(.dark) textarea::placeholder {
+  color: #94a3b8 !important;
+}
+
+/* Light Mode Blockquotes */
+html:not(.dark) blockquote {
+  background-color: #f8fafc !important;
+  border-left-color: #2563eb !important;
+  color: #334155 !important;
 }

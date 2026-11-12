@@ -54,7 +54,7 @@ export function HomeChannelsSport() {
             </div>
 
             <Link
-              href="/sport"
+              href="/catalogue/chaines"
               className="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider text-center inline-flex items-center justify-center gap-1.5 transition-colors"
             >
               <span>Découvrir le Bouquet Sport</span>
@@ -92,7 +92,7 @@ export function HomeChannelsSport() {
             </div>
 
             <Link
-              href="/chaine"
+              href="/catalogue/chaines"
               className="w-full py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs uppercase tracking-wider text-center inline-flex items-center justify-center gap-1.5 transition-colors"
             >
               <span>Voir la Liste des Chaînes</span>
@@ -130,7 +130,7 @@ export function HomeChannelsSport() {
             </div>
 
             <Link
-              href="/catalogue-vod"
+              href="/catalogue/vod"
               className="w-full py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs uppercase tracking-wider text-center inline-flex items-center justify-center gap-1.5 transition-colors"
             >
               <span>Explorer la VOD (+90 000 Titres)</span>

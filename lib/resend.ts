@@ -2,7 +2,9 @@ import { Resend } from 'resend';
 import {
   buildOrderConfirmationHtml,
   buildAdminOrderNotificationHtml,
+  buildRenewalReminderHtml,
   type OrderEmailData,
+  type RenewalReminderData,
 } from '@/lib/order-email';
 import { CONTACT } from '@/lib/contact';
 
@@ -124,5 +126,15 @@ export async function sendChatReplyEmail(
       <p style="font-size: 12px; color: #64748b;">IPTV Smarters Pro Officiel France.</p>
     </div>
   `;
+  return sendEmail({ to: email, subject, html });
+}
+
+// 5. Renewal Reminder Email Template
+export async function sendRenewalReminderEmail(
+  email: string,
+  data: RenewalReminderData
+) {
+  const subject = `Rappel : Votre abonnement IPTV Smarters Pro expire dans ${data.daysRemaining > 1 ? `${data.daysRemaining} jours` : 'moins de 24h'}`;
+  const html = buildRenewalReminderHtml(data);
   return sendEmail({ to: email, subject, html });
 }

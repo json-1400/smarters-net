@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { createClientSideClient } from '@/lib/supabase-client';
 
 export default function AdminCustomersPage() {
@@ -17,7 +17,7 @@ export default function AdminCustomersPage() {
   const [noteLoading, setNoteLoading] = useState(false);
   const [adminId, setAdminId] = useState<string | null>(null);
   
-  async function fetchCustomers() {
+  const fetchCustomers = useCallback(async () => {
     setLoading(true);
     try {
       const { data, error } = await supabase
@@ -33,7 +33,7 @@ export default function AdminCustomersPage() {
     } finally {
       setLoading(false);
     }
-  }
+  }, [supabase]);
 
   useEffect(() => {
     fetchCustomers();
@@ -46,7 +46,7 @@ export default function AdminCustomersPage() {
       }
     }
     getAdminSession();
-  }, []);
+  }, [fetchCustomers, supabase]);
 
   // Fetch CRM Notes for selected customer
   async function fetchCustomerNotes(userId: string) {

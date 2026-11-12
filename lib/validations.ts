@@ -14,15 +14,23 @@ export const placeOrderSchema = z.object({
     .optional()
     .or(z.literal('')),
   phone: z.string().trim().optional().nullable(),
+  deviceType: z.string().trim().optional().nullable(),
+  deviceApp: z.string().trim().optional().nullable(),
 });
 
 export const adminPaymentActionSchema = z.object({
-  paymentId: z.string().trim().min(1, 'Identifiant de paiement requis.'),
+  orderId: z.string().trim().optional(),
+  paymentId: z.string().trim().optional(),
   notes: z.string().trim().optional().nullable(),
+}).refine((data) => data.orderId || data.paymentId, {
+  message: 'Identifiant de commande ou de paiement requis.',
 });
 
 export const adminResendInstructionsSchema = z.object({
-  paymentId: z.string().trim().min(1, 'Identifiant de paiement requis.'),
+  orderId: z.string().trim().optional(),
+  paymentId: z.string().trim().optional(),
+}).refine((data) => data.orderId || data.paymentId, {
+  message: 'Identifiant de commande ou de paiement requis.',
 });
 
 export const loginSchema = z.object({

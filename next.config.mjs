@@ -17,7 +17,7 @@ const nextConfig = {
       },
       {
         source: '/blog/eviter-coupures-iptv-conseils',
-        destination: '/guide-iptv',
+        destination: '/guide-depannage',
         permanent: true,
       },
       {

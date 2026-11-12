@@ -9,8 +9,8 @@ function ComparisonTable({ rows }: { rows: BlogPost['comparisonRows'] }) {
         <thead>
           <tr className="border-b border-slate-800 text-slate-400 uppercase">
             <th className="py-3 pr-4">Critère Technique</th>
-            <th className="py-3 px-4">Offre Concurrente / Low-Cost</th>
-            <th className="py-3 pl-4 text-emerald-400">Smarters Pro 12 Officiel</th>
+            <th className="py-3 px-4">Serveurs Classiques / Concurrents</th>
+            <th className="py-3 pl-4 text-emerald-400">Notre Infrastructure CDN 10 Gbps</th>
           </tr>
         </thead>
         <tbody className="divide-y divide-slate-800/70 text-slate-300">

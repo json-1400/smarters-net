@@ -182,10 +182,10 @@ export default function SupportPage() {
             </div>
 
             <Link
-              href="/guide-installation"
+              href="/guide-depannage"
               className="w-full flex items-center justify-center py-3.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs uppercase tracking-wider transition-all"
             >
-              Ouvrir les Guides d'Installation
+              Ouvrir le Guide de Dépannage
             </Link>
           </div>
 

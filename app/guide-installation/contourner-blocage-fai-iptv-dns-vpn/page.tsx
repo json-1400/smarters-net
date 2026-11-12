@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import {
   ShieldCheck,
   Wifi,
@@ -245,6 +246,23 @@ export default function ContournerBlocageFaiPage() {
             <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
               Pour éliminer définitivement les écrans noirs le soir sans installer de logiciel lourd, modifiez directement les paramètres IP de votre équipement de lecture :
             </p>
+
+            {/* SEO Visual Showcase */}
+            <figure className="my-6 space-y-2">
+              <div className="relative overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/40 shadow-2xl">
+                <Image
+                  src="/images/contournement-blocages-FAI.webp"
+                  alt="Schéma configuration DNS Cloudflare 1.1.1.1 et VPN pour contourner le bridage FAI Orange SFR Free Bouygues"
+                  width={1200}
+                  height={675}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
+                  className="w-full h-auto object-cover"
+                />
+              </div>
+              <figcaption className="text-center text-xs text-slate-400">
+                Protocole de contournement des blocages FAI : paramétrage des DNS Cloudflare 1.1.1.1 et sécurisation VPN.
+              </figcaption>
+            </figure>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

@@ -18,19 +18,41 @@ CREATE TABLE IF NOT EXISTS public.profiles (
     updated_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
--- Table: subscriptions
+-- Table: orders (Commandes entrantes depuis le checkout)
+CREATE TABLE IF NOT EXISTS public.orders (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    order_ref TEXT NOT NULL UNIQUE, -- e.g. 'SP-A1B2C3D4'
+    user_id UUID REFERENCES public.profiles(id) ON DELETE SET NULL,
+    customer_name TEXT NOT NULL,
+    customer_email TEXT NOT NULL,
+    customer_phone TEXT,
+    device_type TEXT,
+    device_app TEXT,
+    plan_type TEXT NOT NULL, -- 'Starter', 'Confort', 'Premium', 'Pack2', 'Pack3', 'Pack4'
+    amount INTEGER NOT NULL, -- In cents (e.g. 1999 = 19.99 EUR)
+    currency TEXT DEFAULT 'eur'::text NOT NULL,
+    status TEXT DEFAULT 'pending'::text NOT NULL, -- 'pending', 'paid', 'cancelled'
+    payment_method TEXT DEFAULT 'other'::text NOT NULL,
+    notes TEXT,
+    confirmed_at TIMESTAMPTZ,
+    created_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+-- Table: subscriptions (Abonnements actifs et payés uniquement)
 CREATE TABLE IF NOT EXISTS public.subscriptions (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    order_id UUID REFERENCES public.orders(id) ON DELETE SET NULL,
     user_id UUID REFERENCES public.profiles(id) ON DELETE CASCADE NOT NULL,
-    plan_type TEXT NOT NULL, -- 'Starter', 'Confort', 'Premium', 'Pack2'
-    status TEXT DEFAULT 'pending_payment'::text NOT NULL, -- 'pending_payment', 'active', 'canceled', 'expired'
-    current_period_start TIMESTAMPTZ,
-    current_period_end TIMESTAMPTZ,
+    plan_type TEXT NOT NULL, -- 'Starter', 'Confort', 'Premium', 'Pack2', 'Pack3', 'Pack4'
+    status TEXT DEFAULT 'active'::text NOT NULL, -- 'active', 'canceled', 'expired'
+    current_period_start TIMESTAMPTZ NOT NULL,
+    current_period_end TIMESTAMPTZ NOT NULL,
+    renewal_reminder_sent_at TIMESTAMPTZ,
     created_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL,
     updated_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
--- Table: payments
+-- Table: payments (Legacy / Archive)
 CREATE TABLE IF NOT EXISTS public.payments (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id UUID REFERENCES public.profiles(id) ON DELETE CASCADE NOT NULL,
@@ -42,6 +64,8 @@ CREATE TABLE IF NOT EXISTS public.payments (
     confirmed_by_admin_id UUID REFERENCES public.profiles(id) ON DELETE SET NULL,
     confirmed_at TIMESTAMPTZ,
     notes TEXT,
+    device_type TEXT,
+    device_app TEXT,
     created_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
@@ -68,13 +92,28 @@ CREATE TABLE IF NOT EXISTS public.support_tickets (
     updated_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
+-- Table: chat_rooms
+CREATE TABLE IF NOT EXISTS public.chat_rooms (
+    id TEXT PRIMARY KEY, -- e.g. 'user_[uuid]_admin' or 'guest_[id]_admin'
+    user_id UUID REFERENCES public.profiles(id) ON DELETE CASCADE,
+    guest_id TEXT,
+    status TEXT DEFAULT 'open'::text NOT NULL, -- 'open', 'closed', 'archived'
+    unread_admin_count INT DEFAULT 0 NOT NULL,
+    unread_user_count INT DEFAULT 0 NOT NULL,
+    last_message TEXT,
+    last_message_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL,
+    created_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
 -- Table: chat_messages
 CREATE TABLE IF NOT EXISTS public.chat_messages (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    room_id TEXT NOT NULL, -- e.g. 'user_[uuid]_admin'
-    sender_id UUID REFERENCES public.profiles(id) ON DELETE CASCADE NOT NULL,
+    room_id TEXT NOT NULL, -- e.g. 'user_[uuid]_admin' or 'guest_[id]_admin'
+    sender_id UUID REFERENCES public.profiles(id) ON DELETE SET NULL,
+    guest_id TEXT,
     message TEXT NOT NULL,
     attachment_url TEXT,
+    is_admin BOOLEAN DEFAULT false NOT NULL,
     is_read BOOLEAN DEFAULT false NOT NULL,
     created_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL
 );
@@ -145,6 +184,7 @@ ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.subscriptions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.payments ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.support_tickets ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.chat_rooms ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.chat_messages ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.crm_notes ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.admin_audit_log ENABLE ROW LEVEL SECURITY;
@@ -203,7 +243,17 @@ CREATE POLICY "Admins can do all on support tickets" ON public.support_tickets
         (SELECT (raw_user_meta_data->>'is_admin')::boolean FROM auth.users WHERE id = auth.uid()) = true
     );
 
--- 3.5 Chat Messages RLS Policies
+-- 3.5 Chat Rooms & Messages RLS Policies
+DROP POLICY IF EXISTS "Users can read own chat room" ON public.chat_rooms;
+CREATE POLICY "Users can read own chat room" ON public.chat_rooms
+    FOR SELECT USING (auth.uid() = user_id OR id = 'user_' || auth.uid()::text || '_admin');
+
+DROP POLICY IF EXISTS "Admins can do all on chat rooms" ON public.chat_rooms;
+CREATE POLICY "Admins can do all on chat rooms" ON public.chat_rooms
+    FOR ALL USING (
+        (SELECT (raw_user_meta_data->>'is_admin')::boolean FROM auth.users WHERE id = auth.uid()) = true
+    );
+
 DROP POLICY IF EXISTS "Users can read own chat room messages" ON public.chat_messages;
 CREATE POLICY "Users can read own chat room messages" ON public.chat_messages
     FOR SELECT USING (auth.uid() = sender_id OR room_id = 'user_' || auth.uid()::text || '_admin');

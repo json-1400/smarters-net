@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { 
   Tv, 
   Layers, 
@@ -18,7 +19,8 @@ import {
   Download,
   Settings,
   Wifi,
-  Sliders
+  Sliders,
+  Box
 } from 'lucide-react';
 import { SITE_CONFIG, constructMetadata } from '@/lib/seo';
 
@@ -80,6 +82,24 @@ export default function ApplicationsHubPage() {
             position: 5,
             name: 'XCIPTV Player',
             url: `${SITE_CONFIG.domain}/applications/xciptv`,
+          },
+          {
+            '@type': 'ListItem',
+            position: 6,
+            name: 'Flix IPTV',
+            url: `${SITE_CONFIG.domain}/applications/flix-iptv`,
+          },
+          {
+            '@type': 'ListItem',
+            position: 7,
+            name: 'GSE Smart IPTV',
+            url: `${SITE_CONFIG.domain}/applications/gse-smart-iptv`,
+          },
+          {
+            '@type': 'ListItem',
+            position: 8,
+            name: 'MyTVOnline 3 (MOL3)',
+            url: `${SITE_CONFIG.domain}/applications/mytvonline-3`,
           },
         ],
       },
@@ -202,9 +222,20 @@ export default function ApplicationsHubPage() {
                   </div>
                 </div>
 
-                <div>
-                  <h3 className="text-xl font-bold text-white">IPTV Smarters Pro</h3>
-                  <span className="text-xs text-slate-400">Le lecteur universel de référence</span>
+                <div className="flex items-center gap-3">
+                  <div className="relative w-12 h-12 rounded-xl bg-slate-950 border border-slate-800 p-1 shrink-0 overflow-hidden flex items-center justify-center shadow-inner">
+                    <Image
+                      src="/images/smarters-pro-logo.webp"
+                      alt="Logo officiel IPTV Smarters Pro"
+                      width={48}
+                      height={48}
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-white">IPTV Smarters Pro</h3>
+                    <span className="text-xs text-slate-400">Le lecteur universel de référence</span>
+                  </div>
                 </div>
 
                 <p className="text-xs text-slate-300 leading-relaxed">
@@ -244,9 +275,20 @@ export default function ApplicationsHubPage() {
                   </div>
                 </div>
 
-                <div>
-                  <h3 className="text-xl font-bold text-white">TiviMate IPTV Player</h3>
-                  <span className="text-xs text-slate-400">L'ergonomie d'un décodeur satellite haut de gamme</span>
+                <div className="flex items-center gap-3">
+                  <div className="relative w-12 h-12 rounded-xl bg-slate-950 border border-slate-800 p-1 shrink-0 overflow-hidden flex items-center justify-center shadow-inner">
+                    <Image
+                      src="/images/TiviMate.webp"
+                      alt="Logo officiel TiviMate IPTV Player"
+                      width={48}
+                      height={48}
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-white">TiviMate IPTV Player</h3>
+                    <span className="text-xs text-slate-400">L'ergonomie d'un décodeur satellite haut de gamme</span>
+                  </div>
                 </div>
 
                 <p className="text-xs text-slate-300 leading-relaxed">
@@ -286,9 +328,20 @@ export default function ApplicationsHubPage() {
                   </div>
                 </div>
 
-                <div>
-                  <h3 className="text-xl font-bold text-white">IBO Player Pro</h3>
-                  <span className="text-xs text-slate-400">Activation facile par Device ID et clé MAC</span>
+                <div className="flex items-center gap-3">
+                  <div className="relative w-12 h-12 rounded-xl bg-slate-950 border border-slate-800 p-1 shrink-0 overflow-hidden flex items-center justify-center shadow-inner">
+                    <Image
+                      src="/images/ibo-player.webp"
+                      alt="Logo officiel IBO Player Pro"
+                      width={48}
+                      height={48}
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-white">IBO Player Pro</h3>
+                    <span className="text-xs text-slate-400">Activation facile par Device ID et clé MAC</span>
+                  </div>
                 </div>
 
                 <p className="text-xs text-slate-300 leading-relaxed">
@@ -328,9 +381,20 @@ export default function ApplicationsHubPage() {
                   </div>
                 </div>
 
-                <div>
-                  <h3 className="text-xl font-bold text-white">Smart IPTV (SIPTV)</h3>
-                  <span className="text-xs text-slate-400">Lecteur M3U léger pour téléviseurs</span>
+                <div className="flex items-center gap-3">
+                  <div className="relative w-12 h-12 rounded-xl bg-slate-950 border border-slate-800 p-1 shrink-0 overflow-hidden flex items-center justify-center shadow-inner">
+                    <Image
+                      src="/images/Smart-IPTV.webp"
+                      alt="Logo officiel Smart IPTV (SIPTV)"
+                      width={48}
+                      height={48}
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-white">Smart IPTV (SIPTV)</h3>
+                    <span className="text-xs text-slate-400">Lecteur M3U léger pour téléviseurs</span>
+                  </div>
                 </div>
 
                 <p className="text-xs text-slate-300 leading-relaxed">
@@ -370,9 +434,20 @@ export default function ApplicationsHubPage() {
                   </div>
                 </div>
 
-                <div>
-                  <h3 className="text-xl font-bold text-white">XCIPTV Player</h3>
-                  <span className="text-xs text-slate-400">Double moteur vidéo ExoPlayer et VLC</span>
+                <div className="flex items-center gap-3">
+                  <div className="relative w-12 h-12 rounded-xl bg-slate-950 border border-slate-800 p-1 shrink-0 overflow-hidden flex items-center justify-center shadow-inner">
+                    <Image
+                      src="/images/XCIPTV-Player.webp"
+                      alt="Logo officiel XCIPTV Player"
+                      width={48}
+                      height={48}
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-white">XCIPTV Player</h3>
+                    <span className="text-xs text-slate-400">Double moteur vidéo ExoPlayer et VLC</span>
+                  </div>
                 </div>
 
                 <p className="text-xs text-slate-300 leading-relaxed">
@@ -396,6 +471,144 @@ export default function ApplicationsHubPage() {
                 className="w-full flex items-center justify-center py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs uppercase tracking-wider transition-all"
               >
                 Guide XCIPTV &rarr;
+              </Link>
+            </div>
+
+            {/* Card 6: Flix IPTV */}
+            <div className="p-8 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col justify-between space-y-6 hover:border-rose-500/50 transition-all">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="relative w-12 h-12 rounded-xl bg-slate-950 border border-slate-800 p-1 shrink-0 overflow-hidden flex items-center justify-center shadow-inner">
+                    <Image
+                      src="/images/flixiptv.webp"
+                      alt="Logo officiel Flix IPTV"
+                      width={48}
+                      height={48}
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                  <div className="flex items-center gap-1 text-xs text-rose-400 bg-rose-500/10 px-2.5 py-1 rounded-full font-bold">
+                    <Star className="w-3.5 h-3.5 fill-rose-400" />
+                    <span>4.6 / 5 &middot; Smart TV</span>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="text-xl font-bold text-white">Flix IPTV</h3>
+                  <span className="text-xs text-slate-400">Lecteur fluide Samsung Tizen &amp; LG webOS</span>
+                </div>
+
+                <p className="text-xs text-slate-300 leading-relaxed">
+                  L&apos;alternative n°1 à IBO Player pour Smart TV. Activation rapide par adresse MAC sur portail web et zapping instantané inférieur à 0,5 seconde.
+                </p>
+
+                <ul className="space-y-2 text-xs text-slate-300 pt-2 border-t border-slate-800">
+                  <li className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-rose-400 flex-shrink-0" />
+                    <span>Disponible directement sur Samsung Smart Hub et LG Content Store</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-rose-400 flex-shrink-0" />
+                    <span>Licence unique à vie (7,99 €) après 7 jours d&apos;essai gratuit</span>
+                  </li>
+                </ul>
+              </div>
+
+              <Link
+                href="/applications/flix-iptv"
+                className="w-full flex items-center justify-center py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs uppercase tracking-wider transition-all"
+              >
+                Guide Flix IPTV &rarr;
+              </Link>
+            </div>
+
+            {/* Card 7: GSE Smart IPTV */}
+            <div className="p-8 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col justify-between space-y-6 hover:border-indigo-500/50 transition-all">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="relative w-12 h-12 rounded-xl bg-slate-950 border border-slate-800 p-1 shrink-0 overflow-hidden flex items-center justify-center shadow-inner">
+                    <Image
+                      src="/images/GSE-Smart-IPTV.webp"
+                      alt="Logo officiel GSE Smart IPTV"
+                      width={48}
+                      height={48}
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                  <div className="flex items-center gap-1 text-xs text-indigo-400 bg-indigo-500/10 px-2.5 py-1 rounded-full font-bold">
+                    <Star className="w-3.5 h-3.5 fill-indigo-400" />
+                    <span>4.5 / 5 &middot; Apple iOS &amp; tvOS</span>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="text-xl font-bold text-white">GSE Smart IPTV</h3>
+                  <span className="text-xs text-slate-400">La référence sur iPhone, iPad, Mac et Apple TV</span>
+                </div>
+
+                <p className="text-xs text-slate-300 leading-relaxed">
+                  Le lecteur multimédia le plus complet pour l&apos;écosystème Apple. Supporte l&apos;API Xtream Codes, l&apos;EPG XMLTV dynamique, AirPlay et l&apos;enregistrement PVR.
+                </p>
+
+                <ul className="space-y-2 text-xs text-slate-300 pt-2 border-t border-slate-800">
+                  <li className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-indigo-400 flex-shrink-0" />
+                    <span>Application tvOS native sur Apple TV 4K avec télécommande Siri</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-indigo-400 flex-shrink-0" />
+                    <span>Diffusion AirPlay sans coupure vers vos téléviseurs connectés</span>
+                  </li>
+                </ul>
+              </div>
+
+              <Link
+                href="/applications/gse-smart-iptv"
+                className="w-full flex items-center justify-center py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs uppercase tracking-wider transition-all"
+              >
+                Guide GSE Smart IPTV &rarr;
+              </Link>
+            </div>
+
+            {/* Card 8: MyTVOnline 3 */}
+            <div className="p-8 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col justify-between space-y-6 hover:border-cyan-500/50 transition-all">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="w-12 h-12 rounded-xl bg-cyan-950/80 border border-cyan-800/60 p-1 shrink-0 flex items-center justify-center text-cyan-400 shadow-inner">
+                    <Box className="w-6 h-6" />
+                  </div>
+                  <div className="flex items-center gap-1 text-xs text-cyan-400 bg-cyan-500/10 px-2.5 py-1 rounded-full font-bold">
+                    <Star className="w-3.5 h-3.5 fill-cyan-400" />
+                    <span>4.9 / 5 &middot; Formuler Exclusif</span>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="text-xl font-bold text-white">MyTVOnline 3 (MOL3)</h3>
+                  <span className="text-xs text-slate-400">Le lecteur IPTV n°1 sur décodeurs Formuler</span>
+                </div>
+
+                <p className="text-xs text-slate-300 leading-relaxed">
+                  L&apos;application native primée des boîtiers Formuler (Z11, Z10, Z Mini). Groupes universels unifiés, zapping instantané &lt; 0.5s et mode Picture-in-Picture double écran 4K.
+                </p>
+
+                <ul className="space-y-2 text-xs text-slate-300 pt-2 border-t border-slate-800">
+                  <li className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400 flex-shrink-0" />
+                    <span>Compatible Portail Stalker (MAC-ID) et API Xtream Codes</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400 flex-shrink-0" />
+                    <span>Contrôle du direct TimeShift 72h et enregistrement USB PVR</span>
+                  </li>
+                </ul>
+              </div>
+
+              <Link
+                href="/applications/mytvonline-3"
+                className="w-full flex items-center justify-center py-3 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs uppercase tracking-wider transition-all"
+              >
+                Guide MyTVOnline 3 &rarr;
               </Link>
             </div>
 
@@ -486,6 +699,42 @@ export default function ApplicationsHubPage() {
                   <td className="p-3.5 sm:p-4 text-emerald-400">Oui (Guide avec jaquettes)</td>
                   <td className="p-3.5 sm:p-4 text-emerald-400">Oui (Double écran)</td>
                   <td className="p-3.5 sm:p-4 text-emerald-400 font-semibold">100% Gratuit</td>
+                </tr>
+                <tr className="hover:bg-slate-800/40 transition-colors">
+                  <td className="p-3.5 sm:p-4 font-bold text-white flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-rose-500"></span>
+                    Flix IPTV
+                  </td>
+                  <td className="p-3.5 sm:p-4">Samsung Tizen, LG webOS, Android TV, Fire OS</td>
+                  <td className="p-3.5 sm:p-4 font-mono text-rose-400">Xtream Codes, M3U (MAC)</td>
+                  <td className="p-3.5 sm:p-4">4K UHD, 60 FPS, Décodage Matériel</td>
+                  <td className="p-3.5 sm:p-4 text-emerald-400">Oui (EPG automatique)</td>
+                  <td className="p-3.5 sm:p-4 text-slate-400">Non</td>
+                  <td className="p-3.5 sm:p-4 text-slate-300">Essai 7j puis licence unique 7,99 €</td>
+                </tr>
+                <tr className="hover:bg-slate-800/40 transition-colors">
+                  <td className="p-3.5 sm:p-4 font-bold text-white flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-indigo-500"></span>
+                    GSE Smart IPTV
+                  </td>
+                  <td className="p-3.5 sm:p-4">iOS (iPhone/iPad), Apple TV tvOS, Mac, Android</td>
+                  <td className="p-3.5 sm:p-4 font-mono text-indigo-400">Xtream Codes, M3U Plus</td>
+                  <td className="p-3.5 sm:p-4">4K UHD, AirPlay, PVR Enregistrement</td>
+                  <td className="p-3.5 sm:p-4 text-emerald-400">Oui (XMLTV 7 jours)</td>
+                  <td className="p-3.5 sm:p-4 text-emerald-400">Oui (Multi-écrans)</td>
+                  <td className="p-3.5 sm:p-4 text-emerald-400 font-semibold">Gratuit (Option sans pub)</td>
+                </tr>
+                <tr className="hover:bg-slate-800/40 transition-colors">
+                  <td className="p-3.5 sm:p-4 font-bold text-white flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-cyan-400"></span>
+                    MyTVOnline 3 (MOL3)
+                  </td>
+                  <td className="p-3.5 sm:p-4">Boîtiers Formuler (Z11 Pro Max, Z10 Pro, Z Mini)</td>
+                  <td className="p-3.5 sm:p-4 font-mono text-cyan-400">Portail Stalker (MAC), Xtream</td>
+                  <td className="p-3.5 sm:p-4">4K UHD, HDR10+, Décodage Matériel</td>
+                  <td className="p-3.5 sm:p-4 text-emerald-400">Oui (Grille EPG dynamique + TimeShift)</td>
+                  <td className="p-3.5 sm:p-4 text-emerald-400">Oui (Mode PiP Double Flux 4K)</td>
+                  <td className="p-3.5 sm:p-4 text-emerald-400 font-semibold">100% Inclus (Avec boîtier)</td>
                 </tr>
               </tbody>
             </table>
@@ -633,7 +882,7 @@ export default function ApplicationsHubPage() {
             <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
               <h3 className="text-sm font-bold text-white">Les applications IPTV incluent-elles les chaînes de télévision ?</h3>
               <p className="text-xs text-slate-300 leading-relaxed">
-                Non, ces applications sont des lecteurs multimédias vides. Vous devez y connecter un <Link href="/abonnement-iptv-12-mois" className="text-blue-400 hover:underline">abonnement IPTV 4K</Link> officiel via vos identifiants Xtream Codes ou votre lien M3U sécurisé.
+                Non, ces applications sont des lecteurs multimédias vides. Vous devez y connecter un <Link href="/abonnement-iptv-12-mois" className="text-blue-400 hover:underline">abonnement IPTV 12 mois</Link> officiel via vos identifiants Xtream Codes ou votre lien M3U sécurisé.
               </p>
             </div>
           </div>
@@ -646,7 +895,7 @@ export default function ApplicationsHubPage() {
             <p className="text-xs text-slate-300">Recevez vos identifiants API Xtream Codes et liens M3U par email en moins de 15 minutes.</p>
           </div>
           <Link
-            href="/tarifs-abonnement"
+            href="/tarifs"
             className="px-6 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-extrabold text-xs uppercase tracking-wider transition-all whitespace-nowrap shadow-lg flex items-center gap-2"
           >
             <span>Découvrir nos Abonnements</span>

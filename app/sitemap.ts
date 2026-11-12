@@ -1,254 +1,254 @@
 import type { MetadataRoute } from 'next';
 import { SITE_CONFIG } from '@/lib/seo';
+import { POSTS_LIST } from '@/lib/blog-data';
 
-// Revalidate every hour on Edge cache
+// Revalidate every hour on Edge cache (ISR)
 export const revalidate = 3600;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = SITE_CONFIG.domain.replace(/\/+$/, '');
-  const now = new Date().toISOString();
+  const TODAY = '2026-11-10T14:00:00.000Z';
+  const BASE_UPDATE = '2026-11-05T12:00:00.000Z';
+  const LEGAL_UPDATE = '2026-01-15T00:00:00.000Z';
 
-  // 1. High-priority Commercial & Strategic Landers (Tier 1)
+  // 1. High-priority Commercial & Strategic Conversion Landers (Tier 1)
   const corePages: MetadataRoute.Sitemap = [
     {
       url: baseUrl,
-      lastModified: now,
+      lastModified: TODAY,
       changeFrequency: 'daily',
       priority: 1.0,
     },
     {
-      url: `${baseUrl}/tarifs-abonnement`,
-      lastModified: now,
+      url: `${baseUrl}/tarifs`,
+      lastModified: TODAY,
       changeFrequency: 'daily',
-      priority: 0.9,
+      priority: 0.95,
     },
     {
       url: `${baseUrl}/abonnement-iptv-12-mois`,
-      lastModified: now,
+      lastModified: TODAY,
       changeFrequency: 'daily',
-      priority: 0.9,
+      priority: 0.95,
     },
     {
-      url: `${baseUrl}/tarifs-abonnement/iptv-pas-cher`,
-      lastModified: now,
+      url: `${baseUrl}/tarifs/iptv-pas-cher`,
+      lastModified: BASE_UPDATE,
       changeFrequency: 'weekly',
       priority: 0.9,
     },
     {
-      url: `${baseUrl}/tarifs-abonnement/iptv-multi-ecran`,
-      lastModified: now,
+      url: `${baseUrl}/tarifs/iptv-multi-ecran`,
+      lastModified: BASE_UPDATE,
       changeFrequency: 'weekly',
       priority: 0.9,
     },
     {
       url: `${baseUrl}/test-iptv-gratuit`,
-      lastModified: now,
+      lastModified: BASE_UPDATE,
       changeFrequency: 'weekly',
       priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/catalogue-vod/iptv-adulte`,
-      lastModified: now,
-      changeFrequency: 'weekly',
-      priority: 0.8,
     },
   ];
 
-  // 2. Hubs, Live Streams & Entertainment (Tier 2)
-  const hubPages: MetadataRoute.Sitemap = [
-    {
-      url: `${baseUrl}/guide-installation`,
-      lastModified: now,
-      changeFrequency: 'weekly',
-      priority: 0.9,
-    },
+  // 2. Pillar Pages : Applications IPTV (Tier 2 - Haute Valeur SEO & Conversion)
+  const applicationPages: MetadataRoute.Sitemap = [
     {
       url: `${baseUrl}/applications`,
-      lastModified: now,
+      lastModified: TODAY,
       changeFrequency: 'weekly',
-      priority: 0.8,
+      priority: 0.9,
     },
     {
       url: `${baseUrl}/applications/iptv-smarters-pro`,
-      lastModified: now,
+      lastModified: TODAY,
       changeFrequency: 'weekly',
       priority: 0.9,
     },
     {
-      url: `${baseUrl}/chaine`,
-      lastModified: now,
-      changeFrequency: 'weekly',
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/sport`,
-      lastModified: now,
-      changeFrequency: 'daily',
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/catalogue-vod`,
-      lastModified: now,
-      changeFrequency: 'weekly',
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/guide-iptv`,
-      lastModified: now,
-      changeFrequency: 'weekly',
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/guide-iptv/meilleur-abonnement-iptv`,
-      lastModified: now,
+      url: `${baseUrl}/applications/tivimate`,
+      lastModified: TODAY,
       changeFrequency: 'weekly',
       priority: 0.9,
     },
     {
-      url: `${baseUrl}/support`,
-      lastModified: now,
-      changeFrequency: 'monthly',
-      priority: 0.7,
+      url: `${baseUrl}/applications/mytvonline-3`,
+      lastModified: TODAY,
+      changeFrequency: 'weekly',
+      priority: 0.9,
     },
     {
-      url: `${baseUrl}/blog`,
-      lastModified: now,
-      changeFrequency: 'daily',
-      priority: 0.8,
+      url: `${baseUrl}/applications/ibo-player`,
+      lastModified: TODAY,
+      changeFrequency: 'weekly',
+      priority: 0.85,
+    },
+    {
+      url: `${baseUrl}/applications/flix-iptv`,
+      lastModified: TODAY,
+      changeFrequency: 'weekly',
+      priority: 0.85,
+    },
+    {
+      url: `${baseUrl}/applications/smart-iptv`,
+      lastModified: TODAY,
+      changeFrequency: 'weekly',
+      priority: 0.85,
+    },
+    {
+      url: `${baseUrl}/applications/gse-smart-iptv`,
+      lastModified: TODAY,
+      changeFrequency: 'weekly',
+      priority: 0.85,
+    },
+    {
+      url: `${baseUrl}/applications/xciptv`,
+      lastModified: TODAY,
+      changeFrequency: 'weekly',
+      priority: 0.85,
     },
   ];
 
-  // 3. Hardware & Network Tutorial Guides (Tier 3)
+  // 3. Guides Techniques & Tutoriels Matériels (Tier 3)
   const tutorialPages: MetadataRoute.Sitemap = [
     {
+      url: `${baseUrl}/guide-installation`,
+      lastModified: TODAY,
+      changeFrequency: 'weekly',
+      priority: 0.85,
+    },
+    {
       url: `${baseUrl}/guide-installation/fire-tv-stick`,
-      lastModified: now,
+      lastModified: TODAY,
       changeFrequency: 'weekly',
       priority: 0.8,
     },
     {
       url: `${baseUrl}/guide-installation/smart-tv-samsung-lg`,
-      lastModified: now,
+      lastModified: TODAY,
       changeFrequency: 'weekly',
       priority: 0.8,
     },
     {
       url: `${baseUrl}/guide-installation/android-tv-box`,
-      lastModified: now,
+      lastModified: BASE_UPDATE,
       changeFrequency: 'weekly',
       priority: 0.8,
     },
     {
       url: `${baseUrl}/guide-installation/apple-tv-ios`,
-      lastModified: now,
+      lastModified: BASE_UPDATE,
       changeFrequency: 'weekly',
       priority: 0.8,
     },
     {
       url: `${baseUrl}/guide-installation/pc-mac-windows`,
-      lastModified: now,
+      lastModified: BASE_UPDATE,
       changeFrequency: 'weekly',
       priority: 0.8,
     },
     {
       url: `${baseUrl}/guide-installation/xtream-codes-m3u`,
-      lastModified: now,
+      lastModified: BASE_UPDATE,
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/guide-installation/mag-box`,
+      lastModified: TODAY,
       changeFrequency: 'weekly',
       priority: 0.8,
     },
     {
       url: `${baseUrl}/guide-installation/contourner-blocage-fai-iptv-dns-vpn`,
-      lastModified: now,
+      lastModified: BASE_UPDATE,
       changeFrequency: 'weekly',
       priority: 0.8,
     },
   ];
 
-  // 4. Player Applications (Tier 4)
-  const playerPages: MetadataRoute.Sitemap = [
+  // 4. Hubs de Contenu, Catalogue & Support (Tier 4)
+  const hubPages: MetadataRoute.Sitemap = [
     {
-      url: `${baseUrl}/applications/ibo-player`,
-      lastModified: now,
+      url: `${baseUrl}/catalogue`,
+      lastModified: TODAY,
+      changeFrequency: 'daily',
+      priority: 0.85,
+    },
+    {
+      url: `${baseUrl}/catalogue/chaines`,
+      lastModified: BASE_UPDATE,
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/catalogue/vod`,
+      lastModified: BASE_UPDATE,
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/guide-depannage`,
+      lastModified: BASE_UPDATE,
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/support`,
+      lastModified: BASE_UPDATE,
       changeFrequency: 'monthly',
       priority: 0.7,
     },
     {
-      url: `${baseUrl}/applications/smart-iptv`,
-      lastModified: now,
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/applications/tivimate`,
-      lastModified: now,
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/applications/xciptv`,
-      lastModified: now,
-      changeFrequency: 'monthly',
-      priority: 0.7,
+      url: `${baseUrl}/blog`,
+      lastModified: TODAY,
+      changeFrequency: 'daily',
+      priority: 0.85,
     },
   ];
 
-  // 5. Competitor Comparisons & Anti-Scam Blog Articles (Tier 5)
-  const blogPosts: MetadataRoute.Sitemap = [
-    {
-      url: `${baseUrl}/blog/alternative-atlas-pro-iptv`,
-      lastModified: '2026-11-02T12:00:00.000Z',
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/blog/alternative-king365-iptv`,
-      lastModified: '2026-10-28T12:00:00.000Z',
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/blog/alternative-iron-tv-pro`,
-      lastModified: '2026-10-19T12:00:00.000Z',
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/blog/pourquoi-eviter-iptv-aliexpress`,
-      lastModified: '2026-10-10T12:00:00.000Z',
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
+  // 5. Articles de Blog Dynamiques (Mappés avec dates réelles E-E-A-T)
+  const dynamicBlogPages: MetadataRoute.Sitemap = POSTS_LIST.map((post) => ({
+    url: `${baseUrl}/blog/${post.slug}`,
+    lastModified: post.dateModified || post.datePublished,
+    changeFrequency: 'weekly',
+    priority: 0.85,
+  }));
+
+  // 6. Pages Légales & Informatives (Tier 5 - Priorité basse)
+  const legalPages: MetadataRoute.Sitemap = [
     {
       url: `${baseUrl}/dmca`,
-      lastModified: now,
+      lastModified: LEGAL_UPDATE,
       changeFrequency: 'yearly',
-      priority: 0.5,
+      priority: 0.3,
     },
     {
       url: `${baseUrl}/terms`,
-      lastModified: now,
+      lastModified: LEGAL_UPDATE,
       changeFrequency: 'yearly',
-      priority: 0.5,
+      priority: 0.3,
     },
     {
       url: `${baseUrl}/privacy`,
-      lastModified: now,
+      lastModified: LEGAL_UPDATE,
       changeFrequency: 'yearly',
-      priority: 0.5,
+      priority: 0.3,
     },
     {
       url: `${baseUrl}/politique-de-remboursement`,
-      lastModified: now,
+      lastModified: LEGAL_UPDATE,
       changeFrequency: 'yearly',
-      priority: 0.5,
+      priority: 0.3,
     },
   ];
 
   return [
     ...corePages,
-    ...hubPages,
+    ...applicationPages,
     ...tutorialPages,
-    ...playerPages,
-    ...blogPosts,
+    ...hubPages,
+    ...dynamicBlogPages,
+    ...legalPages,
   ];
 }

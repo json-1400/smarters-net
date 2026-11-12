@@ -322,11 +322,11 @@ export default function PolitiqueRemboursementPage() {
         </section>
 
         {/* CTA Support Box */}
-        <div className="p-6 rounded-2xl bg-gradient-to-r from-blue-950/40 via-slate-900 to-slate-900 border border-blue-500/30 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="p-6 rounded-2xl bg-white dark:bg-gradient-to-r dark:from-blue-950/40 dark:via-slate-900 dark:to-slate-900 border border-blue-200 dark:border-blue-500/30 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm dark:shadow-none">
           <div className="space-y-1 text-center sm:text-left">
-            <span className="text-xs font-bold uppercase text-blue-400 tracking-wider">Assistance Prioritaire 7j/7</span>
-            <h3 className="text-base font-bold text-white">Une question sur votre formule ou votre garantie ?</h3>
-            <p className="text-xs text-slate-400">Nos techniciens vous répondent en moins de 15 minutes sur WhatsApp.</p>
+            <span className="text-xs font-bold uppercase text-blue-600 dark:text-blue-400 tracking-wider">Assistance Prioritaire 7j/7</span>
+            <h3 className="text-base font-bold text-slate-900 dark:text-white">Une question sur votre formule ou votre garantie ?</h3>
+            <p className="text-xs text-slate-600 dark:text-slate-400">Nos techniciens vous répondent en moins de 15 minutes sur WhatsApp.</p>
           </div>
           <a
             href={CONTACT.whatsappUrl}

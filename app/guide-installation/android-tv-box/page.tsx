@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { 
   Tv, 
   CheckCircle2, 
@@ -289,6 +290,23 @@ export default function AndroidTvBoxTutorialPage() {
             <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
               Sur des modèles haut de gamme comme la <strong>Nvidia Shield TV Pro</strong>, le processeur Tegra applique un traitement d'upscaling par intelligence artificielle qui améliore la netteté de vos chaînes HD pour un rendu spectaculaire sur les téléviseurs 4K grand format.
             </p>
+
+            {/* SEO Visual Showcase */}
+            <figure className="my-6 space-y-2">
+              <div className="relative overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/40 shadow-2xl">
+                <Image
+                  src="/images/placeholders/guide-android-box.svg"
+                  alt="Tutoriel installation IPTV sur Box Android TV et Google TV avec Nvidia Shield et Xiaomi"
+                  width={1200}
+                  height={675}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
+                  className="w-full h-auto object-cover"
+                />
+              </div>
+              <figcaption className="text-center text-xs text-slate-400">
+                Installation sur Box Android TV : configuration d'applications compatibles et lecture 4K 60 FPS.
+              </figcaption>
+            </figure>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
@@ -466,19 +484,19 @@ export default function AndroidTvBoxTutorialPage() {
         </section>
 
         {/* Section 4: Banner CTA pour l'abonnement */}
-        <section className="rounded-3xl bg-gradient-to-r from-emerald-950/60 via-slate-900 to-teal-950/60 border border-emerald-500/30 p-8 sm:p-12 text-center space-y-6">
+        <section className="rounded-3xl bg-white dark:bg-gradient-to-r dark:from-emerald-950 dark:via-slate-900 dark:to-teal-950 border border-emerald-200 dark:border-emerald-500/30 p-8 sm:p-12 text-center space-y-6 shadow-xl dark:shadow-2xl">
           <div className="max-w-2xl mx-auto space-y-3">
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
               Profitez d'un Abonnement 4K Ultra Fluide sur votre Box Android
             </h2>
-            <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
+            <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
               Accédez à +25 000 chaînes premium et +90 000 VOD en 4K Ultra HD avec serveurs anti-freeze et assistance WhatsApp 7j/7.
             </p>
           </div>
           <div className="pt-2">
             <Link
               href="/abonnement-iptv-12-mois"
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-sm uppercase tracking-wider shadow-xl shadow-emerald-500/20 transition-all hover:scale-105"
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-sm uppercase tracking-wider shadow-xl shadow-emerald-500/20 transition-all hover:scale-105"
             >
               <span>Découvrir l'Abonnement 12 Mois VIP (1 Mois Offert)</span>
               <ArrowRight className="w-4 h-4" />

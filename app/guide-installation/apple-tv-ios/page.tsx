@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { 
   Tv, 
   CheckCircle2, 
@@ -263,7 +264,7 @@ export default function AppleTvIosTutorialPage() {
 
               <div className="pt-2">
                 <Link
-                  href="/tarifs-abonnement"
+                  href="/tarifs"
                   className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-sky-600 to-blue-600 text-white font-bold text-xs uppercase tracking-wider hover:brightness-110 transition-all"
                 >
                   <span>Activer mon Accès Serveur 4K</span>
@@ -290,6 +291,23 @@ export default function AppleTvIosTutorialPage() {
             <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
               En déplacement, vous profitez de vos bouquets en direct sur <strong>iPhone</strong> ou <strong>iPad</strong> via le réseau 4G/5G, avec la possibilité de basculer la diffusion sur le téléviseur du salon en un clic grâce au protocole <strong>Apple AirPlay 2</strong>.
             </p>
+
+            {/* SEO Visual Showcase */}
+            <figure className="my-6 space-y-2">
+              <div className="relative overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/40 shadow-2xl">
+                <Image
+                  src="/images/placeholders/guide-apple-tv.svg"
+                  alt="Tutoriel installation IPTV sur Apple TV 4K et iOS avec AirPlay et application officielle"
+                  width={1200}
+                  height={675}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
+                  className="w-full h-auto object-cover"
+                />
+              </div>
+              <figcaption className="text-center text-xs text-slate-400">
+                Installation sur Apple TV 4K &amp; iOS : streaming haute performance et intégration AirPlay.
+              </figcaption>
+            </figure>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
@@ -424,19 +442,19 @@ export default function AppleTvIosTutorialPage() {
         </section>
 
         {/* Section 4: Banner CTA pour l'abonnement */}
-        <section className="rounded-3xl bg-gradient-to-r from-sky-950/60 via-slate-900 to-blue-950/60 border border-sky-500/30 p-8 sm:p-12 text-center space-y-6">
+        <section className="rounded-3xl bg-white dark:bg-gradient-to-r dark:from-sky-950 dark:via-slate-900 dark:to-blue-950 border border-sky-200 dark:border-sky-500/30 p-8 sm:p-12 text-center space-y-6 shadow-xl dark:shadow-2xl">
           <div className="max-w-2xl mx-auto space-y-3">
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
               Activez la Puissance 4K sur votre Écosystème Apple
             </h2>
-            <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
+            <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
               Profitez d'un accès instantané à +25 000 chaînes en direct et +90 000 films et séries en 4K Ultra HD sans aucune interruption sur tous vos appareils Apple.
             </p>
           </div>
           <div className="pt-2">
             <Link
               href="/abonnement-iptv-12-mois"
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-black text-sm uppercase tracking-wider shadow-xl shadow-sky-500/20 transition-all hover:scale-105"
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-black text-sm uppercase tracking-wider shadow-xl shadow-sky-500/20 transition-all hover:scale-105"
             >
               <span>Découvrir l'Abonnement 12 Mois VIP (2 Écrans Inclus)</span>
               <ArrowRight className="w-4 h-4" />

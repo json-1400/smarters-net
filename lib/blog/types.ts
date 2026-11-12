@@ -23,6 +23,12 @@ export interface BlogFaq {
 
 export type BlogCategory = 'Comparatif Serveurs' | 'Anti-Arnaque';
 
+export interface BlogImage {
+  src: string;
+  alt: string;
+  caption: string;
+}
+
 export interface BlogPost {
   slug: string;
   title: string;
@@ -36,6 +42,7 @@ export interface BlogPost {
   excerpt: string;
   directAnswer: string;
   keyTakeaways: string[];
+  image?: BlogImage;
   comparisonRows: ComparisonRow[];
   sections: BlogSection[];
   faqs: BlogFaq[];

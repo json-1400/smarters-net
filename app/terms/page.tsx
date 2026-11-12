@@ -72,7 +72,7 @@ export default function TermsPage() {
         <section className="rounded-2xl bg-slate-900 border border-slate-800 p-6 sm:p-8 space-y-4 text-sm text-slate-300 leading-relaxed">
           <h2 className="text-xl font-bold text-white">1. Champ d'Application des Conditions Générales de Vente</h2>
           <p>
-            Nos formules (<Link href="/tarifs-abonnement" className="text-blue-400 underline">3 mois, 6 mois et 12 mois VIP</Link>) font l'objet d'un paiement unique forfaitaire pour la durée choisie. Aucun renouvellement tacite ni prélèvement bancaire récurrent automatique n'est appliqué à échéance.
+            Nos formules (<Link href="/tarifs" className="text-blue-400 underline">3 mois, 6 mois et 12 mois VIP</Link>) font l'objet d'un paiement unique forfaitaire pour la durée choisie. Aucun renouvellement tacite ni prélèvement bancaire récurrent automatique n'est appliqué à échéance.
           </p>
 
           <h2 className="text-xl font-bold text-white pt-2">2. Livraison des Identifiants &amp; Activation</h2>
@@ -82,7 +82,7 @@ export default function TermsPage() {
 
           <h2 className="text-xl font-bold text-white pt-2">3. Règles d'Utilisation &amp; Connexions Simultanées</h2>
           <p>
-            Les formules Starter (3 mois), Confort (6 mois) et VIP (12 mois) autorisent 1 connexion active simultanée. Pour équiper plusieurs téléviseurs en simultané, les packs <Link href="/tarifs-abonnement/iptv-multi-ecran" className="text-blue-400 underline">IPTV Multi-Écran</Link> permettent de connecter de 2 à 5 écrans indépendants.
+            Les formules Starter (3 mois), Confort (6 mois) et VIP (12 mois) autorisent 1 connexion active simultanée. Pour équiper plusieurs téléviseurs en simultané, les packs <Link href="/tarifs/iptv-multi-ecran" className="text-blue-400 underline">IPTV Multi-Écran</Link> permettent de connecter de 2 à 5 écrans indépendants.
           </p>
 
           <h2 className="text-xl font-bold text-white pt-2">4. Support Technique et Accompagnement 7j/7</h2>

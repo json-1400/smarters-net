@@ -1,13 +1,11 @@
 import type { BlogPost } from '@/lib/blog/types';
-import { POST_ATLAS_PRO } from '@/lib/blog/post-atlas-pro';
-import { POST_KING365 } from '@/lib/blog/post-king365';
-import { POST_IRON_TV_PRO } from '@/lib/blog/post-iron-tv-pro';
+import { POST_MEILLEUR_ABONNEMENT } from '@/lib/blog/post-meilleur-abonnement';
+import { POST_COMPARATIF_SERVEURS } from '@/lib/blog/post-comparatif-serveurs';
 import { POST_ALIEXPRESS } from '@/lib/blog/post-aliexpress';
 
 export const POSTS_LIST: BlogPost[] = [
-  POST_ATLAS_PRO,
-  POST_KING365,
-  POST_IRON_TV_PRO,
+  POST_MEILLEUR_ABONNEMENT,
+  POST_COMPARATIF_SERVEURS,
   POST_ALIEXPRESS,
 ];
 

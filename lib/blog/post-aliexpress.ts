@@ -20,6 +20,11 @@ export const POST_ALIEXPRESS: BlogPost = {
     'La boutique peut disparaître après le délai de réclamation, sans aucun SAV.',
     'Exigez un essai, un support francophone et des identifiants Xtream Codes standards.',
   ],
+  image: {
+    src: '/images/iptv-aliexpress.webp',
+    alt: 'Guide de prévention et analyse de sécurité contre les arnaques des abonnements IPTV vendus sur AliExpress',
+    caption: 'Guide de sécurité streaming : comprendre les risques des lignes IPTV low-cost et des blocages FAI.',
+  },
   comparisonRows: [
     { criterion: 'Allocation Bande Passante', competitor: 'Ligne partagée (overselling massif)', smarters: 'Port 10 Gbps dédié par utilisateur' },
     { criterion: 'Durée de Vie Réelle', competitor: 'Disparition de la boutique après 3 à 6 semaines', smarters: 'Garantie contractuelle sur toute la durée' },
@@ -35,7 +40,7 @@ export const POST_ALIEXPRESS: BlogPost = {
         { kind: 'p', text: "Une infrastructure de streaming 4K professionnelle exige des **serveurs CDN européens** coûteux. Un tarif annuel inférieur à 20 € ne couvre même pas la bande passante d'un seul client. Le vendeur compense donc en revendant le même code M3U à des dizaines d'acheteurs." },
         { kind: 'h3', text: 'Pourquoi la ligne coupe-t-elle systématiquement après 20h30 ?' },
         { kind: 'p', text: "Le soir, tous les acheteurs d'une même ligne se connectent en même temps. La capacité du serveur est dépassée, les flux sont coupés ou ralentis, et l'image se fige toutes les trente secondes. Ce **buffering** n'est pas un problème de votre box : il vient de la saturation côté serveur." },
-        { kind: 'p', text: "Avant de changer de matériel, vérifiez si le même flux coupe à plusieurs heures de la journée. Si la lecture est parfaite à 14h et instable à 21h, la cause est presque toujours une ligne partagée. Notre [guide IPTV](/guide-iptv) explique comment diagnostiquer ce type de panne." },
+        { kind: 'p', text: "Avant de changer de matériel, vérifiez si le même flux coupe à plusieurs heures de la journée. Si la lecture est parfaite à 14h et instable à 21h, la cause est presque toujours une ligne partagée. Notre [guide dépannage IPTV](/guide-depannage) explique comment diagnostiquer ce type de panne." },
       ],
     },
     {

@@ -14,7 +14,9 @@ import {
   ChevronRight, 
   HelpCircle,
   Clock,
-  ArrowRight
+  ArrowRight,
+  Tv,
+  Smartphone
 } from 'lucide-react';
 
 interface PlanDetail {
@@ -114,6 +116,8 @@ function CheckoutContent() {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
+  const [deviceType, setDeviceType] = useState('');
+  const [deviceApp, setDeviceApp] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -146,6 +150,8 @@ function CheckoutContent() {
           fullName: fullName.trim(),
           email: email.trim().toLowerCase(),
           phone: phone.trim(),
+          deviceType: deviceType || null,
+          deviceApp: deviceApp || null,
         }),
       });
 
@@ -250,6 +256,55 @@ function CheckoutContent() {
               </span>
             </div>
 
+            {/* Optional Device & Application Selectors */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
+              <div>
+                <label htmlFor="deviceType" className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5 flex items-center gap-1.5">
+                  <Tv className="w-3.5 h-3.5 text-blue-400" />
+                  <span>Appareil / Écran <span className="text-slate-500 font-normal normal-case">(facultatif)</span></span>
+                </label>
+                <select
+                  id="deviceType"
+                  value={deviceType}
+                  onChange={(e) => setDeviceType(e.target.value)}
+                  className="w-full border border-slate-700/80 rounded-xl px-3.5 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-slate-950 text-white transition-all cursor-pointer"
+                >
+                  <option value="">Sélectionner un appareil</option>
+                  <option value="Smart TV (Samsung / LG / Android TV)">Smart TV (Samsung / LG / Android TV)</option>
+                  <option value="Boîtier Android / Fire TV Stick">Boîtier Android / Amazon Fire TV Stick</option>
+                  <option value="Apple TV / iPhone / iPad">Apple TV / iPhone / iPad (iOS)</option>
+                  <option value="Smartphone / Tablette Android">Smartphone / Tablette Android</option>
+                  <option value="PC Windows / Mac">Ordinateur (PC Windows / Mac)</option>
+                  <option value="Boîtier MAG / Formuler">Boîtier MAG / Formuler (MyTVOnline)</option>
+                  <option value="Autre / Non spécifié">Autre / Je ne sais pas encore</option>
+                </select>
+              </div>
+
+              <div>
+                <label htmlFor="deviceApp" className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5 flex items-center gap-1.5">
+                  <Smartphone className="w-3.5 h-3.5 text-indigo-400" />
+                  <span>Application IPTV <span className="text-slate-500 font-normal normal-case">(facultatif)</span></span>
+                </label>
+                <select
+                  id="deviceApp"
+                  value={deviceApp}
+                  onChange={(e) => setDeviceApp(e.target.value)}
+                  className="w-full border border-slate-700/80 rounded-xl px-3.5 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-slate-950 text-white transition-all cursor-pointer"
+                >
+                  <option value="">Sélectionner une application</option>
+                  <option value="IPTV Smarters Pro">IPTV Smarters Pro (Recommandé)</option>
+                  <option value="TiviMate IPTV Player">TiviMate IPTV Player</option>
+                  <option value="IBO Player Pro">IBO Player Pro</option>
+                  <option value="Smart IPTV (SIPTV)">Smart IPTV (SIPTV)</option>
+                  <option value="Flix IPTV">Flix IPTV</option>
+                  <option value="GSE Smart IPTV">GSE Smart IPTV</option>
+                  <option value="MyTVOnline (Formuler)">MyTVOnline (Formuler)</option>
+                  <option value="XCIPTV Player">XCIPTV Player</option>
+                  <option value="Autre / Je souhaite un conseil">Autre / Je souhaite un conseil</option>
+                </select>
+              </div>
+            </div>
+
             <div className="pt-2">
               <div className="p-3.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-slate-400 flex items-center gap-2.5">
                 <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
@@ -314,12 +369,30 @@ function CheckoutContent() {
               <span className="text-blue-400 text-2xl font-black">{planDetails.price}</span>
             </div>
 
-            <div className="bg-emerald-950/40 border border-emerald-800/50 text-emerald-200 p-4 rounded-xl text-xs space-y-1.5">
-              <div className="flex items-center gap-2 font-bold text-emerald-300">
+            {(deviceType || deviceApp) && (
+              <div className="p-3 bg-slate-950/80 border border-slate-800 rounded-xl text-xs space-y-1.5">
+                <span className="text-slate-400 font-bold block uppercase tracking-wider text-[10px]">Votre configuration :</span>
+                {deviceType && (
+                  <div className="text-slate-300 font-medium flex items-center gap-1.5">
+                    <Tv className="w-3.5 h-3.5 text-blue-400 shrink-0" />
+                    <span>{deviceType}</span>
+                  </div>
+                )}
+                {deviceApp && (
+                  <div className="text-blue-400 font-medium flex items-center gap-1.5">
+                    <Smartphone className="w-3.5 h-3.5 text-indigo-400 shrink-0" />
+                    <span>{deviceApp}</span>
+                  </div>
+                )}
+              </div>
+            )}
+
+            <div className="bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/50 text-slate-700 dark:text-emerald-200 p-4 rounded-xl text-xs space-y-1.5">
+              <div className="flex items-center gap-2 font-bold text-emerald-800 dark:text-emerald-300">
                 <Clock className="w-4 h-4" />
                 <span>Confirmation par Email</span>
               </div>
-              <p className="text-slate-300">
+              <p className="text-slate-600 dark:text-slate-300">
                 Dès validation, vous recevez un email de confirmation avec le récapitulatif de votre commande et nos liens de contact.
               </p>
             </div>

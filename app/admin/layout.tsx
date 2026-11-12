@@ -1,6 +1,6 @@
 import React from 'react';
 import { redirect } from 'next/navigation';
-import { createServerSideClient } from '@/lib/supabase';
+import { createServerSideClient, createAdminClient } from '@/lib/supabase';
 import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';
@@ -13,19 +13,22 @@ export default async function AdminLayout({
   const supabase = createServerSideClient();
 
   // 1. Authenticate user
-  const { data: { session } } = await supabase.auth.getSession();
-  if (!session?.user) {
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) {
     redirect('/login');
   }
 
-  // 2. Enforce admin role check
-  const { data: profile } = await supabase
+  // 2. Enforce admin role check (via admin client to bypass RLS latency + user_metadata fallback)
+  const adminClient = createAdminClient();
+  const { data: profile } = await adminClient
     .from('profiles')
     .select('is_admin')
-    .eq('id', session.user.id)
+    .eq('id', user.id)
     .single();
 
-  if (!profile?.is_admin) {
+  const isUserAdmin = Boolean(profile?.is_admin || user.user_metadata?.is_admin);
+
+  if (!isUserAdmin) {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
         <div className="max-w-md bg-white border border-red-200 rounded p-6 text-center">

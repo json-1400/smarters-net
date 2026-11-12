@@ -47,89 +47,150 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: firstIssue }, { status: 400 });
     }
 
-    const { paymentId, notes } = parsed.data;
-
-    // Fetch the payment log along with subscription and profile details
-    const { data: rawPayment, error: paymentError } = await supabase
-      .from('payments')
-      .select(`
-        *,
-        subscription:subscriptions(*),
-        user:profiles(*)
-      `)
-      .eq('id', paymentId)
-      .single();
-
-    if (paymentError || !rawPayment) {
-      return NextResponse.json({ error: 'Paiement introuvable.' }, { status: 404 });
+    const targetId = parsed.data.orderId || parsed.data.paymentId;
+    const notes = parsed.data.notes;
+    if (!targetId) {
+      return NextResponse.json({ error: 'Identifiant requis.' }, { status: 400 });
     }
 
-    const payment = rawPayment as PaymentWithRelations;
-
-    if (payment.status === 'confirmed') {
-      return NextResponse.json({ error: 'Ce paiement a déjà été validé.' }, { status: 400 });
-    }
-
+    const adminSupabase = createAdminClient();
     const now = new Date().toISOString();
     const expiryDate = new Date();
-    const planType: PlanType = payment.subscription?.plan_type || 'Starter';
-    const monthsToAdd = PLAN_DURATION_MONTHS[planType] ?? 3;
-    expiryDate.setMonth(expiryDate.getMonth() + monthsToAdd);
 
-    const expiryIso = expiryDate.toISOString();
+    // 1. Try to find in `orders` table first
+    const { data: order } = await adminSupabase
+      .from('orders')
+      .select('*, profile:profiles(*)')
+      .eq('id', targetId)
+      .maybeSingle();
 
-    // 3. Update payment status to confirmed
-    const { error: payUpdateError } = await supabase
-      .from('payments')
-      .update({
-        status: 'confirmed',
-        confirmed_by_admin_id: session.user.id,
-        confirmed_at: now,
-        notes: typeof notes === 'string' && notes.trim().length > 0 ? notes.trim() : payment.notes,
-      })
-      .eq('id', paymentId);
+    let targetEmail = '';
+    let clientName = '';
+    let planType: PlanType = 'Starter';
+    let expiryIso = '';
 
-    if (payUpdateError) {
-      return NextResponse.json({ error: 'Échec de la validation du paiement.' }, { status: 500 });
+    if (order) {
+      if (order.status === 'paid') {
+        return NextResponse.json({ error: 'Cette commande a déjà été validée.' }, { status: 400 });
+      }
+
+      planType = (order.plan_type as PlanType) || 'Starter';
+      const monthsToAdd = PLAN_DURATION_MONTHS[planType] ?? 3;
+      expiryDate.setMonth(expiryDate.getMonth() + monthsToAdd);
+      expiryIso = expiryDate.toISOString();
+      targetEmail = order.customer_email;
+      clientName = order.customer_name;
+
+      // Mark order as paid
+      const { error: orderUpdateErr } = await adminSupabase
+        .from('orders')
+        .update({
+          status: 'paid',
+          confirmed_at: now,
+          notes: typeof notes === 'string' && notes.trim() ? notes.trim() : order.notes,
+        })
+        .eq('id', order.id);
+
+      if (orderUpdateErr) {
+        return NextResponse.json({ error: 'Échec de la validation de la commande.' }, { status: 500 });
+      }
+
+      // CREATE subscription record NOW (Only upon payment confirmation!)
+      const { error: subCreateErr } = await adminSupabase
+        .from('subscriptions')
+        .insert({
+          order_id: order.id,
+          user_id: order.user_id,
+          plan_type: planType,
+          status: 'active',
+          current_period_start: now,
+          current_period_end: expiryIso,
+        });
+
+      if (subCreateErr) {
+        console.error('Subscription creation error on confirm:', subCreateErr);
+      }
+    } else {
+      // 2. Fallback: check legacy `payments` table
+      const { data: rawPayment, error: paymentError } = await adminSupabase
+        .from('payments')
+        .select(`
+          *,
+          subscription:subscriptions(*),
+          user:profiles(*)
+        `)
+        .eq('id', targetId)
+        .maybeSingle();
+
+      if (paymentError || !rawPayment) {
+        return NextResponse.json({ error: 'Commande ou paiement introuvable.' }, { status: 404 });
+      }
+
+      const payment = rawPayment as PaymentWithRelations;
+
+      if (payment.status === 'confirmed') {
+        return NextResponse.json({ error: 'Ce paiement a déjà été validé.' }, { status: 400 });
+      }
+
+      planType = payment.subscription?.plan_type || 'Starter';
+      const monthsToAdd = PLAN_DURATION_MONTHS[planType] ?? 3;
+      expiryDate.setMonth(expiryDate.getMonth() + monthsToAdd);
+      expiryIso = expiryDate.toISOString();
+
+      await adminSupabase
+        .from('payments')
+        .update({
+          status: 'confirmed',
+          confirmed_by_admin_id: session.user.id,
+          confirmed_at: now,
+          notes: typeof notes === 'string' && notes.trim().length > 0 ? notes.trim() : payment.notes,
+        })
+        .eq('id', targetId);
+
+      if (payment.subscription_id) {
+        await adminSupabase
+          .from('subscriptions')
+          .update({
+            status: 'active',
+            current_period_start: now,
+            current_period_end: expiryIso,
+          })
+          .eq('id', payment.subscription_id);
+      } else {
+        await adminSupabase
+          .from('subscriptions')
+          .insert({
+            user_id: payment.user_id,
+            plan_type: planType,
+            status: 'active',
+            current_period_start: now,
+            current_period_end: expiryIso,
+          });
+      }
+
+      const { data: userData } = await adminSupabase.auth.admin.getUserById(payment.user_id);
+      targetEmail = userData?.user?.email || '';
+      clientName = payment.user?.full_name || 'Client';
     }
 
-    // 4. Activate the corresponding subscription
-    const { error: subUpdateError } = await supabase
-      .from('subscriptions')
-      .update({
-        status: 'active',
-        current_period_start: now,
-        current_period_end: expiryIso,
-      })
-      .eq('id', payment.subscription_id);
-
-    if (subUpdateError) {
-      return NextResponse.json({ error: "Échec de l'activation de l'abonnement." }, { status: 500 });
-    }
-
-    // 5. Add record to Admin Audit Log
+    // 3. Add record to Admin Audit Log
     const clientIp = request.headers.get('x-forwarded-for') || '0.0.0.0';
-    await supabase
+    await adminSupabase
       .from('admin_audit_log')
       .insert({
         admin_id: session.user.id,
         action: 'confirm_payment',
-        target_type: 'payment',
-        target_id: paymentId,
+        target_type: order ? 'order' : 'payment',
+        target_id: targetId,
         ip_address: clientIp,
       });
 
-    // 6. Send subscription activation email using Resend
-    const adminClient = createAdminClient();
-    const { data: userData } = await adminClient.auth.admin.getUserById(payment.user_id);
-    const targetEmail = userData?.user?.email || '';
-
+    // 4. Send subscription activation email using Resend
     if (targetEmail) {
-      const clientName = payment.user?.full_name || 'Client';
       const formattedExpiry = new Date(expiryIso).toLocaleDateString('fr-FR', {
         year: 'numeric',
         month: 'long',
-        day: 'numeric'
+        day: 'numeric',
       });
 
       await sendSubscriptionActivatedEmail(
@@ -142,7 +203,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       success: true,
-      message: 'Paiement confirmé et abonnement activé avec succès.'
+      message: 'Commande validée et abonnement activé avec succès.'
     });
 
   } catch (error: unknown) {

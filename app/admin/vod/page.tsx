@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 import { SAMPLE_VOD_CATALOG } from '@/components/vod/VodSwiper';
 import type { VodItem } from '@/components/vod/VodModal';
 import { Film, Plus, Star, Trash2, Edit3, CheckCircle2, Sparkles } from 'lucide-react';
@@ -88,15 +89,18 @@ export default function AdminVodPage() {
         {items.map((item) => (
           <div key={item.id} className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm flex flex-col justify-between">
             <div className="relative aspect-[16/9] w-full bg-slate-900">
-              <img
+              <Image
                 src={item.backdrop || item.poster}
                 alt={item.title}
-                className="w-full h-full object-cover"
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                unoptimized
+                className="object-cover"
               />
-              <div className="absolute top-2 left-2 bg-black/70 text-white text-[10px] font-bold px-2 py-0.5 rounded">
+              <div className="absolute top-2 left-2 bg-black/70 text-white text-[10px] font-bold px-2 py-0.5 rounded z-10">
                 {item.quality}
               </div>
-              <div className="absolute top-2 right-2 bg-yellow-400 text-slate-950 text-[10px] font-black px-1.5 py-0.5 rounded flex items-center gap-0.5">
+              <div className="absolute top-2 right-2 bg-yellow-400 text-slate-950 text-[10px] font-black px-1.5 py-0.5 rounded flex items-center gap-0.5 z-10">
                 <Star className="w-3 h-3 fill-current" /> {item.rating}
               </div>
             </div>

@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { Newspaper, ChevronRight, Clock } from 'lucide-react';
@@ -17,12 +18,13 @@ const POSTS = POSTS_LIST.map((post) => ({
   dateIso: post.datePublished,
   category: post.category,
   readTime: post.readTime,
+  image: post.image,
 }));
 export function generateMetadata(): Metadata {
   return constructMetadata({
-    title: 'Blog IPTV & Comparatifs Serveurs 2026 : Atlas Pro, King365, Iron TV',
+    title: 'Blog IPTV : Actualités, Dossiers & Analyses | Smarters Pro',
     description:
-      'Consultez notre blog IPTV officiel : comparatifs techniques des serveurs (Atlas Pro, King365, Iron TV), analyses anti-arnaque AliExpress et actualités streaming 4K en France.',
+      "Retrouvez l'ensemble de nos articles, dossiers et analyses d'experts pour tout comprendre sur l'univers du streaming et des technologies IPTV en France.",
     canonicalUrl: PAGE_CANONICAL,
   });
 }
@@ -34,9 +36,9 @@ export default function BlogFeedPage() {
       {
         '@type': 'CollectionPage',
         '@id': `${PAGE_CANONICAL}#webpage`,
-        name: 'Blog IPTV & Comparatifs Serveurs 2026',
+        name: 'Blog IPTV : Actualités, Dossiers & Analyses',
         description:
-          'Dossiers comparatifs sur les fournisseurs IPTV en France (Atlas Pro, King365, Iron TV Pro) et guides anti-arnaque.',
+          "Articles, dossiers d'actualité et analyses sur l'univers du streaming et de l'IPTV.",
         url: PAGE_CANONICAL,
         isPartOf: { '@id': `${SITE_CONFIG.domain}/#website` },
       },
@@ -63,21 +65,21 @@ export default function BlogFeedPage() {
         <div className="text-center max-w-3xl mx-auto space-y-4">
           <span className="inline-flex items-center gap-1.5 rounded-full bg-blue-500/10 px-3.5 py-1.5 text-xs font-bold text-blue-400 border border-blue-500/20 uppercase tracking-wider">
             <Newspaper className="w-3.5 h-3.5 text-blue-400" />
-            Dossiers Comparatifs & Analyses Réseau 2026
+            Actualités &amp; Décryptages
           </span>
           <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight">
-            Blog IPTV : Comparatifs Serveurs & Anti-Arnaques 2026
+            Le Blog IPTV : Actualités, Dossiers &amp; Analyses
           </h1>
           <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
-            Bienvenue sur notre <strong>blog IPTV</strong> dédié aux comparatifs indépendants des serveurs du marché français (Atlas Pro, King365, Iron TV Pro) et aux analyses de sécurité contre les revendeurs non vérifiés.
+            Bienvenue sur l&apos;espace éditorial officiel de Smarters Pro. Retrouvez nos analyses d&apos;experts, nos décryptages techniques et nos dossiers d&apos;actualité pour comprendre le fonctionnement du streaming haute performance.
           </p>
           <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
-            Chaque dossier détaille les <strong>serveurs CDN 4K</strong>, le protocole <strong>Xtream Codes</strong> et les étapes de migration pour <strong>Fire TV Stick</strong>, <strong>Smart TV</strong> et <strong>Box Android</strong>, avec liens vers nos guides d&apos;installation et notre test gratuit. Tous les articles sont relus et mis à jour régulièrement par notre équipe technique.
+            Explorez nos publications régulières, nos éclairages sur les protocoles et les technologies de diffusion pour profiter au mieux de vos divertissements sur tous vos écrans.
           </p>
         </div>
         <section className="space-y-6">
           <h2 className="text-2xl font-bold text-white">
-            Nos Dossiers Comparatifs Blog IPTV & Alternatives Serveurs
+            Tous les Articles &amp; Dossiers
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {POSTS.map((post) => (
@@ -85,6 +87,22 @@ export default function BlogFeedPage() {
                 key={post.slug}
                 className="bg-slate-900 border border-slate-800 rounded-2xl p-8 flex flex-col hover:border-slate-700 transition-colors group"
               >
+                {post.image && (
+                  <Link
+                    href={`/blog/${post.slug}`}
+                    className="block mb-6 overflow-hidden rounded-xl border border-slate-800 aspect-video relative bg-slate-950"
+                  >
+                    <Image
+                      src={post.image.src}
+                      alt={post.image.alt}
+                      width={1200}
+                      height={675}
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  </Link>
+                )}
+
                 <div className="flex items-center space-x-3 text-xs font-bold text-slate-400 mb-4 uppercase tracking-wider">
                   <span className="text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2.5 py-0.5 rounded-md">
                     {post.category}

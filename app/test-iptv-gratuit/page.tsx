@@ -105,7 +105,7 @@ export default function TestIptvGratuitPage() {
         '@id': `${PAGE_CANONICAL}/#breadcrumb`,
         itemListElement: [
           { '@type': 'ListItem', position: 1, name: 'Accueil', item: SITE_CONFIG.domain },
-          { '@type': 'ListItem', position: 2, name: 'Tarifs & Abonnements', item: `${SITE_CONFIG.domain}/tarifs-abonnement` },
+          { '@type': 'ListItem', position: 2, name: 'Tarifs & Abonnements', item: `${SITE_CONFIG.domain}/tarifs` },
           { '@type': 'ListItem', position: 3, name: 'Test IPTV Gratuit', item: PAGE_CANONICAL },
         ],
       },
@@ -124,7 +124,7 @@ export default function TestIptvGratuitPage() {
         <ol className="flex items-center space-x-2 text-xs text-slate-400">
           <li><Link href="/" className="hover:text-blue-400">Accueil</Link></li>
           <ChevronRight className="w-3.5 h-3.5 text-slate-600" />
-          <li><Link href="/tarifs-abonnement" className="hover:text-blue-400">Tarifs</Link></li>
+          <li><Link href="/tarifs" className="hover:text-blue-400">Tarifs</Link></li>
           <ChevronRight className="w-3.5 h-3.5 text-slate-600" />
           <li><span className="text-slate-200 font-medium" aria-current="page">Test IPTV Gratuit</span></li>
         </ol>
@@ -334,7 +334,7 @@ export default function TestIptvGratuitPage() {
                 <span>Y a-t-il un prélèvement automatique après un essai ?</span>
               </h3>
               <p className="text-xs text-slate-400 leading-relaxed">
-                Jamais. Toutes nos formules (<Link href="/tarifs-abonnement" className="text-blue-400 underline">3, 6 et 12 mois</Link>) sont à paiement unique sans aucun renouvellement automatique caché.
+                Jamais. Toutes nos formules (<Link href="/tarifs" className="text-blue-400 underline">3, 6 et 12 mois</Link>) sont à paiement unique sans aucun renouvellement automatique caché.
               </p>
             </div>
           </div>

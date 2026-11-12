@@ -80,7 +80,7 @@ export default function AbonnementIptv12MoisPage() {
         '@id': `${PAGE_CANONICAL}#breadcrumb`,
         itemListElement: [
           { '@type': 'ListItem', position: 1, name: 'Accueil', item: SITE_CONFIG.domain },
-          { '@type': 'ListItem', position: 2, name: 'Tarifs & Abonnements', item: `${SITE_CONFIG.domain}/tarifs-abonnement` },
+          { '@type': 'ListItem', position: 2, name: 'Tarifs & Abonnements', item: `${SITE_CONFIG.domain}/tarifs` },
           { '@type': 'ListItem', position: 3, name: 'Abonnement IPTV 12 Mois', item: PAGE_CANONICAL },
         ],
       },
@@ -134,7 +134,7 @@ export default function AbonnementIptv12MoisPage() {
         <ol className="flex items-center space-x-2 text-xs text-slate-400">
           <li><Link href="/" className="hover:text-blue-400 transition-colors">Accueil</Link></li>
           <ChevronRight className="w-3.5 h-3.5 text-slate-600" />
-          <li><Link href="/tarifs-abonnement" className="hover:text-blue-400 transition-colors">Tarifs</Link></li>
+          <li><Link href="/tarifs" className="hover:text-blue-400 transition-colors">Tarifs</Link></li>
           <ChevronRight className="w-3.5 h-3.5 text-slate-600" />
           <li><span className="text-slate-200 font-medium" aria-current="page">Abonnement 12 Mois VIP</span></li>
         </ol>
@@ -165,7 +165,7 @@ export default function AbonnementIptv12MoisPage() {
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Link>
               <Link
-                href="/tarifs-abonnement"
+                href="/tarifs"
                 className="inline-flex items-center justify-center px-6 py-4 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 font-semibold text-sm transition-all"
               >
                 <span>Comparer les autres durées</span>
@@ -244,7 +244,7 @@ export default function AbonnementIptv12MoisPage() {
               Pourquoi l&apos;Abonnement IPTV 12 Mois est le Choix Préféré des Français ?
             </h2>
             <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-              Souscrire à un <strong>abonnement IPTV 12 mois</strong> vous offre le coût au mois le plus économique du marché (seulement 4,16 €/mois contre 6,66 €/mois pour la formule trimestrielle). Vous ne subissez aucune hausse de tarif pendant toute une année et suivez l&apos;intégralité de la saison sur notre bouquet <Link href="/sport" className="text-blue-400 hover:underline font-semibold">IPTV Sport Direct 4K</Link>.
+              Souscrire à un <strong>abonnement IPTV 12 mois</strong> vous offre le coût au mois le plus économique du marché (seulement 4,16 €/mois contre 6,66 €/mois pour la formule trimestrielle). Vous ne subissez aucune hausse de tarif pendant toute une année et suivez l&apos;intégralité de la saison sur notre bouquet <Link href="/catalogue/chaines" className="text-blue-400 hover:underline font-semibold">IPTV Chaînes &amp; Sport 4K</Link>.
             </p>
           </div>
 
@@ -260,7 +260,7 @@ export default function AbonnementIptv12MoisPage() {
               <Tv className="w-6 h-6 text-emerald-400" />
               <h3 className="text-base font-bold text-white">Multi-Écrans pour le Foyer</h3>
               <p className="text-xs text-slate-400 leading-relaxed">
-                1 écran inclus en formule standard. Pour diffuser simultanément sur 2 à 5 appareils au sein du foyer, découvrez nos offres <Link href="/tarifs-abonnement/iptv-multi-ecran" className="text-blue-400 hover:underline">IPTV Multi-Écran</Link>.
+                1 écran inclus en formule standard. Pour diffuser simultanément sur 2 à 5 appareils au sein du foyer, découvrez nos offres <Link href="/tarifs/iptv-multi-ecran" className="text-blue-400 hover:underline">IPTV Multi-Écran</Link>.
               </p>
             </div>
             <div className="p-6 rounded-xl bg-slate-950 border border-slate-800 space-y-3">
@@ -279,7 +279,7 @@ export default function AbonnementIptv12MoisPage() {
               Spécifications Techniques du Serveur VIP 12 Mois &amp; Comparatif
             </h2>
             <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-              Notre <strong>abonnement IPTV 12 mois</strong> repose sur une architecture de 4 nœuds <strong>serveurs CDN européens 10 Gbps</strong> interconnectés avec équilibrage de charge automatique. Chaque abonné annuel bénéficie d&apos;un flux <strong>HEVC H.265</strong> prioritaire garantissant zéro coupure lors des grands événements sportifs et une synchronisation quotidienne du <Link href="/catalogue-vod" className="text-blue-400 hover:underline">catalogue VOD 4K</Link>.
+              Notre <strong>abonnement IPTV 12 mois</strong> repose sur une architecture de 4 nœuds <strong>serveurs CDN européens 10 Gbps</strong> interconnectés avec équilibrage de charge automatique. Chaque abonné annuel bénéficie d&apos;un flux <strong>HEVC H.265</strong> prioritaire garantissant zéro coupure lors des grands événements sportifs et une synchronisation quotidienne du <Link href="/catalogue/vod" className="text-blue-400 hover:underline">catalogue VOD 4K</Link>.
             </p>
           </div>
 
@@ -376,7 +376,7 @@ export default function AbonnementIptv12MoisPage() {
             </div>
             <div className="p-6 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
               <h3 className="text-sm font-bold text-white flex items-center gap-2"><HelpCircle className="w-4 h-4 text-blue-400 shrink-0" /><span>Puis-je regarder sur plusieurs téléviseurs en même temps ?</span></h3>
-              <p className="text-xs text-slate-400 leading-relaxed">La formule 12 Mois VIP inclut 1 connexion active à la fois. Pour diffuser simultanément sur 2 à 4 écrans au sein de votre foyer sans coupure, optez pour nos packs <Link href="/tarifs-abonnement/iptv-multi-ecran" className="text-blue-400 hover:underline">IPTV Multi-Écran</Link> (Duo à 69,99 €, Trio à 100 € ou Maxi à 120 €).</p>
+              <p className="text-xs text-slate-400 leading-relaxed">La formule 12 Mois VIP inclut 1 connexion active à la fois. Pour diffuser simultanément sur 2 à 4 écrans au sein de votre foyer sans coupure, optez pour nos packs <Link href="/tarifs/iptv-multi-ecran" className="text-blue-400 hover:underline">IPTV Multi-Écran</Link> (Duo à 69,99 €, Trio à 100 € ou Maxi à 120 €).</p>
             </div>
             <div className="p-6 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
               <h3 className="text-sm font-bold text-white flex items-center gap-2"><HelpCircle className="w-4 h-4 text-blue-400 shrink-0" /><span>Y a-t-il un prélèvement automatique ?</span></h3>

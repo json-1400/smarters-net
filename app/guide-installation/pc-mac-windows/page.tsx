@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { 
   Laptop, 
   Tv, 
@@ -289,6 +290,23 @@ export default function PcMacWindowsTutorialPage() {
             <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
               La version pour ordinateur permet également d'<strong>enregistrer en temps réel</strong> n'importe quel flux TV directement sur votre disque dur ou SSD sans limitation de stockage.
             </p>
+
+            {/* SEO Visual Showcase */}
+            <figure className="my-6 space-y-2">
+              <div className="relative overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/40 shadow-2xl">
+                <Image
+                  src="/images/placeholders/guide-pc-mac.svg"
+                  alt="Tutoriel installation IPTV sur PC Windows 11 et Mac avec IPTV Smarters Pro desktop et VLC"
+                  width={1200}
+                  height={675}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
+                  className="w-full h-auto object-cover"
+                />
+              </div>
+              <figcaption className="text-center text-xs text-slate-400">
+                Installation sur PC Windows et Mac : interface desktop avec mode multi-fenêtres et enregistrement vidéo direct.
+              </figcaption>
+            </figure>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
@@ -428,12 +446,12 @@ export default function PcMacWindowsTutorialPage() {
         </section>
 
         {/* Section 4: Banner CTA pour l'abonnement */}
-        <section className="rounded-3xl bg-gradient-to-r from-indigo-950/60 via-slate-900 to-cyan-950/60 border border-indigo-500/30 p-8 sm:p-12 text-center space-y-6">
+        <section className="rounded-3xl bg-white dark:bg-gradient-to-r dark:from-indigo-950 dark:via-slate-900 dark:to-cyan-950 border border-indigo-200 dark:border-indigo-500/30 p-8 sm:p-12 text-center space-y-6 shadow-xl dark:shadow-2xl">
           <div className="max-w-2xl mx-auto space-y-3">
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
-              Profitez d'un Streaming 4K Sans Coupure sur PC & Mac
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
+              Profitez d'un Streaming 4K Sans Coupure sur PC &amp; Mac
             </h2>
-            <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
+            <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
               Débloquez +25 000 chaînes en direct et +90 000 VOD avec serveurs haute vitesse dédiés et assistance 7j/7.
             </p>
           </div>
