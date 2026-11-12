@@ -349,7 +349,7 @@ export function Header() {
             href="/tarifs"
             className="hidden lg:inline-flex items-center justify-center px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-extrabold rounded-xl shadow-md shadow-blue-600/30 transition-all uppercase tracking-wider"
           >
-            Commander
+            S&apos;abonner
           </Link>
 
           {/* Mobile Menu Hamburger */}
@@ -498,7 +498,7 @@ export function Header() {
               onClick={() => setMobileMenuOpen(false)}
               className="w-full flex items-center justify-center px-4 py-3 bg-blue-600 hover:bg-blue-500 text-white text-xs font-extrabold rounded-xl shadow-md uppercase tracking-wider"
             >
-              Commander mon Abonnement
+              S&apos;abonner
             </Link>
           </div>
         </div>
