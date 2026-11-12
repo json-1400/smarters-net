@@ -109,14 +109,71 @@ export function buildOrderConfirmationHtml(data: OrderEmailData): string {
             </td></tr>
           </table>
         </td></tr>
+        <tr><td class="px" style="padding:10px 36px 4px 36px;">
+          <h3 style="margin:16px 0 12px 0;font-size:18px;color:#0f172a;font-weight:800;border-bottom:2px solid #e2e8f0;padding-bottom:8px;">
+            La suite, étape par étape
+          </h3>
+        </td></tr>
+        <tr><td class="px" style="padding:0 36px 16px 36px;">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:12px;">
+            <tr>
+              <td style="padding:10px 14px;background:#f0fdf4;border-left:4px solid #16a34a;border-radius:8px;margin-bottom:8px;">
+                <div style="font-size:11px;font-weight:800;text-transform:uppercase;color:#16a34a;letter-spacing:1px;">1. Maintenant</div>
+                <div style="font-size:14px;font-weight:700;color:#0f172a;margin:2px 0;">Commande reçue ✓</div>
+                <div style="font-size:13px;color:#334155;line-height:1.5;">Votre demande est dans notre système. Un email de confirmation vient d'être envoyé à votre adresse.</div>
+              </td>
+            </tr>
+          </table>
+
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:12px;">
+            <tr>
+              <td style="padding:10px 14px;background:#eff6ff;border-left:4px solid #2563eb;border-radius:8px;">
+                <div style="font-size:11px;font-weight:800;text-transform:uppercase;color:#2563eb;letter-spacing:1px;">2. Sous 1 heure</div>
+                <div style="font-size:14px;font-weight:700;color:#0f172a;margin:2px 0;">Notre équipe vous contacte</div>
+                <div style="font-size:13px;color:#334155;line-height:1.5;margin-bottom:6px;">Vous recevez un message (email ou WhatsApp) avec un lien de paiement sécurisé Stripe ou PayPal et toutes les infos sur votre formule.</div>
+                <div style="background:#fef3c7;border:1px solid #fde68a;padding:8px 10px;border-radius:6px;font-size:12px;color:#92400e;line-height:1.4;">
+                  <strong>💡 Astuce :</strong> Vérifiez vos spams / courriers indésirables. Notre email peut s'y retrouver lors du premier contact.
+                </div>
+              </td>
+            </tr>
+          </table>
+
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:12px;">
+            <tr>
+              <td style="padding:10px 14px;background:#f5f3ff;border-left:4px solid #7c3aed;border-radius:8px;">
+                <div style="font-size:11px;font-weight:800;text-transform:uppercase;color:#7c3aed;letter-spacing:1px;">3. Après paiement</div>
+                <div style="font-size:14px;font-weight:700;color:#0f172a;margin:2px 0;">Réception de vos accès IPTV</div>
+                <div style="font-size:13px;color:#334155;line-height:1.5;">Dès paiement confirmé, votre abonnement IPTV Smarters Pro 4K personnel et vos identifiants Xtream Codes arrivent par email en moins de 5 minutes, accompagnés d'un guide d'installation.</div>
+              </td>
+            </tr>
+          </table>
+
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:12px;">
+            <tr>
+              <td style="padding:10px 14px;background:#f8fafc;border-left:4px solid #0f172a;border-radius:8px;">
+                <div style="font-size:11px;font-weight:800;text-transform:uppercase;color:#0f172a;letter-spacing:1px;">4. En continu</div>
+                <div style="font-size:14px;font-weight:700;color:#0f172a;margin:2px 0;">Support technique permanent</div>
+                <div style="font-size:13px;color:#334155;line-height:1.5;">Notre équipe reste disponible 24h/24, 7j/7 pour vous accompagner : configuration, dépannage, conseils. Tant que vous êtes notre client, on est à vos côtés.</div>
+              </td>
+            </tr>
+          </table>
+        </td></tr>
         <tr><td class="px" style="padding:4px 36px 8px 36px;">
-          <p style="margin:0;font-size:15px;line-height:1.6;color:#334155;">Pour finaliser et activer votre accès rapidement, contactez notre équipe sur WhatsApp :</p>
+          <p style="margin:0;font-size:14px;line-height:1.5;color:#0f172a;font-weight:700;">Besoin d'une réponse plus rapide ?</p>
+          <p style="margin:4px 0 0 0;font-size:13px;line-height:1.5;color:#475569;">Notre équipe est joignable immédiatement sur WhatsApp pour toute question urgente :</p>
         </td></tr>
         <tr><td class="px" style="padding:16px 36px 8px 36px;">
           <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
             <td class="btn-cell" style="padding-right:10px;" align="left">${button(waUrl, 'WhatsApp : ' + CONTACT.whatsappDisplay, '#16a34a')}</td>
             <td class="btn-cell" align="left">${button(CONTACT.emailUrl, CONTACT.email, '#2563eb')}</td>
           </tr></table>
+        </td></tr>
+        <tr><td class="px" style="padding:16px 36px 8px 36px;text-align:center;">
+          <div style="font-size:12px;color:#64748b;line-height:1.8;">
+            <a href="${data.siteUrl}" style="color:#2563eb;text-decoration:none;font-weight:600;">Retour à l'accueil</a> &bull;
+            <a href="${data.siteUrl}/blog" style="color:#2563eb;text-decoration:none;font-weight:600;">Lire nos guides</a> &bull;
+            <a href="${data.siteUrl}/guide-installation" style="color:#2563eb;text-decoration:none;font-weight:600;">Tutoriel d'installation</a>
+          </div>
         </td></tr>
         <tr><td class="px" style="padding:28px 36px 32px 36px;">
           <hr style="border:none;border-top:1px solid #e2e8f0;margin:0 0 20px 0;">
