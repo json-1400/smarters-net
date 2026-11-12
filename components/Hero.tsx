@@ -24,16 +24,16 @@ export function Hero() {
           priority
           sizes="100vw"
           quality={90}
-          className="object-cover object-center opacity-40 sm:opacity-55 lg:opacity-70 dark:opacity-70 dark:sm:opacity-80 dark:lg:opacity-85"
+          className="object-cover object-right sm:object-center opacity-85 sm:opacity-90 lg:opacity-95 dark:opacity-75 dark:sm:opacity-85"
         />
         {/* Directional Scrim: Strong on left for H1/CTA contrast, feathering into vivid TV & family on right */}
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-50 via-slate-50/95 sm:via-slate-50/85 to-transparent dark:from-slate-950 dark:via-slate-950/90 dark:sm:via-slate-950/80 lg:w-7/12" />
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-50/95 via-slate-50/80 to-transparent dark:from-slate-950 dark:via-slate-950/90 dark:sm:via-slate-950/80 lg:w-3/5" />
         
-        {/* Subtle global veil to preserve color richness without washing out */}
-        <div className="absolute inset-0 bg-slate-100/30 dark:bg-slate-950/20" />
+        {/* Subtle global dark veil only in dark mode */}
+        <div className="absolute inset-0 hidden dark:block bg-slate-950/20" />
 
         {/* Top/Bottom seamless fade to navbar and following section */}
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-50/90 via-transparent to-slate-50 dark:from-slate-950/80 dark:via-transparent dark:to-slate-950" />
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-50/60 via-transparent to-slate-50/80 dark:from-slate-950/80 dark:via-transparent dark:to-slate-950" />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -93,7 +93,7 @@ export function Hero() {
 
           {/* Right Column (5 cols): High-Trust Live Streaming Hub Card */}
           <div className="lg:col-span-5">
-            <div className="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800/90 p-6 sm:p-7 space-y-6 shadow-xl shadow-slate-200/50 dark:shadow-2xl dark:shadow-black/50">
+            <div className="rounded-2xl bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm border border-slate-200/90 dark:border-slate-800/90 p-6 sm:p-7 space-y-6 shadow-xl shadow-slate-200/60 dark:shadow-2xl dark:shadow-black/50">
               
               {/* Header Status Bar */}
               <div className="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-slate-800">
