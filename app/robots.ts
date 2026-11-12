@@ -8,24 +8,26 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       {
         userAgent: '*',
-        allow: ['/', '/_next/image', '/_next/static/'],
+        allow: [
+          '/',
+          '/_next/image*',
+          '/_next/static/',
+          '/llms.txt',
+          '/llms-full.txt',
+        ],
         disallow: [
           '/admin/',
-          '/admin/*',
-          '/api/',
-          '/api/*',
           '/dashboard/',
-          '/dashboard/*',
+          '/api/',
           '/checkout',
-          '/checkout/*',
-          '/order/',
-          '/order/*',
           '/login',
           '/register',
-          '/*?*', // Prevent crawling URL query parameters to avoid duplicate content & crawl budget waste
+          '/*?ref=',
+          '/*?debug=',
         ],
       },
     ],
     sitemap: `${baseUrl}/sitemap.xml`,
+    host: baseUrl.replace(/^https?:\/\//, ''),
   };
 }

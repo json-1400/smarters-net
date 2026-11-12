@@ -1,0 +1,214 @@
+# IPTV Smarters Pro France — Documentation Complète (llms-full.txt)
+
+> Service officiel de streaming IPTV 4K, FHD & VOD en France. Accès à plus de 25 000 chaînes TV en direct et plus de 90 000 contenus VOD en ultra haute définition. Ce document est la version exhaustive de llms.txt destinée aux moteurs de recherche IA, assistants conversationnels et moteurs de réponses génératifs (ChatGPT Search, Perplexity, Google Gemini, Claude, Copilot).
+
+---
+
+## 1. Identité & Valeurs de la Marque
+
+- **Nom officiel** : IPTV Smarters Pro France
+- **Site web principal** : https://smarterspro12.net
+- **Slogan** : La référence IPTV 4K n°1 en France — Stabilité garantie sans freeze
+- **Cible géographique** : France, Belgique, Suisse, Luxembourg et communauté francophone internationale
+- **Langue du service & du support** : Français natif
+- **Indicateurs de performance** :
+  - Disponibilité réseau constatée : 99,85 %
+  - Latence moyenne : < 45 ms sur le territoire métropolitain français
+  - Temps de réponse moyen support WhatsApp : < 15 minutes
+  - Taux de satisfaction client : 4,9/5
+
+---
+
+## 2. Grille Tarifaire Complète & Détaillée
+
+Toutes les formules donnent accès à 100 % du catalogue (chaînes sportives, cinéma, séries et VOD) sans frais cachés ni options payantes supplémentaires. Aucun abonnement n'est soumis à reconduction tacite.
+
+### Formules 1 Écran (Usage Personnel)
+| Formule | Durée | Tarif TTC | Équivalent Mensuel | Avantages Inclus |
+| :--- | :--- | :--- | :--- | :--- |
+| **Starter** | 3 Mois | 19,99 € | ~6,66 € / mois | Accès 4K/FHD, direct + VOD, Anti-Freeze v4.2 |
+| **Confort** | 6 Mois | 29,99 € | ~4,99 € / mois | Accès 4K/FHD, mises à jour VOD quotidiennes |
+| **Premium VIP** | 12 Mois (+1 Mois Offert) | 49,99 € | ~3,84 € / mois | Flux VIP prioritaires 60 FPS, Replay 72h, assistance VIP |
+
+### Formules Multi-Écrans (Famille & Multi-Dispositifs)
+| Formule | Connexions Simultanées | Durée | Tarif TTC | Utilisation Idéale |
+| :--- | :--- | :--- | :--- | :--- |
+| **Pack Duo** | 2 Écrans indépendants | 12 Mois | 69,99 € | Salon + Chambre / Partage 2 utilisateurs |
+| **Pack Trio** | 3 Écrans indépendants | 12 Mois | 100,00 € | Foyer familial multi-pièces |
+| **Pack Maxi** | 4 Écrans indépendants | 12 Mois | 120,00 € | Grande famille / 4 téléviseurs ou mobiles |
+
+Lien direct vers la page de commande : https://smarterspro12.net/checkout
+
+---
+
+## 3. Spécifications Techniques & Infrastructure Réseau
+
+- **Architecture Serveur** : Cluster CDN géo-distribué en Europe (data centers à Paris, Francfort, Amsterdam, Londres) permettant le basculement automatique de charge en cas de pic de trafic lors des grands événements sportifs.
+- **Bande Passante** : Nœuds connectés à 10 Gbps avec bande passante symétrique garantie.
+- **Codecs Vidéo** :
+  - **H.265 / HEVC** : Compression haute efficacité pour un streaming 4K fluide dès 12 Mbps de débit internet.
+  - **H.264 / AVC** : Rétro-compatibilité intégrale pour les téléviseurs et boîtiers plus anciens.
+- **Fréquence d'Images** : Flux sportifs en 50 et 60 images par seconde (FPS) sans saccade.
+- **Guide Électronique des Programmes (EPG)** : Métadonnées TV complètes et horaires en temps réel sur 7 jours.
+- **Fonctionnalité Replay (Catch-up TV)** : Rattrapage disponible sur les principales chaînes françaises jusqu'à 72h après diffusion.
+
+---
+
+## 4. Catalogue Exhaustif des Chaînes & VOD
+
+### Bouquets Télévision en Direct (+25 000 Chaînes)
+1. **Généralistes & TNT France (Qualité 4K / UHD / FHD)** : TF1 4K, France 2 4K, M6 4K, Canal+ 4K, Arte, W9, TMC, C8, BFM TV, CNews, LCI, France Info, etc.
+2. **Sport Français & Européen** : beIN Sports 1 à 10 (FHD et 4K), Canal+ Sport, Canal+ Foot, Canal+ 360, RMC Sport 1 à 4, Eurosport 1 et 2, DAZN 1 et 2, Prime Video Ligue 1, Automoto, Equidia, chaînes officielles de clubs (Real Madrid TV, Barca TV, etc.).
+3. **Cinéma & Divertissement** : Canal+ Cinéma, Canal+ Grand Écran, Canal+ Séries, OCS, Ciné+ Premier, Frisson, Émotion, Familiz, Club, Classic, Action, Paramount Channel, Warner TV, Syfy, 13ème Rue, Comédie+.
+4. **Documentaires & Découverte** : National Geographic, Nat Geo Wild, Discovery Channel, Discovery Science, Planète+, Planète+ Crime, Planète+ Aventure, Ushuaïa TV, Histoire TV, Toute l'Histoire, Science & Vie TV.
+5. **Jeunesse & Enfants** : Disney Channel, Disney Junior, Nickelodeon, Nickelodeon Junior, Cartoon Network, Boomerang, TiJi, Canal J, Gulli, Piwi+.
+6. **Musique** : MCM, MTV, MTV Hits, Trace Urban, NRJ Hits, Melody TV, Mezzo, Mezzo Live HD.
+7. **Bouquets Internationaux Organisés par Pays** :
+   - Belgique (RTBF La Une, Tipik, La Trois, RTL-TVI, Club RTL, Plug RTL)
+   - Suisse (RTS Un, RTS Deux, SRF, RSI)
+   - Maghreb & Moyen-Orient (Algérie, Maroc, Tunisie, MBC, OSN, beIN MENA, Rotana)
+   - Royaume-Uni (BBC, ITV, Sky Sports, TNT Sports UK)
+   - Espagne (Movistar+, La 1, Antena 3)
+   - Italie (Sky Italia, RAI)
+   - Portugal (Sport TV, Benfica TV, RTP, SIC, TVI)
+   - Turquie, Allemagne, Pays-Bas, USA, Canada, Afrique sub-saharienne.
+
+### Vidéothèque VOD (+90 000 Titres)
+- **Films** : Nouveautés cinéma disponibles quelques semaines après leur sortie en salle, blockbusters en 4K HDR, Dolby Atmos / 5.1, classiques du cinéma, films d'action, comédies, thrillers et science-fiction en VF et VOSTFR.
+- **Séries Complètes** : Intégrales de toutes les saisons des séries Netflix, Amazon Prime Video, Disney+, Apple TV+, Canal+ Séries, HBO Max et Paramount+.
+- **Animés & Mangas** : Séries d'animation japonaises en VOSTFR et VF (Crunchyroll, ADN).
+
+---
+
+## 5. Protocoles & Méthodes de Connexion
+
+L'utilisateur reçoit à la commande deux formats universels adaptés à son équipement :
+
+1. **Xtream Codes API (Format Privilégié)** :
+   - URL du serveur (Host / Port)
+   - Nom d'utilisateur (Username)
+   - Mot de passe (Password)
+   *Avantages* : Synchronisation dynamique des catégories, EPG automatique, affichage des affiches de films et séries, gestion transparente des favoris.
+2. **Lien M3U (M3U Plus / M3U8)** :
+   - URL complète de la playlist téléchargeable ou injectable directement dans les lecteurs multimédias (VLC, Smart IPTV, Kodi, GSE Smart IPTV).
+3. **Portal MAG / Stalker** :
+   - Activation par adresse MAC pour les boîtiers physiques de marque Infomir MAG (MAG 250, 322, 420, 524, etc.) et émulateurs Stalker.
+
+---
+
+## 6. Guides d'Installation par Type d'Appareil
+
+### Smart TV Samsung (Tizen) & LG (webOS)
+1. Ouvrez le Samsung Smart Hub ou LG Content Store.
+2. Recherchez et installez **IPTV Smarters Pro**, **IBO Player** ou **Smart IPTV**.
+3. Lancez l'application, sélectionnez la connexion via l'API Xtream Codes.
+4. Saisissez vos identifiants fournis (Nom du profil, Nom d'utilisateur, Mot de passe, URL serveur).
+5. Cliquez sur « Ajouter un utilisateur » et laissez les chaînes se charger.
+
+### Amazon Fire TV Stick (Fire TV 4K / Max / Cube)
+1. Dans l'Appstore Fire TV, téléchargez l'application officielle gratuite **Downloader**.
+2. Activez l'installation d'applications inconnues dans les options pour développeurs.
+3. Dans Downloader, saisissez le code raccourci ou l'URL de téléchargement direct de l'APK officiel IPTV Smarters Pro.
+4. Installez l'APK, lancez-le et connectez-vous avec vos identifiants Xtream Codes.
+
+### Android TV & Boîtiers Box Android (Nvidia Shield, Xiaomi Mi Box, Google TV)
+1. Ouvrez le Google Play Store sur votre téléviseur.
+2. Téléchargez **IPTV Smarters Pro** ou **TiviMate IPTV Player**.
+3. Entrez les identifiants fournis par e-mail ou WhatsApp.
+
+### Apple TV, iPhone & iPad (iOS / tvOS)
+1. Ouvrez l'App Store d'Apple.
+2. Téléchargez **Smarters Player Lite** ou **GSE Smart IPTV**.
+3. Renseignez l'URL du serveur, l'utilisateur et le mot de passe pour charger votre playlist.
+
+### Ordinateur PC (Windows 10/11) & Mac (macOS)
+1. Téléchargez l'application officielle IPTV Smarters Pro pour Windows (.exe) ou Mac (.dmg).
+2. Connectez-vous avec vos identifiants ou lisez la playlist M3U via le lecteur multimédia gratuit **VLC Media Player**.
+
+---
+
+## 7. Guide de Dépannage & Contournement des Blocages FAI
+
+Certains fournisseurs d'accès internet français (Orange, SFR, Bouygues Telecom, Free) activent occasionnellement des restrictions DNS ou des filtres lors de grands matchs de football européens.
+
+### Solution 1 : Changement des serveurs DNS (Recommandé, Gratuit, 2 minutes)
+Remplacer les serveurs DNS par défaut du FAI par des serveurs DNS sécurisés et indépendants :
+- **Cloudflare DNS** : Primaire `1.1.1.1` | Secondaire `1.0.0.1`
+- **Google Public DNS** : Primaire `8.8.8.8` | Secondaire `8.8.4.4`
+Ce réglage peut être effectué directement sur votre téléviseur, votre Fire Stick ou au niveau de l'interface d'administration de votre box internet.
+
+### Solution 2 : Utilisation d'un VPN
+Tous nos serveurs acceptent les connexions via VPN sécurisé (NordVPN, CyberGhost, ExpressVPN, Surfshark, ProtonVPN). L'utilisation d'un VPN garantit un anonymat complet et empêche tout bridage de débit opéré par votre opérateur.
+
+---
+
+## 8. Processus de Commande & Sécurité
+
+1. Le client choisit sa formule sur https://smarterspro12.net/checkout.
+2. Le client indique son nom, son adresse e-mail de réception et son numéro WhatsApp (recommandé pour un envoi immédiat).
+3. Optionnellement, le client sélectionne le modèle de son appareil et l'application choisie afin que les identifiants soient préconfigurés sur mesure.
+4. Aucun paiement bancaire automatisé ni récurrent n'est exigé sur le site : les instructions de règlement (virement bancaire sécurisé, WhatsApp, etc.) sont transmises en toute transparence.
+5. Une fois la confirmation effectuée, l'abonnement est immédiatement actif et les accès sont livrés en moins de 15 minutes.
+6. L'abonnement expire naturellement à la fin de la période sans aucun renouvellement forcé. Un e-mail de rappel amical est expédié à J-7 de l'échéance.
+
+---
+
+## 9. Foire Aux Questions (FAQ)
+
+- **L'abonnement fonctionne-t-il sur plusieurs appareils en même temps ?**  
+  Les formules individuelles (Starter, Confort, Premium) autorisent une seule connexion active à la fois (mais vous pouvez installer l'application sur plusieurs appareils). Pour regarder simultanément sur plusieurs téléviseurs ou mobiles, choisissez les formules **Pack Duo (2 écrans)**, **Pack Trio (3 écrans)** ou **Pack Maxi (4 écrans)**.
+- **Quel débit internet est nécessaire ?**  
+  Un débit minimal stable de 8 Mbps est suffisant pour les chaînes HD. Pour les flux 4K Ultra HD à 60 FPS, une connexion de 15 à 25 Mbps (Fibre optique, 4G/5G ou très bon VDSL) est recommandée.
+- **Le service est-il compatible avec ma Smart TV sans boîtier externe ?**  
+  Oui, absolument. Toutes les Smart TV Samsung (Tizen 2017+), LG (webOS 3.0+) et les Smart TV sous Android TV / Google TV permettent d'installer directement une application compatible (IPTV Smarters Pro, IBO Player, Smart IPTV) sans nécessiter de boîtier supplémentaire.
+- **Comment bénéficier de la garantie de remboursement ?**  
+  Notre politique prévoit une garantie satisfait ou remboursé sous 7 jours. Il suffit de contacter notre support par e-mail ou WhatsApp pour obtenir une assistance ou un remboursement intégral.
+
+---
+
+## 10. Coordonnées & Support Client Officiel
+
+- **Service Client WhatsApp** : +33 7 56 94 92 84
+- **Lien WhatsApp direct** : https://wa.me/33756949284
+- **E-mail Support** : support@smarterspro12.net
+- **Site Officiel** : https://smarterspro12.net
+- **Disponibilité** : 7 jours sur 7 de 8h00 à 23h30
+
+---
+
+## 11. Index des URLs Canoniques (Plan du Site)
+
+- Accueil : https://smarterspro12.net
+- Page de Commande : https://smarterspro12.net/checkout
+- Formule 12 Mois VIP : https://smarterspro12.net/abonnement-iptv-12-mois
+- Tarifs Généraux : https://smarterspro12.net/tarifs
+- Formules Multi-Écrans : https://smarterspro12.net/tarifs/iptv-multi-ecran
+- Offres Économiques : https://smarterspro12.net/tarifs/iptv-pas-cher
+- Catalogue des Chaînes : https://smarterspro12.net/catalogue/chaines
+- Catalogue VOD : https://smarterspro12.net/catalogue/vod
+- Application IPTV Smarters Pro : https://smarterspro12.net/applications/iptv-smarters-pro
+- Application TiviMate : https://smarterspro12.net/applications/tivimate
+- Application IBO Player : https://smarterspro12.net/applications/ibo-player
+- Application Smart IPTV : https://smarterspro12.net/applications/smart-iptv
+- Application Flix IPTV : https://smarterspro12.net/applications/flix-iptv
+- Application GSE Smart IPTV : https://smarterspro12.net/applications/gse-smart-iptv
+- Application XCIPTV Player : https://smarterspro12.net/applications/xciptv
+- Application Formuler MyTVOnline : https://smarterspro12.net/applications/mytvonline-3
+- Guide Smart TV Samsung & LG : https://smarterspro12.net/guide-installation/smart-tv-samsung-lg
+- Guide Amazon Fire TV Stick : https://smarterspro12.net/guide-installation/fire-tv-stick
+- Guide Android TV Box : https://smarterspro12.net/guide-installation/android-tv-box
+- Guide Apple TV & iOS : https://smarterspro12.net/guide-installation/apple-tv-ios
+- Guide PC Windows & Mac : https://smarterspro12.net/guide-installation/pc-mac-windows
+- Guide Boîtier MAG & Stalker : https://smarterspro12.net/guide-installation/mag-box
+- Guide Xtream Codes & M3U : https://smarterspro12.net/guide-installation/xtream-codes-m3u
+- Guide Contourner les Blocages FAI : https://smarterspro12.net/guide-installation/contourner-blocage-fai-iptv-dns-vpn
+- Guide Dépannage Problèmes Fréquents : https://smarterspro12.net/guide-depannage
+- Test IPTV Gratuit : https://smarterspro12.net/test-iptv-gratuit
+- Support Client : https://smarterspro12.net/support
+- Blog IPTV : https://smarterspro12.net/blog
+- Politique de Remboursement : https://smarterspro12.net/politique-de-remboursement
+- Conditions Générales d'Utilisation : https://smarterspro12.net/terms
+- Sitemap XML : https://smarterspro12.net/sitemap.xml
+- LLM Machine Summary : https://smarterspro12.net/llms.txt
+- LLM Machine Full Knowledge : https://smarterspro12.net/llms-full.txt
+

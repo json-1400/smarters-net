@@ -1,0 +1,95 @@
+# IPTV Smarters Pro France
+
+> Service officiel de streaming IPTV 4K & VOD en France. Accès à plus de 25 000 chaînes TV en direct et plus de 90 000 films et séries VOD en ultra haute définition (4K, UHD, Full HD), via Xtream Codes et liens M3U.
+
+## À propos
+
+IPTV Smarters Pro France est le fournisseur de référence pour les utilisateurs francophones souhaitant une expérience télévisuelle sans coupure. Le service regroupe toutes les chaînes françaises de la TNT, le sport premium (beIN Sports, Canal+, RMC Sport, DAZN, Eurosport), les bouquets internationaux et une vidéothèque VOD mise à jour quotidiennement.
+
+- Infrastructure : Serveurs CDN 10 Gbps géo-distribués avec technologie Anti-Freeze v4.2
+- Qualité : Flux 4K UHD, 60 FPS et codec H.265 (HEVC) optimisé pour les connexions fibre et ADSL
+- Support francophone dédié disponible 7j/7 sur WhatsApp et par e-mail
+- Note de satisfaction : 4.9/5 basée sur les avis clients vérifiés
+
+## Offres & Tarifs
+
+Nos formules sont sans engagement et sans renouvellement automatique. Paiement unique sécurisé sans stockage de coordonnées bancaires.
+
+### 1 Écran (Individuel)
+- **3 Mois (Formule Starter)** : 19,99 € — Accès complet 4K, direct + VOD, 1 connexion
+- **6 Mois (Formule Confort)** : 29,99 € — Accès complet 4K, VOD quotidienne, 1 connexion
+- **12 Mois VIP (Formule Premium - Recommandée)** : 49,99 € — 1 mois offert inclus, flux VIP prioritaires 60 FPS, Replay 72h, assistance prioritaire
+
+### Multi-Écrans (Famille & Multi-Appareils)
+- **Pack Duo (2 Écrans - 12 Mois)** : 69,99 € — 2 connexions simultanées indépendantes
+- **Pack Trio (3 Écrans - 12 Mois)** : 100,00 € — 3 connexions simultanées indépendantes
+- **Pack Maxi (4 Écrans - 12 Mois)** : 120,00 € — 4 connexions simultanées indépendantes
+
+Tous les forfaits incluent la totalité des chaînes sportives, du cinéma et des séries VOD sans aucun supplément.
+
+## Catalogue des Contenus
+
+- **Chaînes Françaises** : TNT complète, chaînes Canal+, TF1 4K, M6 4K, bouquets généralistes et divertissement
+- **Sport en Direct** : beIN Sports 1-10, Canal+ Sport, RMC Sport 1-4, Eurosport 1-2, DAZN France, chaînes événementielles PPV (Ligue 1, Champions League, Premier League, Formule 1, MotoGP, NBA, UFC)
+- **Cinéma & Séries (VOD)** : Plus de 90 000 titres en VF et VOSTFR (sorties cinéma récentes, intégrales Netflix, Prime Video, Disney+, Apple TV+, HBO Max)
+- **Chaînes Internationales** : Plus de 40 pays inclus (Belgique, Suisse, Espagne, Italie, Portugal, Royaume-Uni, Maroc, Algérie, Tunisie, Arabie Saoudite, Turquie, USA, Canada)
+- **Jeunesse & Famille** : Disney Channel, Gulli, Nickelodeon, Cartoon Network avec contrôle parental
+
+## Appareils & Applications Compatibles
+
+### Formats Fournis
+- **Xtream Codes API (Recommandé)** : URL du serveur, nom d'utilisateur et mot de passe pour une configuration en 2 minutes
+- **Lien Playlist M3U** : Format universel compatible avec tous les lecteurs multimédias
+
+### Équipements Compatibles
+- **Smart TV** : Samsung (Tizen), LG (webOS), Sony, Philips, TCL, Hisense (Android TV / Google TV)
+- **Boîtiers & Passerelles TV** : Amazon Fire TV Stick (4K / Max), Apple TV 4K, Xiaomi Mi Box, Nvidia Shield TV, Google Chromecast
+- **Smartphones & Tablettes** : Android (Samsung, Xiaomi, etc.) et iOS (iPhone, iPad)
+- **Ordinateurs** : PC Windows 10/11, Mac (macOS), Linux
+- **Boîtiers Dédiés** : Formuler (MyTVOnline 2/3), MAG (Stalker Portal)
+
+### Applications IPTV Recommandées
+- **IPTV Smarters Pro** (Application officielle recommandée sur tous supports)
+- **TiviMate IPTV Player** (La référence pour Android TV et Firestick)
+- **IBO Player Pro** (Recommandé pour Smart TV Samsung et LG)
+- **Smart IPTV (SIPTV)**, **Flix IPTV**, **GSE Smart IPTV**, **XCIPTV Player**, **MyTVOnline 3**
+
+## Processus de Commande & Activation
+
+1. Sélection de votre formule sur https://smarterspro12.net/checkout
+2. Indication de votre appareil et application favorite (facultatif)
+3. Validation de votre demande sans prélèvement immédiat
+4. Réception instantanée d'un e-mail de confirmation avec votre référence de commande
+5. Transmission de vos codes d'accès personnalisés (Xtream Codes / M3U) par WhatsApp et e-mail en moins de 15 minutes avec assistance pas-à-pas à l'installation
+
+## Garanties & Engagements
+
+- **Garantie Satisfait ou Remboursé 7 Jours** : Si le service ne vous convient pas, remboursement intégral
+- **Pas de prélèvement automatique** : Aucun renouvellement caché, vous ne payez que la durée souhaitée
+- **Disponibilité garantie 99,8 %** : Réseau de serveurs redondants haute capacité
+- **Assistance 7j/7** : Accompagnement technique personnalisé par des experts IPTV francophones
+
+## Support Client Officiel
+
+- **WhatsApp** : +33 7 56 94 92 84 (Assistance directe en direct)
+- **Lien WhatsApp direct** : https://wa.me/33756949284
+- **E-mail de support** : support@smarterspro12.net
+- **Site Officiel** : https://smarterspro12.net
+- **Délai de réponse moyen** : Moins de 15 minutes
+
+## Liens Clés & Documentation
+
+- Accueil & Formules : https://smarterspro12.net
+- Commander en ligne : https://smarterspro12.net/checkout
+- Tarifs complets : https://smarterspro12.net/tarifs
+- Catalogue des chaînes & VOD : https://smarterspro12.net/catalogue
+- Guide d'installation IPTV Smarters Pro : https://smarterspro12.net/applications/iptv-smarters-pro
+- Guide TiviMate : https://smarterspro12.net/applications/tivimate
+- Guide IBO Player : https://smarterspro12.net/applications/ibo-player
+- Guide Smart TV Samsung & LG : https://smarterspro12.net/guide-installation/smart-tv-samsung-lg
+- Guide Amazon Fire TV Stick : https://smarterspro12.net/guide-installation/fire-tv-stick
+- Contourner les blocages FAI (DNS/VPN) : https://smarterspro12.net/guide-installation/contourner-blocage-fai-iptv-dns-vpn
+- Politique de remboursement : https://smarterspro12.net/politique-de-remboursement
+- Conditions générales : https://smarterspro12.net/terms
+- Sitemap officiel : https://smarterspro12.net/sitemap.xml
+
