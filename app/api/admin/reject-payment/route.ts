@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { createServerSideClient, createAdminClient } from '@/lib/supabase';
 import { sendEmail } from '@/lib/resend';
 import { adminPaymentActionSchema } from '@/lib/validations';
+import { CONTACT } from '@/lib/contact';
 import type { Payment, Profile } from '@/types/database';
 
 interface PaymentWithRelations extends Payment {
@@ -72,7 +73,7 @@ export async function POST(request: Request) {
             <blockquote style="background:#fee2e2; border-left:4px solid #ef4444; padding:10px 14px; margin:16px 0;">
               ${notes || 'Justificatif de paiement non reçu ou non conforme.'}
             </blockquote>
-            <p>Vous pouvez contacter notre support sur WhatsApp pour régulariser la situation : +33 7 56 94 92 84</p>
+            <p>Vous pouvez contacter notre support sur WhatsApp pour régulariser la situation : <a href="${CONTACT.whatsappUrl}"><strong>${CONTACT.whatsappDisplay}</strong></a></p>
           </div>`,
         });
       }
