@@ -139,8 +139,8 @@ export function Footer() {
             <h4 className="text-white text-xs font-bold tracking-wider uppercase">Légal &amp; Sécurité</h4>
             <ul className="space-y-2 text-xs">
               <li><FooterLink href="/mentions-legales" className="hover:text-blue-400 transition-colors font-medium text-slate-200">Mentions Légales</FooterLink></li>
-              <li><FooterLink href="/terms">Conditions Générales de Vente</FooterLink></li>
-              <li><FooterLink href="/privacy">Politique de Confidentialité</FooterLink></li>
+              <li><FooterLink href="/cgv">Conditions Générales de Vente</FooterLink></li>
+              <li><FooterLink href="/politique-confidentialite">Politique de Confidentialité</FooterLink></li>
               <li><FooterLink href="/politique-de-remboursement">Politique de Remboursement</FooterLink></li>
               <li><FooterLink href="/support" className="hover:text-emerald-400 transition-colors font-semibold">Assistance &amp; Dépannage 7j/7</FooterLink></li>
               <li><FooterLink href="/checkout">Tunnel de Commande Sécurisé</FooterLink></li>

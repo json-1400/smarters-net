@@ -7,7 +7,7 @@ import { CONTACT } from '@/lib/contact';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 
-const PAGE_CANONICAL = 'https://smarterspro12.net/terms';
+const PAGE_CANONICAL = 'https://smarterspro12.net/cgv';
 
 export function generateMetadata(): Metadata {
   return constructMetadata({
@@ -18,7 +18,7 @@ export function generateMetadata(): Metadata {
   });
 }
 
-export default function TermsPage() {
+export default function CgvPage() {
   const schemaGraph = {
     '@context': 'https://schema.org',
     '@graph': [

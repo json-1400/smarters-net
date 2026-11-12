@@ -224,13 +224,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.3,
     },
     {
-      url: `${baseUrl}/terms`,
+      url: `${baseUrl}/cgv`,
       lastModified: LEGAL_UPDATE,
       changeFrequency: 'yearly',
       priority: 0.3,
     },
     {
-      url: `${baseUrl}/privacy`,
+      url: `${baseUrl}/politique-confidentialite`,
       lastModified: LEGAL_UPDATE,
       changeFrequency: 'yearly',
       priority: 0.3,

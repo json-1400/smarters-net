@@ -7,7 +7,7 @@ import { CONTACT } from '@/lib/contact';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 
-const PAGE_CANONICAL = 'https://smarterspro12.net/privacy';
+const PAGE_CANONICAL = 'https://smarterspro12.net/politique-confidentialite';
 
 export function generateMetadata(): Metadata {
   return constructMetadata({
@@ -18,7 +18,7 @@ export function generateMetadata(): Metadata {
   });
 }
 
-export default function PrivacyPage() {
+export default function PolitiqueConfidentialitePage() {
   const schemaGraph = {
     '@context': 'https://schema.org',
     '@graph': [

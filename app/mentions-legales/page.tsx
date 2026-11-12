@@ -170,7 +170,7 @@ export default function MentionsLegalesPage() {
               Les traitements de données à caractère personnel collectées sur ce site (adresses e-mail de commande, coordonnées WhatsApp de livraison) sont soumis aux exigences du Règlement Européen (UE) 2016/679 (RGPD). Aucune donnée bancaire n'est stockée sur nos serveurs.
             </p>
             <p className="mt-2">
-              Pour exercer vos droits d'accès, de rectification ou d'effacement, consultez notre <Link href="/privacy" className="text-blue-400 underline">Politique de Confidentialité</Link> ou adressez un message à <a href={CONTACT.emailUrl} className="text-blue-400 underline">{CONTACT.email}</a>.
+              Pour exercer vos droits d'accès, de rectification ou d'effacement, consultez notre <Link href="/politique-confidentialite" className="text-blue-400 underline">Politique de Confidentialité</Link> ou adressez un message à <a href={CONTACT.emailUrl} className="text-blue-400 underline">{CONTACT.email}</a>.
             </p>
           </div>
 

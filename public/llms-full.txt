@@ -207,7 +207,9 @@ Tous nos serveurs acceptent les connexions via VPN sécurisé (NordVPN, CyberGho
 - Support Client : https://smarterspro12.net/support
 - Blog IPTV : https://smarterspro12.net/blog
 - Politique de Remboursement : https://smarterspro12.net/politique-de-remboursement
-- Conditions Générales d'Utilisation : https://smarterspro12.net/terms
+- Conditions Générales de Vente (CGV) : https://smarterspro12.net/cgv
+- Politique de Confidentialité : https://smarterspro12.net/politique-confidentialite
+- Mentions Légales : https://smarterspro12.net/mentions-legales
 - Sitemap XML : https://smarterspro12.net/sitemap.xml
 - LLM Machine Summary : https://smarterspro12.net/llms.txt
 - LLM Machine Full Knowledge : https://smarterspro12.net/llms-full.txt
