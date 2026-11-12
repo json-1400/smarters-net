@@ -15,8 +15,8 @@ import {
 export function Hero() {
   return (
     <section className="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white py-12 lg:py-20 relative overflow-hidden border-b border-slate-200 dark:border-slate-800/80 font-sans">
-      {/* Background Image: World-Class Cinematic Scrim & High Vibrancy */}
-      <div className="absolute inset-0 z-0 pointer-events-none select-none">
+      {/* Background Image: Desktop Full-Width Cinematic Scrim (Visible on lg+, hidden on mobile) */}
+      <div className="absolute inset-0 z-0 pointer-events-none select-none hidden lg:block">
         <Image
           src="/images/hero-family-bg.jpg"
           alt="Famille profitant d'un abonnement IPTV Smarters Pro 4K sur Smart TV"
@@ -24,7 +24,7 @@ export function Hero() {
           priority
           sizes="100vw"
           quality={90}
-          className="object-cover object-right sm:object-center opacity-85 sm:opacity-90 lg:opacity-95 dark:opacity-75 dark:sm:opacity-85"
+          className="object-cover object-center opacity-85 lg:opacity-95 dark:opacity-75 dark:lg:opacity-85"
         />
         {/* Directional Scrim: Strong on left for H1/CTA contrast, feathering into vivid TV & family on right */}
         <div className="absolute inset-0 bg-gradient-to-r from-slate-50/95 via-slate-50/80 to-transparent dark:from-slate-950 dark:via-slate-950/90 dark:sm:via-slate-950/80 lg:w-3/5" />
@@ -72,6 +72,36 @@ export function Hero() {
               >
                 <span>Guide d'Installation Rapide</span>
               </Link>
+            </div>
+
+            {/* Mobile Showcase Card (Hidden on lg+, Displayed on Mobile/Tablet) */}
+            <div className="lg:hidden my-6">
+              <div className="relative aspect-[16/9] w-full rounded-2xl overflow-hidden shadow-xl shadow-slate-200/80 dark:shadow-2xl dark:shadow-black/60 border border-slate-200/90 dark:border-slate-800/90 bg-slate-950">
+                <Image
+                  src="/images/hero-family-bg.jpg"
+                  alt="Famille profitant d'un abonnement IPTV Smarters Pro 4K sur Smart TV"
+                  fill
+                  priority
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  quality={90}
+                  className="object-cover object-center"
+                />
+
+                {/* Cinematic subtle edge shadows */}
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-transparent to-slate-950/35 pointer-events-none" />
+
+                {/* Top Floating Badge: Live 4K Indicator */}
+                <div className="absolute top-3 left-3 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-950/80 backdrop-blur-md border border-white/15 text-white text-[11px] font-bold shadow-lg">
+                  <span className="flex h-2 w-2 rounded-full bg-red-500 animate-pulse" />
+                  <span>DIRECT 4K UHD &middot; 60 FPS</span>
+                </div>
+
+                {/* Bottom Floating Badge: Anti-Freeze Guarantee */}
+                <div className="absolute bottom-3 right-3 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-blue-600/90 backdrop-blur-md text-white text-[11px] font-extrabold shadow-lg">
+                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-300" />
+                  <span>Anti-Freeze v4.2</span>
+                </div>
+              </div>
             </div>
 
             {/* Quick Metrics Bar */}
