@@ -151,7 +151,7 @@ export default function SupportPage() {
               </div>
               <h2 className="text-xl font-bold text-white">Support par E-mail</h2>
               <p className="text-xs text-slate-400 leading-relaxed">
-                Pour toute demande administrative, facturation, réclamation DMCA ou question technique non urgente.
+                Pour toute demande administrative, facturation, suivi de commande ou question technique non urgente.
               </p>
               <div className="pt-2 text-xs text-slate-300 font-semibold">
                 <span>{SITE_CONFIG.supportEmail}</span>

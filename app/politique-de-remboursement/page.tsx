@@ -295,13 +295,24 @@ export default function PolitiqueRemboursementPage() {
                 3
               </span>
               <div className="space-y-1">
-                <h3 className="text-sm font-bold text-white">Étape 3 : Validation et Remboursement Sous 5 à 7 Jours</h3>
+                <h3 className="text-sm font-bold text-white">Étape 3 : Validation et Remboursement Sous 24-48h</h3>
                 <p className="text-xs text-slate-400 leading-relaxed">
-                  Si le dysfonctionnement serveur persiste après l&apos;intervention, votre remboursement est immédiatement émis via le mode de paiement d&apos;origine. Le virement bancaire apparaît sur votre relevé sous 5 à 7 jours ouvrés.
+                  Si le dysfonctionnement serveur persiste après l&apos;intervention, votre remboursement est immédiatement émis via le mode de paiement d&apos;origine (Stripe ou PayPal). Les fonds apparaissent sur votre relevé sous 5 à 7 jours ouvrés selon votre banque.
                 </p>
               </div>
             </li>
           </ol>
+
+          {/* Option Avoir Commercial Bonifié +10% */}
+          <div className="p-5 rounded-2xl bg-gradient-to-r from-emerald-950/30 via-slate-900 to-slate-900 border border-emerald-500/30 space-y-2 mt-4">
+            <div className="flex items-center gap-2 text-emerald-400 font-bold text-sm">
+              <RefreshCw className="w-4 h-4" />
+              <span>Alternative Immédiate : Avoir Commercial Bonifié (+10% Offert)</span>
+            </div>
+            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              Pour éviter les délais de traitement interbancaires, vous pouvez choisir de convertir le montant de votre achat en un <strong>avoir commercial bonifié d&apos;une prime de +10%</strong>. Cet avoir est utilisable sans date d&apos;expiration sur n&apos;importe quelle formule ou reconductible pour équiper un proche.
+            </p>
+          </div>
         </section>
 
         {/* Section 5 : FAQ */}

@@ -218,7 +218,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // 6. Pages Légales & Informatives (Tier 5 - Priorité basse)
   const legalPages: MetadataRoute.Sitemap = [
     {
-      url: `${baseUrl}/dmca`,
+      url: `${baseUrl}/mentions-legales`,
       lastModified: LEGAL_UPDATE,
       changeFrequency: 'yearly',
       priority: 0.3,

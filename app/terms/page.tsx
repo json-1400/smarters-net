@@ -1,8 +1,9 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { ShieldCheck, ChevronRight } from 'lucide-react';
+import { ShieldCheck, ChevronRight, CheckCircle2, Lock, Clock, HelpCircle } from 'lucide-react';
 import { SITE_CONFIG, constructMetadata } from '@/lib/seo';
+import { CONTACT } from '@/lib/contact';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 
@@ -24,9 +25,12 @@ export default function TermsPage() {
       {
         '@type': 'WebPage',
         '@id': `${PAGE_CANONICAL}/#webpage`,
-        name: 'Conditions Générales de Vente (CGV) — IPTV Smarters Pro',
+        name: 'Conditions Générales de Vente (CGV) — IPTV Smarters Pro France',
         url: PAGE_CANONICAL,
+        description: 'Conditions contractuelles régissant les commandes et l\'utilisation des formules IPTV Smarters Pro en France.',
         isPartOf: { '@id': `${SITE_CONFIG.domain}/#website` },
+        publisher: { '@id': `${SITE_CONFIG.domain}/#organization` },
+        inLanguage: 'fr-FR',
       },
       {
         '@type': 'BreadcrumbList',
@@ -57,7 +61,7 @@ export default function TermsPage() {
 
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8 flex-grow w-full">
         <header className="space-y-3">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-bold uppercase">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-bold uppercase tracking-wider">
             <ShieldCheck className="w-3.5 h-3.5" />
             <span>Transparence Contractuelle &amp; Zéro Renouvellement Automatique</span>
           </div>
@@ -65,40 +69,143 @@ export default function TermsPage() {
             Conditions Générales de Vente et d'Utilisation (CGV)
           </h1>
           <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
-            Les présentes <strong>Conditions Générales de Vente</strong> encadrent la souscription aux formules d'accès et d'assistance technique proposées sur {SITE_CONFIG.name}.
+            Les présentes <strong>Conditions Générales de Vente</strong> définissent les droits et obligations réciproques régissant la souscription aux formules d'accès et d'assistance technique proposées sur la plateforme <strong>{SITE_CONFIG.domain}</strong>.
           </p>
         </header>
 
-        <section className="rounded-2xl bg-slate-900 border border-slate-800 p-6 sm:p-8 space-y-4 text-sm text-slate-300 leading-relaxed">
-          <h2 className="text-xl font-bold text-white">1. Champ d'Application des Conditions Générales de Vente</h2>
-          <p>
-            Nos formules (<Link href="/tarifs" className="text-blue-400 underline">3 mois, 6 mois et 12 mois VIP</Link>) font l'objet d'un paiement unique forfaitaire pour la durée choisie. Aucun renouvellement tacite ni prélèvement bancaire récurrent automatique n'est appliqué à échéance.
-          </p>
+        {/* 3 Core Guarantees Banner */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="rounded-xl bg-slate-900 border border-slate-800 p-4 space-y-1">
+            <div className="flex items-center gap-2 text-emerald-400 font-semibold text-xs uppercase">
+              <CheckCircle2 className="w-4 h-4" />
+              <span>Zéro Tacite Reconduction</span>
+            </div>
+            <p className="text-xs text-slate-300">Paiement unique au forfait. Vous ne serez jamais prélevé automatiquement à échéance.</p>
+          </div>
+          <div className="rounded-xl bg-slate-900 border border-slate-800 p-4 space-y-1">
+            <div className="flex items-center gap-2 text-blue-400 font-semibold text-xs uppercase">
+              <Clock className="w-4 h-4" />
+              <span>Livraison 5 à 15 min</span>
+            </div>
+            <p className="text-xs text-slate-300">Codes Xtream et lien M3U générés immédiatement dès confirmation du règlement.</p>
+          </div>
+          <div className="rounded-xl bg-slate-900 border border-slate-800 p-4 space-y-1">
+            <div className="flex items-center gap-2 text-amber-400 font-semibold text-xs uppercase">
+              <Lock className="w-4 h-4" />
+              <span>Paiement 100% Sécurisé</span>
+            </div>
+            <p className="text-xs text-slate-300">Règlement par lien certifié Stripe ou PayPal. Aucune coordonnée bancaire stockée.</p>
+          </div>
+        </div>
 
-          <h2 className="text-xl font-bold text-white pt-2">2. Livraison des Identifiants &amp; Activation</h2>
-          <p>
-            Après validation de votre commande, vos paramètres de configuration (API Xtream Codes et lien M3U) sont générés et transmis par e-mail et/ou WhatsApp dans un délai moyen de 15 minutes.
-          </p>
+        {/* Full Contract Articles */}
+        <section className="rounded-2xl bg-slate-900 border border-slate-800 p-6 sm:p-8 space-y-6 text-sm text-slate-300 leading-relaxed">
+          
+          <div>
+            <h2 className="text-xl font-bold text-white mb-2">1. Objet et Champ d'Application</h2>
+            <p>
+              Les présentes Conditions Générales de Vente (ci-après « CGV ») s'appliquent sans restriction ni réserve à l'ensemble des commandes passées sur le site <strong>https://smarterspro12.net</strong> par toute personne physique ou morale (ci-après « le Client »).
+            </p>
+            <p className="mt-2 text-xs text-slate-400">
+              Toute validation de commande implique l'acceptation pleine, entière et sans réserve des présentes CGV par le Client.
+            </p>
+          </div>
 
-          <h2 className="text-xl font-bold text-white pt-2">3. Règles d'Utilisation &amp; Connexions Simultanées</h2>
-          <p>
-            Les formules Starter (3 mois), Confort (6 mois) et VIP (12 mois) autorisent 1 connexion active simultanée. Pour équiper plusieurs téléviseurs en simultané, les packs <Link href="/tarifs/iptv-multi-ecran" className="text-blue-400 underline">IPTV Multi-Écran</Link> permettent de connecter de 2 à 5 écrans indépendants.
-          </p>
+          <div className="pt-4 border-t border-slate-800">
+            <h2 className="text-xl font-bold text-white mb-2">2. Description des Prestations</h2>
+            <p>
+              {SITE_CONFIG.name} propose des formules d'accès technique et d'assistance pour le lecteur multimédia IPTV Smarters Pro et applications compatibles. Chaque formule comprend :
+            </p>
+            <ul className="list-disc list-inside mt-2 space-y-1 text-slate-400 text-xs sm:text-sm">
+              <li>L'attribution d'identifiants sécurisés (Nom d'utilisateur, Mot de passe et URL de serveur via API Xtream Codes).</li>
+              <li>Un lien de lecture direct au format M3U / M3U Plus.</li>
+              <li>L'accès au guide électronique des programmes (EPG) interactif.</li>
+              <li>L'assistance technique francophone 7j/7 pour la configuration sur tous terminaux compatibles.</li>
+            </ul>
+          </div>
 
-          <h2 className="text-xl font-bold text-white pt-2">4. Support Technique et Accompagnement 7j/7</h2>
-          <p>
-            Notre équipe technique francophone accompagne gratuitement chaque abonné sur <Link href="/support" className="text-blue-400 underline">notre page d'assistance</Link> pour la configuration pas-à-pas sur Smart TV, Fire TV Stick, Box Android, PC et iOS.
-          </p>
+          <div className="pt-4 border-t border-slate-800">
+            <h2 className="text-xl font-bold text-white mb-2">3. Processus de Commande &amp; Modalités de Paiement</h2>
+            <p>
+              Afin de garantir la plus haute sécurité financière et de prévenir toute fraude, les commandes s'opèrent selon un processus transparent en 3 étapes :
+            </p>
+            <ol className="list-decimal list-inside mt-2 space-y-2 text-xs sm:text-sm text-slate-300">
+              <li><strong>Sélection de l'offre :</strong> Le Client choisit sa formule (<Link href="/tarifs" className="text-blue-400 underline">3 mois, 6 mois, 12 mois VIP ou Multi-Écran</Link>) et renseigne son email et WhatsApp sur la page de paiement sécurisée.</li>
+              <li><strong>Contact sous 1 heure :</strong> Notre équipe opérationnelle valide la disponibilité et envoie un lien de paiement sécurisé officiel (Stripe ou PayPal) par email et WhatsApp.</li>
+              <li><strong>Livraison instantanée :</strong> Dès réception de la confirmation de paiement, vos identifiants personnalisés et le tutoriel d'installation vous sont transmis sous 5 à 15 minutes.</li>
+            </ol>
+            <p className="mt-2 text-xs text-slate-400">
+              Le site <strong>smarterspro12.net ne collecte ni ne stocke aucune coordonnée bancaire ou numéro de carte de crédit</strong> sur ses serveurs. L'ensemble des transactions est pris en charge par des établissements de paiement tiers certifiés PCI-DSS de niveau 1.
+            </p>
+          </div>
 
-          <h2 className="text-xl font-bold text-white pt-2">5. Garantie de Service et Résolution Amiable</h2>
-          <p>
-            Nos infrastructures CDN européennes sont dimensionnées pour assurer une disponibilité de 99,9 %. En cas d'incompatibilité matérielle initiale non résolue par nos techniciens sous 48 heures, notre service client privilégie une conciliation directe et équitable.
-          </p>
+          <div className="pt-4 border-t border-slate-800">
+            <h2 className="text-xl font-bold text-white mb-2">4. Tarifs Forfaitaires &amp; Absence Totale de Renouvellement Automatique</h2>
+            <p>
+              Les tarifs des abonnements sont indiqués en Euros toutes taxes comprises (€ TTC). Chaque souscription constitue un <strong>forfait à durée déterminée</strong> (1 mois, 3 mois, 6 mois ou 12 mois) réglé en une seule fois.
+            </p>
+            <div className="bg-slate-950/60 rounded-xl p-4 mt-2 border border-slate-800/80 text-xs text-slate-300">
+              <strong className="text-emerald-400">Garantie anti-prélèvement caché :</strong> Aucun prélèvement récurrent, aucune tacite reconduction et aucun débit automatique n'est jamais effectué à l'issue de la période souscrite. Le Client reste totalement maître de renouveler ou non son accès à l'échéance.
+            </div>
+          </div>
 
-          <h2 className="text-xl font-bold text-white pt-2">6. Évolution des Offres et Tarification Forfaitaire</h2>
-          <p>
-            Les conditions tarifaires applicables sont celles validées lors de la commande. Aucune modification ultérieure de tarif ne peut s'appliquer à une formule en cours d'exécution jusqu'à son terme naturel.
-          </p>
+          <div className="pt-4 border-t border-slate-800">
+            <h2 className="text-xl font-bold text-white mb-2">5. Règles d'Usage &amp; Connexions Simultanées</h2>
+            <p>
+              Sauf souscription explicite à une formule <Link href="/tarifs/iptv-multi-ecran" className="text-blue-400 underline">IPTV Multi-Écran</Link> (2, 3 ou 4 connexions simultanées), les identifiants standards autorisent <strong>une seule connexion active à la fois</strong> (1 écran).
+            </p>
+            <p className="mt-2 text-xs text-slate-400">
+              Le partage non autorisé d'identifiants entre plusieurs adresses IP publiques simultanées sur un compte mono-écran déclenche automatiquement un verrouillage de sécurité temporaire par les serveurs pour prévenir le vol d'accès.
+            </p>
+          </div>
+
+          <div className="pt-4 border-t border-slate-800">
+            <h2 className="text-xl font-bold text-white mb-2">6. Prérequis Techniques &amp; Équipements</h2>
+            <p>
+              Pour bénéficier d'une expérience fluide en 4K Ultra HD sans mise en mémoire tampon (buffering), le Client doit disposer :
+            </p>
+            <ul className="list-disc list-inside mt-2 space-y-1 text-slate-400 text-xs sm:text-sm">
+              <li>D'une connexion internet stable avec un débit réel supérieur ou égal à 15 Mbps pour la Full HD, et supérieur ou égal à 30 Mbps pour la 4K. Une connexion en câble Ethernet ou Wi-Fi 5 GHz est vivement recommandée.</li>
+              <li>D'un terminal compatible : Smart TV (Samsung, LG, Philips), Box Android TV, Amazon Fire TV Stick, Apple TV, iPhone/iPad, smartphone Android, PC Windows ou Mac.</li>
+            </ul>
+          </div>
+
+          <div className="pt-4 border-t border-slate-800">
+            <h2 className="text-xl font-bold text-white mb-2">7. Droit de Rétractation &amp; Garantie 7 Jours</h2>
+            <p>
+              Conformément à l'article L. 221-28 13° du Code de la consommation, le droit de rétractation ne peut être exercé pour les contrats de fourniture de contenu numérique indépendant de tout support matériel dont l'exécution a commencé avec l'accord préalable exprès du consommateur.
+            </p>
+            <p className="mt-2">
+              Néanmoins, afin d'offrir une sécurité d'achat maximale, {SITE_CONFIG.name} accorde une <strong>garantie technique de satisfaction de 7 jours calendaires</strong>. Si un problème serveur persistant ne peut être résolu par nos techniciens, un remboursement intégral ou un avoir commercial bonifié de +10% est immédiatement émis selon les termes de notre <Link href="/politique-de-remboursement" className="text-blue-400 underline">Politique de Remboursement</Link>.
+            </p>
+          </div>
+
+          <div className="pt-4 border-t border-slate-800">
+            <h2 className="text-xl font-bold text-white mb-2">8. Disponibilité des Serveurs &amp; FAI</h2>
+            <p>
+              Nos serveurs CDN haute disponibilité sont administrés pour assurer un taux de disponibilité supérieur à 99,9 %. En cas de ralentissement imputable aux filtres de certains fournisseurs d'accès internet locaux, notre équipe d'assistance fournit des solutions immédiates (optimisation DNS 1.1.1.1 ou configuration VPN).
+            </p>
+          </div>
+
+          <div className="pt-4 border-t border-slate-800">
+            <h2 className="text-xl font-bold text-white mb-2">9. Assistance Client &amp; Réclamations</h2>
+            <p>
+              Pour toute demande d'assistance technique ou réclamation, le Client peut contacter le service client 7j/7 :
+            </p>
+            <ul className="list-disc list-inside mt-2 space-y-1 text-slate-400 text-xs sm:text-sm">
+              <li>Par email officiel : <a href={CONTACT.emailUrl} className="text-blue-400 underline">{CONTACT.email}</a></li>
+              <li>Par WhatsApp direct : <a href={CONTACT.whatsappUrl} target="_blank" rel="noopener noreferrer" className="text-emerald-400 underline">{CONTACT.whatsappDisplay}</a></li>
+              <li>Via notre <Link href="/support" className="text-blue-400 underline">centre d'assistance en ligne</Link></li>
+            </ul>
+          </div>
+
+          <div className="pt-4 border-t border-slate-800">
+            <h2 className="text-xl font-bold text-white mb-2">10. Droit Applicable &amp; Règlement des Litiges</h2>
+            <p>
+              Les présentes CGV sont soumises à la législation applicable aux services de commerce électronique au sein de l'Union Européenne. En cas de différend relatif à l'interprétation ou à l'exécution de la commande, le Client et {SITE_CONFIG.name} s'engagent à rechercher préalablement un arrangement amiable par voie d'échange direct.
+            </p>
+          </div>
+
         </section>
       </main>
 
@@ -106,4 +213,3 @@ export default function TermsPage() {
     </div>
   );
 }
-

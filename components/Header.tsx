@@ -479,12 +479,12 @@ export function Header() {
           </NavItem>
 
           <NavItem
-            href="/dmca"
+            href="/mentions-legales"
             onClick={() => setMobileMenuOpen(false)}
             className="block py-1.5 text-xs font-semibold text-slate-500 hover:text-slate-700 dark:hover:text-slate-400"
             activeClassName="text-blue-600 dark:text-white font-bold"
           >
-            Notice DMCA &amp; Légalité
+            Mentions Légales
           </NavItem>
 
           <div className="pt-3 border-t border-slate-200 dark:border-slate-900 flex items-center justify-between gap-3">

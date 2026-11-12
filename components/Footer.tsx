@@ -5,7 +5,7 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { ShieldCheck, Mail, MessageSquare, ExternalLink } from 'lucide-react';
+import { ShieldCheck, Mail, MessageSquare } from 'lucide-react';
 import { SITE_CONFIG } from '@/lib/seo';
 
 interface FooterLinkProps {
@@ -138,12 +138,7 @@ export function Footer() {
           <div className="space-y-3">
             <h4 className="text-white text-xs font-bold tracking-wider uppercase">Légal &amp; Sécurité</h4>
             <ul className="space-y-2 text-xs">
-              <li>
-                <FooterLink href="/dmca" className="hover:text-red-400 transition-colors font-bold text-slate-300 flex items-center gap-1">
-                  <span>Politique DMCA &amp; Retrait</span>
-                  <ExternalLink className="w-3 h-3 text-slate-500" />
-                </FooterLink>
-              </li>
+              <li><FooterLink href="/mentions-legales" className="hover:text-blue-400 transition-colors font-medium text-slate-200">Mentions Légales</FooterLink></li>
               <li><FooterLink href="/terms">Conditions Générales de Vente</FooterLink></li>
               <li><FooterLink href="/privacy">Politique de Confidentialité</FooterLink></li>
               <li><FooterLink href="/politique-de-remboursement">Politique de Remboursement</FooterLink></li>
@@ -153,21 +148,11 @@ export function Footer() {
           </div>
         </div>
 
-        {/* DMCA & Safe Harbor Legal Disclaimer */}
-        <div className="mt-12 pt-6 border-t border-slate-900 text-[11px] text-slate-400 leading-relaxed space-y-2">
-          <p className="font-semibold text-slate-300">
-            Avis de non-responsabilité &amp; Conformité aux droits d'auteur :
-          </p>
-          <p>
-            IPTV Smarters Pro est un lecteur multimédia et une solution logicielle tierce. Ce site n'héberge, ne retransmet et ne stocke aucun flux vidéo en continu ou contenu audiovisuel protégé par des droits de propriété intellectuelle. Les utilisateurs sont seuls responsables de la légalité des flux et listes de lecture (M3U / Xtream) qu'ils chargent dans leurs applications. Pour toute réclamation relative aux droits d'auteur ou demande de retrait de lien, veuillez vous référer à notre procédure officielle sur notre page <Link href="/dmca" className="text-blue-400 underline">Notice DMCA</Link>.
-          </p>
-        </div>
-
         {/* Bottom Rights */}
-        <div className="border-t border-slate-900 mt-6 pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400">
+        <div className="border-t border-slate-900 mt-12 pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400">
           <p>&copy; {new Date().getFullYear()} {SITE_CONFIG.name}. Tous droits réservés.</p>
           <p className="mt-2 sm:mt-0 text-slate-400">
-            Optimisé pour le marché français et francophone &middot; Core Web Vitals Ultra-Fast
+            Contact : <a href={`mailto:${SITE_CONFIG.supportEmail}`} className="hover:text-blue-400 transition-colors underline">{SITE_CONFIG.supportEmail}</a>
           </p>
         </div>
       </div>
