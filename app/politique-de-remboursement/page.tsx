@@ -52,7 +52,7 @@ export default function PolitiqueRemboursementPage() {
     },
     {
       q: 'Comment contacter le service pour ouvrir un dossier de remboursement ?',
-      a: 'Contactez directement notre support par WhatsApp au +212 715 214 002 ou par e-mail à contact@smarterspro12.net en précisant votre adresse e-mail de commande, le modèle de votre appareil et la capture d\'écran du code d\'erreur constaté.',
+      a: 'Contactez directement notre support par WhatsApp au +212 715 214 002 ou par e-mail à contact@smarterspro12.com en précisant votre adresse e-mail de commande, le modèle de votre appareil et la capture d\'écran du code d\'erreur constaté.',
     },
   ];
 

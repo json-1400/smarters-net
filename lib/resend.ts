@@ -12,7 +12,7 @@ const apiKey = process.env.RESEND_API_KEY || 're_1234567890123456789012345678901
 export const resend = new Resend(apiKey);
 
 const FROM_EMAIL =
-  process.env.RESEND_FROM_EMAIL || 'Smarterspro 12 <support@smarterspro12.com>';
+  process.env.RESEND_FROM_EMAIL || 'Smarterspro 12 <contact@smarterspro12.com>';
 
 function getAdminEmails(): string[] {
   const raw = process.env.ADMIN_EMAILS || '';
